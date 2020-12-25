@@ -10,19 +10,16 @@ export enum ActionTypes {
 }
 
 // Actions context
-type AugmentedActionContext = {
-  commit<K extends keyof Mutations>(
-    key: K,
-    payload: Parameters<Mutations[K]>[1],
-  ): ReturnType<Mutations[K]>
-} & Omit<ActionContext<State, RootState>, 'commit'>
+// export type AugmentedActionContext = {
+//   commit<K extends keyof Mutations>(
+//     key: K,
+//     payload: Parameters<Mutations[K]>[1],
+//   ): ReturnType<Mutations[K]>
+// } & Omit<ActionContext<State, RootState>, 'commit'>
 
 // Actions contracts
 export interface Actions {
-  [ActionTypes.GET_TOKEN](
-    { commit }: AugmentedActionContext,
-    payload: { code: string },
-  ): void
+  [ActionTypes.GET_TOKEN](context: ActionContext<State, RootState>, payload: any): void
 }
 
 const actions: ActionTree<State, RootState> & Actions = {
@@ -45,7 +42,7 @@ const actions: ActionTree<State, RootState> & Actions = {
   * @param { object } payload The function payload.
   * @param { string } payload.code The code returned from spotify login page.
   */
-  [ActionTypes.GET_TOKEN]({ commit }, { code }) {
+  [ActionTypes.GET_TOKEN]({ commit }: ActionContext<State, RootState>, { code }: any) {
     if (code) {
       getAccessToken({ code }).then((res: any) => {
         commit(MutationTypes.SET_CREDENTIALS, res.data)
