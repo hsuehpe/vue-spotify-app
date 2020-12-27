@@ -1,21 +1,13 @@
 import { ActionContext, ActionTree } from 'vuex'
-import { getAccessToken } from '../../api/backend'
+import backend from '../../api/backend'
 import { State as RootState } from '../index'
-import { Mutations, MutationTypes } from './mutations'
+import { MutationTypes } from './mutations'
 import { State } from './index'
 
 export enum ActionTypes {
   GET_TOKEN = 'GET_TOKEN',
   REFRESH_TOKEN = 'REFRESH_TOKEN',
 }
-
-// Actions context
-// export type AugmentedActionContext = {
-//   commit<K extends keyof Mutations>(
-//     key: K,
-//     payload: Parameters<Mutations[K]>[1],
-//   ): ReturnType<Mutations[K]>
-// } & Omit<ActionContext<State, RootState>, 'commit'>
 
 // Actions contracts
 export interface Actions {
@@ -42,13 +34,10 @@ const actions: ActionTree<State, RootState> & Actions = {
   * @param { object } payload The function payload.
   * @param { string } payload.code The code returned from spotify login page.
   */
-  [ActionTypes.GET_TOKEN]({ commit }: ActionContext<State, RootState>, { code }: any) {
+  async [ActionTypes.GET_TOKEN]({ commit }: ActionContext<State, RootState>, { code }: any) {
     if (code) {
-      getAccessToken({ code }).then((res: any) => {
-        commit(MutationTypes.SET_CREDENTIALS, res.data)
-      }).catch((err: any) => {
-        console.log(err)
-      })
+      const res = await backend.getAccessToken({ code })
+      commit(MutationTypes.SET_CREDENTIALS, res.data)
     }
   },
 

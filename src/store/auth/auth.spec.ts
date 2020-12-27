@@ -1,5 +1,6 @@
 import { ActionContext, Commit, Dispatch } from 'vuex'
 import { State as RootState } from '../index'
+import backend from '../../api/backend'
 import actions from './actions'
 import { State } from './index'
 
@@ -12,9 +13,14 @@ describe('testing auth', () => {
     } as ActionContext<State, RootState>
   })
 
-  it('testing auth module', () => {
-    const code = 'abced'
-    actions.GET_TOKEN(testContext, code)
-    expect(testContext.commit).toHaveBeenCalled()
+  it('testing auth action', async() => {
+    const payload = {
+      code: 'abcde',
+    }
+    backend.getAccessToken = jest.fn().mockImplementationOnce(() => Promise.resolve({
+      data: 'abced',
+    }))
+    await actions.GET_TOKEN(testContext, payload)
+    expect(testContext.commit).toHaveBeenCalledWith('SET_CREDENTIALS', 'abced')
   })
 })
