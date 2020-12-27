@@ -19,15 +19,15 @@ const actions: ActionTree<State, RootState> & Actions = {
   * Redirect the user to external spotify login page.
   * @param
   */
-  // loginUser({ state }) {
-  //   const { protocol, host } = window.location;
+  async loginUser({ state }) {
+    const { protocol, host } = window.location
 
-  //   if (!state.accessToken) {
-  //     getAuthURL({ protocol, host }).then((res) => {
-  //       window.location.href = res.data.url;
-  //     });
-  //   }
-  // },
+    if (!state.accessToken) {
+      const res = await backend.getAuthURL({ protocol, host })
+      console.log(res.data.url)
+      window.location.href = res.data.url
+    }
+  },
 
   /**
   * Call the backend api and get an access token.

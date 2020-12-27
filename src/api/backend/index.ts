@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseURL = 'http://0.0.0.0:3000/vue-spotify-app/v1/'
+const baseURL = 'http://0.0.0.0:3001/vue-spotify-app/v1/'
 
 // get url to authenticate the user
 // const getAuthURL = ({ protocol, host }: any) => backend({

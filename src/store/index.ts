@@ -1,4 +1,5 @@
 import { createStore, createLogger } from 'vuex'
+import createPersistedState from 'vuex-persistedstate'
 
 import {
   AuthModule,
@@ -15,8 +16,8 @@ export type Store = AuthStore<Pick<State, 'auth'>>
 export const store = createStore({
   plugins:
     process.env.NODE_ENV === 'production'
-      ? []
-      : [createLogger()],
+      ? [createPersistedState()]
+      : [createLogger(), createPersistedState()],
   modules: { AuthModule },
 })
 
