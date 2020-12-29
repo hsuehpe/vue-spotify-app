@@ -7,6 +7,7 @@ dependencies:
   vue-i18n: 9.0.0-beta.8_vue@3.0.4
   vue-router: 4.0.1_vue@3.0.4
   vuex: 4.0.0-rc.2_vue@3.0.4
+  vuex-persistedstate: 4.0.0-beta.1_vue@3.0.4+vuex@4.0.0-rc.2
 devDependencies:
   '@antfu/eslint-config-vue': 0.4.3_eslint@7.16.0+typescript@4.1.3
   '@iconify/json': 1.1.274
@@ -3352,7 +3353,6 @@ packages:
     resolution:
       integrity: sha1-s2nW+128E+7PUk+RsHD+7cNXzzQ=
   /deepmerge/4.2.2:
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -8002,6 +8002,10 @@ packages:
     optional: true
     resolution:
       integrity: sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
+  /shvl/2.0.1:
+    dev: false
+    resolution:
+      integrity: sha512-VU7R5Uxp38LKHooGuZe0TcX2EPK95nn8DvclAvTPyD9/qHmXvt3dR2pJ4JLZ8uLjxQNQ3zNLFJCreteIj3cvpw==
   /signal-exit/3.0.3:
     dev: true
     resolution:
@@ -9199,6 +9203,18 @@ packages:
       '@vue/shared': 3.0.4
     resolution:
       integrity: sha512-2o+AiQF8sAupyhbyl3oxVCl3WCwC/n5NI7VMM+gVQ231qvSB8eI7sCBloloqDJK6yA367EEtmRSeSCf4sxCC+A==
+  /vuex-persistedstate/4.0.0-beta.1_vue@3.0.4+vuex@4.0.0-rc.2:
+    dependencies:
+      deepmerge: 4.2.2
+      shvl: 2.0.1
+      vue: 3.0.4
+      vuex: 4.0.0-rc.2_vue@3.0.4
+    dev: false
+    peerDependencies:
+      vue: ^2.0 || ^3.0
+      vuex: ^3.0 || ^4.0
+    resolution:
+      integrity: sha512-G3d7i6vnSelrYWfCfSKi52e4ZlHlm99yAaMAHYQrCPAPKwYofTxo1QqLtndzvoZpFd/gx2IsAKSeaFjjpuVLYA==
   /vuex/4.0.0-rc.2_vue@3.0.4:
     dependencies:
       vue: 3.0.4
@@ -9591,3 +9607,4 @@ specifiers:
   vue-jest: ^5.0.0-alpha.1
   vue-router: ^4.0.0-rc.6
   vuex: ^4.0.0-rc.2
+  vuex-persistedstate: ^4.0.0-beta.1
