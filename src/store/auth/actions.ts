@@ -7,10 +7,12 @@ import { State } from './index'
 export enum ActionTypes {
   GET_TOKEN = 'GET_TOKEN',
   REFRESH_TOKEN = 'REFRESH_TOKEN',
+  LOGIN_USER = 'LOGIN_USER',
 }
 
 // Actions contracts
 export interface Actions {
+  [ActionTypes.LOGIN_USER](state: State): void
   [ActionTypes.GET_TOKEN](context: ActionContext<State, RootState>, payload: any): void
 }
 
@@ -19,7 +21,7 @@ const actions: ActionTree<State, RootState> & Actions = {
   * Redirect the user to external spotify login page.
   * @param
   */
-  async loginUser({ state }) {
+  async [ActionTypes.LOGIN_USER]({ state }: any) {
     const { protocol, host } = window.location
 
     if (!state.accessToken) {

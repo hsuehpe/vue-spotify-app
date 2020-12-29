@@ -6,6 +6,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from 'vue'
+import { ActionTypes } from '/~/store/auth/actions'
 import { useStore } from './store'
 
 export default defineComponent({
@@ -16,7 +17,7 @@ export default defineComponent({
 
     const initApp = () => {
       if (!accessToken)
-        store.dispatch('loginUser')
+        store.dispatch(ActionTypes.LOGIN_USER, undefined)
     }
     initApp()
   },
