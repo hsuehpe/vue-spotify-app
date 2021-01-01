@@ -4,22 +4,19 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, PropType } from 'vue'
+<script setup lang="ts">
+import { computed } from 'vue'
 import { ActionTypes } from '/~/store/auth/actions'
-import { useStore } from './store'
+import { useStore } from 'vuex'
 
-export default defineComponent({
-  setup() {
-    const store = useStore()
-    const getters = store.getters
-    const accessToken = getters.getAccessToken
+const store = useStore()
+const getters = store.getters
+const accessToken = getters.getAccessToken
 
-    const initApp = () => {
-      if (!accessToken)
-        store.dispatch(ActionTypes.LOGIN_USER, undefined)
-    }
-    initApp()
-  },
-})
+const initApp = () => {
+  if (!accessToken)
+    store.dispatch(ActionTypes.LOGIN_USER, undefined)
+}
+initApp()
+
 </script>
