@@ -2,7 +2,7 @@ import { ActionContext, Commit, Dispatch } from 'vuex'
 import { State as RootState } from '../index'
 import backend from '../../api/backend'
 import actions from './actions'
-import mutations, { MutationTypes } from './mutations'
+import mutations from './mutations'
 import getters from './getters'
 import { State } from './index'
 
