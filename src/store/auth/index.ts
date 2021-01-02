@@ -39,6 +39,7 @@ VuexStore<S>,
 }
 
 export const AuthModule: Module<State, RootState> = {
+  namespaced: true,
   state,
   actions,
   mutations,

@@ -3,9 +3,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useStore } from '/~/store'
+import { useStore } from 'vuex'
 import { ActionTypes } from '/~/store/auth/actions'
 
 export default defineComponent({
