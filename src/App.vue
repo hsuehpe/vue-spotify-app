@@ -1,25 +1,27 @@
 <template>
   <div class="px-4 py-10 text-center text-gray-700 dark:text-gray-200">
-    <router-view />
+    <not-found v-if="notFound" />
+    <div v-else>
+      <router-view />
+    </div>
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, PropType } from 'vue'
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { ActionTypes } from '/~/store/auth/actions'
-import { useStore } from './store'
+import { useStore } from 'vuex'
+import NotFound from '/~/views/NotFound.vue'
 
-export default defineComponent({
-  setup() {
-    const store = useStore()
-    const getters = store.getters
-    const accessToken = getters.getAccessToken
+const store = useStore()
+const getters = store.getters
+const accessToken = getters['AuthModule/getAccessToken']
+const notFound = ref(false)
 
-    const initApp = () => {
-      if (!accessToken)
-        store.dispatch(ActionTypes.LOGIN_USER, undefined)
-    }
-    initApp()
-  },
-})
+const initApp = () => {
+  if (!accessToken)
+    store.dispatch(`AuthModule/${ActionTypes.LOGIN_USER}`, undefined)
+}
+initApp()
+
 </script>

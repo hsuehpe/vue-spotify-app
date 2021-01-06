@@ -8,11 +8,13 @@ export enum ActionTypes {
   GET_TOKEN = 'GET_TOKEN',
   REFRESH_TOKEN = 'REFRESH_TOKEN',
   LOGIN_USER = 'LOGIN_USER',
+  LOG_OUT = 'LOG_OUT'
 }
 
 // Actions contracts
 export interface Actions {
   [ActionTypes.LOGIN_USER](state: State): void
+  [ActionTypes.LOG_OUT](): void
   [ActionTypes.GET_TOKEN](context: ActionContext<State, RootState>, payload: any): void
 }
 
@@ -29,6 +31,21 @@ const actions: ActionTree<State, RootState> & Actions = {
       console.log(res.data.url)
       window.location.href = res.data.url
     }
+  },
+
+  [ActionTypes.LOG_OUT]() {
+    const script = document.createElement('script')
+
+    script.src = 'https://www.spotify.com/logout/'
+    const appEl = document.getElementById('app')
+    if (appEl) appEl.appendChild(script)
+
+    window.localStorage.clear()
+    window.sessionStorage.clear()
+
+    setTimeout(() => {
+      location.reload()
+    }, 1000)
   },
 
   /**

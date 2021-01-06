@@ -5,15 +5,11 @@ import getters, { Getters } from './getters'
 import actions, { Actions } from './actions'
 
 export type State = {
-  accessToken: string
-  refreshToken: string
-  expiryTime: string
+  notFound: boolean
 }
 
 const state: State = {
-  accessToken: '',
-  refreshToken: '',
-  expiryTime: '',
+  notFound: false,
 }
 
 // setup store type
@@ -38,7 +34,7 @@ VuexStore<S>,
   ): ReturnType<Actions[K]>
 }
 
-export const AuthModule: Module<State, RootState> = {
+export const AppModule: Module<State, RootState> = {
   namespaced: true,
   state,
   actions,
