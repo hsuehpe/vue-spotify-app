@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineComponent } from 'vue'
+import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { ActionTypes } from '/~/store/auth/actions'
