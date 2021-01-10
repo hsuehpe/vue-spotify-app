@@ -1,7 +1,7 @@
 import request from '../request'
 
 export default {
-  getUserProfile(userID: string) {
+  getUserProfile(userID: string | null) {
     if (userID)
       return request.get(`users/${userID}`)
     else
