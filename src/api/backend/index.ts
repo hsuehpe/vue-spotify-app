@@ -1,14 +1,5 @@
 import request from './request'
 
-// get url to authenticate the user
-// const getAuthURL = ({ protocol, host }: any) => backend({
-//   method: 'get',
-//   url: '/getAuthURL',
-//   params: {
-//     redirectURI: `${protocol}//${host}/login`,
-//   },
-// })
-
 const getAuthURL = ({ protocol, host }: any) => {
   const res = request.get('getAuthURL', {
     params: {
@@ -28,9 +19,20 @@ const getAccessToken = ({ code }: any) => {
   return res
 }
 
+const refreshAccessToken = (refreshToken: string) => {
+  const res = request.get('refreshToken', {
+    params: {
+      token: refreshToken,
+    },
+  })
+
+  return res
+}
+
 export default {
   getAuthURL,
   getAccessToken,
+  refreshAccessToken,
 }
 
 // // refresh access token

@@ -10,7 +10,8 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { ActionTypes } from '/~/store/auth/actions'
+import { ActionTypes as AuthActionTypes } from '/~/store/auth/actions'
+import { ActionTypes as AppActionTypes } from '/~/store/app/actions'
 import { useStore } from 'vuex'
 import NotFound from '/~/views/NotFound.vue'
 import NavBar from '/~/components/NavBar/index.vue'
@@ -22,7 +23,9 @@ const notFound = ref(false)
 
 const initApp = () => {
   if (!accessToken)
-    store.dispatch(`AuthModule/${ActionTypes.LOGIN_USER}`, undefined)
+    store.dispatch(`AuthModule/${AuthActionTypes.LOGIN_USER}`, undefined)
+
+  store.dispatch(`AppModule/${AppActionTypes.INIT}`)
 }
 initApp()
 

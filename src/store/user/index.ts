@@ -44,7 +44,7 @@ VuexStore<S>,
   ): ReturnType<Actions[K]>
 }
 
-export const AuthModule: Module<State, RootState> = {
+export const UserModule: Module<State, RootState> = {
   namespaced: true,
   state,
   actions,

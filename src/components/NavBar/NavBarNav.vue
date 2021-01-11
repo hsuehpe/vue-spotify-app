@@ -1,7 +1,14 @@
 <template>
-  
+  <div>
+  </div>
 </template>>
 
-<script lang="ts">
+<script setup lang="ts">
+import { useStore } from 'vuex'
+
+const store = useStore()
+const getters = store.getters
+const getProfile = getters['UserModule/getProfile']
+console.log(getProfile)
 
 </script>

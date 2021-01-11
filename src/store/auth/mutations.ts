@@ -3,12 +3,16 @@ import { State } from './index'
 
 // mutations enum
 export enum MutationTypes {
-  SET_CREDENTIALS = 'SET_CREDENTIALS',
+  SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN',
+  SET_REFRESH_TOKEN = 'SET_REFRESH_TOKEN',
+  SET_EXPIRY_TIME = 'SET_EXPIRY_TIME'
 }
 
 // Mutation contracts
 export type Mutations<S = State> = {
-  [MutationTypes.SET_CREDENTIALS](state: S, payload: any): void
+  [MutationTypes.SET_ACCESS_TOKEN](state: S, token: string): void
+  [MutationTypes.SET_REFRESH_TOKEN](state: S, token: string): void
+  [MutationTypes.SET_EXPIRY_TIME](state: S, time: string): void
 }
 
 const mutations: MutationTree<State> & Mutations = {
@@ -19,10 +23,14 @@ const mutations: MutationTree<State> & Mutations = {
   * @param { string } payload.refreshToken The spotify api refresh token.
   * @param { number } payload.expiresIn The duration in seconds that the token is valid..
   */
-  [MutationTypes.SET_CREDENTIALS](state: State, payload: any) {
-    state.accessToken = payload.accessToken
-    state.refreshToken = payload.refreshToken
-    state.expiryTime = payload.expiryTime
+  [MutationTypes.SET_ACCESS_TOKEN](state: State, token: string) {
+    state.accessToken = token
+  },
+  [MutationTypes.SET_REFRESH_TOKEN](state: State, token: string) {
+    state.refreshToken = token
+  },
+  [MutationTypes.SET_EXPIRY_TIME](state: State, time: string) {
+    state.expiryTime = time
   },
 }
 

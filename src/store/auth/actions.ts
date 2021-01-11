@@ -5,17 +5,18 @@ import { MutationTypes } from './mutations'
 import { State } from './index'
 
 export enum ActionTypes {
-  GET_TOKEN = 'GET_TOKEN',
   REFRESH_TOKEN = 'REFRESH_TOKEN',
   LOGIN_USER = 'LOGIN_USER',
-  LOG_OUT = 'LOG_OUT'
+  LOG_OUT = 'LOG_OUT',
+  SET_CREDENTIALS = 'SET_CREDENTIALS'
 }
 
 // Actions contracts
 export interface Actions {
   [ActionTypes.LOGIN_USER](state: State): void
   [ActionTypes.LOG_OUT](): void
-  [ActionTypes.GET_TOKEN](context: ActionContext<State, RootState>, payload: any): void
+  [ActionTypes.REFRESH_TOKEN](context: ActionContext<State, RootState>): void
+  [ActionTypes.SET_CREDENTIALS](context: ActionContext<State, RootState>, payload: any): void
 }
 
 const actions: ActionTree<State, RootState> & Actions = {
@@ -48,36 +49,32 @@ const actions: ActionTree<State, RootState> & Actions = {
     }, 1000)
   },
 
+  async [ActionTypes.REFRESH_TOKEN]({ commit, state }) {
+    try {
+      if (state.refreshToken) {
+        const response = await backend.refreshAccessToken(state.refreshToken)
+        const accessToken = response.data.access_token
+        commit(MutationTypes.SET_ACCESS_TOKEN, accessToken)
+      }
+    }
+    catch (e) {
+      console.log(e)
+    }
+  },
+
   /**
   * Call the backend api and get an access token.
   * @param { object } payload The function payload.
   * @param { string } payload.code The code returned from spotify login page.
   */
-  async [ActionTypes.GET_TOKEN]({ commit }: ActionContext<State, RootState>, { code }: any) {
+  async [ActionTypes.SET_CREDENTIALS]({ commit }: ActionContext<State, RootState>, { code }: any) {
     if (code) {
       const res = await backend.getAccessToken({ code })
-      commit(MutationTypes.SET_CREDENTIALS, res.data)
+      commit(MutationTypes.SET_ACCESS_TOKEN, res.data.accessToken)
+      commit(MutationTypes.SET_REFRESH_TOKEN, res.data.refreshToken)
+      commit(MutationTypes.SET_EXPIRY_TIME, res.data.expiryTime)
     }
   },
-
-  /**
-  * Call the backend api and refresh the access token.
-  */
-  // [ActionTypes.REFRESH_TOKEN]({ getters, commit }) {
-  //   const refreshToken = getters.getRefreshToken
-
-  //   if (refreshToken) {
-  //     refreshAccessToken({ refreshToken }).then((res) => {
-  //       commit('SET_CREDENTIALS', res.data)
-  //     }).catch((err) => {
-  //       commit('app/SET_NOTICE', {
-  //         action: 'add',
-  //         type: 'error',
-  //         message: `Error: ${err}`,
-  //       }, { root: true })
-  //     })
-  //   }
-  // },
 }
 
 export default actions
