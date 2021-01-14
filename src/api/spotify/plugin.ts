@@ -25,7 +25,7 @@ const createResponseInterceptor = (store: any) => {
       return Promise.reject(error)
 
     try {
-      store.dispatch('AuthModule/refreshToken')
+      store.dispatch('AuthModule/REFRESH_TOKEN')
     }
     catch (e) {
       console.error(e)
