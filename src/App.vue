@@ -22,9 +22,6 @@ const accessToken = getters['AuthModule/getAccessToken']
 const notFound = ref(false)
 
 const initApp = () => {
-  if (!accessToken)
-    store.dispatch(`AuthModule/${AuthActionTypes.LOGIN_USER}`, undefined)
-
   store.dispatch(`AppModule/${AppActionTypes.INIT}`)
 }
 initApp()

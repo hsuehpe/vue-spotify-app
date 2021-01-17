@@ -25,6 +25,10 @@ export default (app: App) => {
         },
       },
       {
+        path: '/user/:id',
+        name: 'user',
+      },
+      {
         path: '/browse',
         name: 'browse',
         component: BrowseView,
