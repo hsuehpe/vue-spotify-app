@@ -20,10 +20,16 @@ describe('auth module', () => {
       code: 'abcde',
     }
     backend.getAccessToken = jest.fn().mockImplementationOnce(() => Promise.resolve({
-      data: 'abced',
+      data: {
+        accessToken: 'abcde',
+        refreshToken: 'abcde',
+        expiryTime: 'abcde',
+      },
     }))
-    await actions.GET_TOKEN(testContext, payload)
-    expect(testContext.commit).toHaveBeenCalledWith('SET_CREDENTIALS', 'abced')
+    await actions.SET_CREDENTIALS(testContext, payload)
+    expect(testContext.commit).toHaveBeenCalledWith('SET_ACCESS_TOKEN', 'abcde')
+    expect(testContext.commit).toHaveBeenCalledWith('SET_REFRESH_TOKEN', 'abcde')
+    expect(testContext.commit).toHaveBeenCalledWith('SET_EXPIRY_TIME', 'abcde')
   })
 
   it('auth mutations', async() => {
@@ -33,11 +39,9 @@ describe('auth module', () => {
       expiryTime: '',
     }
 
-    mutations.SET_CREDENTIALS(state, {
-      accessToken: 'abcde',
-      refreshToken: 'abcde',
-      expiryTime: 'ererer',
-    })
+    mutations.SET_ACCESS_TOKEN(state, 'abcde')
+    mutations.SET_REFRESH_TOKEN(state, 'abcde')
+    mutations.SET_EXPIRY_TIME(state, 'ererer')
 
     expect(state).toEqual({
       accessToken: 'abcde',

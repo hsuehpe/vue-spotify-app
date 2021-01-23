@@ -5,6 +5,7 @@ dependencies:
   nprogress: 0.2.0
   vue: 3.0.4
   vue-i18n: 9.0.0-beta.8_vue@3.0.4
+  vue-infinite-loading: 2.4.5_vue@3.0.4
   vue-router: 4.0.1_vue@3.0.4
   vuex: 4.0.0-rc.2_vue@3.0.4
   vuex-persistedstate: 4.0.0-beta.1_vue@3.0.4+vuex@4.0.0-rc.2
@@ -2079,7 +2080,7 @@ packages:
   /@vueuse/core/4.0.0-rc.11_vue@3.0.4:
     dependencies:
       '@vueuse/shared': 4.0.0-rc.11_vue@3.0.4
-      vue-demi: 0.5.3_vue@3.0.4
+      vue-demi: 0.6.0_vue@3.0.4
     dev: false
     peerDependencies:
       vue: '*'
@@ -2087,7 +2088,7 @@ packages:
       integrity: sha512-A7G5aCGu6L+7ZeXv7ZigrMkpD9d0Mb7Sura0R11GdcMDj+T6K3jDyX8QhlZXiG5QG+QJcswDeBL+aRCBvUsXzw==
   /@vueuse/shared/4.0.0-rc.11_vue@3.0.4:
     dependencies:
-      vue-demi: 0.5.3_vue@3.0.4
+      vue-demi: 0.6.0_vue@3.0.4
     dev: false
     peerDependencies:
       vue: '*'
@@ -9114,7 +9115,7 @@ packages:
       integrity: sha512-hLfTbhNPDhwXMCAWR6s6C79G/O8Is0MbslglgoHSQsRby+KnqHgtHChCVBHFeV2oZBV/3xhHhnfm94BDPFe8Ww==
   /voie-pages/0.4.0_vue@3.0.4:
     dependencies:
-      vue-router: 4.0.1_vue@3.0.4
+      vue-router: 4.0.3_vue@3.0.4
     dev: true
     peerDependencies:
       vue: '*'
@@ -9128,7 +9129,7 @@ packages:
     dev: true
     resolution:
       integrity: sha512-8TEXQxlldWAuIODdukIb+TR5s+9Ds40eSJrw+1iDDA9IFORPjMELarNQE3myz5XIkWWpdprmJjm1/SxMlWOC8A==
-  /vue-demi/0.5.3_vue@3.0.4:
+  /vue-demi/0.6.0_vue@3.0.4:
     dependencies:
       vue: 3.0.4
     dev: false
@@ -9137,7 +9138,7 @@ packages:
       vue: ^2.6.0 || >=3.0.0-rc.1
     requiresBuild: true
     resolution:
-      integrity: sha512-1uW/aIJOEkRbyK3FBeReKbbMAZc/V5yUo4FQRprufm4GgMnAmJSSyk8mTJ9IgR4pbbCsQ7FddVHcuwz4IDEfGg==
+      integrity: sha512-8GEJa0mHJpYJeGeq5fD1pJct2kfdl30PHfmL1NaJ97mgKPyKojlIRt/3inGBK4Y0ylCI6T5vOo3chwpqDOq/Hw==
   /vue-eslint-parser/7.3.0_eslint@7.16.0:
     dependencies:
       debug: 4.3.1
@@ -9165,6 +9166,14 @@ packages:
       vue: ^3.0.0
     resolution:
       integrity: sha512-tViSN96jLi0AKvAVi4twcYYN5Ld++SqN1/140ua+YWm/iRbO2M0rAcsZ7e6/4LTm6Pd1ldSwWihSuv2bSQmlnw==
+  /vue-infinite-loading/2.4.5_vue@3.0.4:
+    dependencies:
+      vue: 3.0.4
+    dev: false
+    peerDependencies:
+      vue: ^2.6.10
+    resolution:
+      integrity: sha512-xhq95Mxun060bRnsOoLE2Be6BR7jYwuC89kDe18+GmCLVrRA/dU0jrGb12Xu6NjmKs+iTW0AA6saSEmEW4cR7g==
   /vue-jest/5.0.0-alpha.7_51f81866a4f5c71139351d9e12125ac1:
     dependencies:
       '@babel/plugin-transform-modules-commonjs': 7.12.1
@@ -9192,10 +9201,19 @@ packages:
   /vue-router/4.0.1_vue@3.0.4:
     dependencies:
       vue: 3.0.4
+    dev: false
     peerDependencies:
       vue: ^3.0.0
     resolution:
       integrity: sha512-2C2nRxA2nCusgJyUpvcbd9Bnc9kACp/VLUCK4drXtgeRXHjQliZJcgjjP268vkGvvEKun9jjp8Ic1PpzUgbYKg==
+  /vue-router/4.0.3_vue@3.0.4:
+    dependencies:
+      vue: 3.0.4
+    dev: true
+    peerDependencies:
+      vue: ^3.0.0
+    resolution:
+      integrity: sha512-AD1OjtVPyQHTSpoRsEGfPpxRQwhAhxcacOYO3zJ3KNkYP/r09mileSp6kdMQKhZWP2cFsPR3E2M3PZguSN5/ww==
   /vue/3.0.4:
     dependencies:
       '@vue/compiler-dom': 3.0.4
@@ -9604,6 +9622,7 @@ specifiers:
   voie-pages: ^0.4.0
   vue: ^3.0.4
   vue-i18n: 9.0.0-beta.8
+  vue-infinite-loading: ^2.4.5
   vue-jest: ^5.0.0-alpha.1
   vue-router: ^4.0.0-rc.6
   vuex: ^4.0.0-rc.2

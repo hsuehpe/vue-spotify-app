@@ -4,6 +4,7 @@ import { createRouter, createWebHistory, RouterOptions } from 'vue-router'
 import NProgress from 'nprogress'
 import Login from '/~/views/Login.vue'
 import BrowseView from '/~/views/Browse/index.vue'
+import User from '/~/views/User/index.vue'
 import store from '../store'
 import { ActionTypes as appActionTypes } from '/~/store/app/actions'
 import { ActionTypes as authActionTypes } from '/~/store/auth/actions'
@@ -23,6 +24,11 @@ export default (app: App) => {
         redirect: {
           name: 'browse',
         },
+      },
+      {
+        path: '/user/:id',
+        name: 'user',
+        component: User,
       },
       {
         path: '/browse',
