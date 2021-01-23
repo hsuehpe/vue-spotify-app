@@ -1,5 +1,5 @@
 <template>
-  <div v-if="user" class="absolute z-10 right-0 mr-8">
+  <div v-if="user" ref="root" class="absolute z-10 right-0 mr-8">
     <div class="flex items-center h-10">
       <router-link :to="{ name: 'user', params: { id: user.id } }" class="dark:text-white text-sm hover:underline">
         {{ user.display_name }}
@@ -25,19 +25,36 @@
 </template>>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import { ActionTypes as AuthActionTypes } from '/~/store/auth/actions'
 const isVisible = ref(false)
+const root = ref(null)
 
 const store = useStore()
 const getters = store.getters
 const user = getters['UserModule/getProfile']
 
-console.log(isVisible)
+const clickOutEvent = (e: { target: any }) => {
+  const el = root.value
+  if (el) {
+    const $dropdown = el.children[0]
+    if (e.target !== $dropdown && !$dropdown.contains(e.target)) close()
+  }
+}
 
 const onClick = () => {
   isVisible.value = !isVisible.value
+
+  if (isVisible.value)
+    setTimeout(() => document.addEventListener('click', clickOutEvent), 100)
+  else
+    close()
+}
+
+const close = () => {
+  isVisible.value = false
+  document.removeEventListener('click', clickOutEvent)
 }
 
 const onAccountClick = () => {
