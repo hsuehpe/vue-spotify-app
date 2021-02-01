@@ -4,7 +4,9 @@
     <div v-else class="relative rounded-full w-52 h-52 mt-8 text-9xl">
       <Icon icon="carbon-user-avatar-filled" />
     </div>
-    <h1 class="text-3xl">{{ state.user.display_name }}</h1>
+    <h1 class="text-3xl">
+      {{ state.user.display_name }}
+    </h1>
   </div>
 </template>
 
@@ -15,6 +17,7 @@ import { useRoute } from 'vue-router'
 import usersApi from '/~/api/spotify/users'
 import playlistsApi from '/~/api/spotify/playlists'
 import { ActionTypes as AppActionTypes } from '/~/store/app/actions'
+import playlists from '/~/api/spotify/playlists'
 
 const store = useStore()
 const route = useRoute()
@@ -28,12 +31,12 @@ const state = reactive({
     limit: 25,
     offset: 0,
     total: 1,
-    items: [],
+    items: [] as object[],
   },
   isMore: false,
 })
 
-const getUser = async(id) => {
+const getUser = async(id: string | string[] | null) => {
   try {
     const res = await usersApi.getUserProfile(id)
     state.user = res.data
@@ -43,14 +46,15 @@ const getUser = async(id) => {
   }
 }
 
-const getUserPlaylists = async(id) => {
+const getUserPlaylists = async(id: string | string[] | null) => {
   try {
     if (state.playlists.total > state.playlists.offset) {
       const res = await playlistsApi.getUserPlaylists(id, state.playlists.offset, state.playlists.limit)
 
       state.playlists.offset = res.data.offset + state.playlists.limit
       state.playlists.total = res.data.total
-      state.playlists.items.push(...res.data.items)
+      const items = res.data.items
+      state.playlists.items.push(items)
       state.isMore = false
     }
   }
@@ -59,7 +63,7 @@ const getUserPlaylists = async(id) => {
   }
 }
 
-const loadMore = (ev) => {
+const loadMore = (ev: { detail: { scrollbarV: { percent: number } } }) => {
   if (state.isMore) return false
 
   if (ev.detail.scrollbarV.percent > 70) {
