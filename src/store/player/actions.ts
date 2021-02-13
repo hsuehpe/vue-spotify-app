@@ -55,7 +55,7 @@ const actions: ActionTree<State, RootState> & Actions = {
 
     (async() => {
       const { Player } = await waitForSpotifyWebPlaybackSDKToLoad()
-      const token = rootGetters['auth/getAccessToken']
+      const token = rootGetters['AuthModule/getAccessToken']
 
       // eslint-disable-next-line
       const player = new Player({
@@ -72,7 +72,7 @@ const actions: ActionTree<State, RootState> & Actions = {
 
       player.addListener('authentication_error', ({ message }: any) => {
         console.error(message)
-        dispatch('auth/login', null, { root: true })
+        dispatch('AuthModule/LOGIN_USER', null, { root: true })
       })
 
       player.addListener('account_error', ({ message }: any) => {
@@ -86,8 +86,8 @@ const actions: ActionTree<State, RootState> & Actions = {
       // Playback status updates
       player.addListener('player_state_changed', (state: any) => {
         if (state) {
-          dispatch('setPlaybackContext', state)
-          dispatch('setPlayback')
+          dispatch('SET_PLAYBACK_CONTEXT', state)
+          dispatch('SET_PLAYBACK')
         }
       })
 

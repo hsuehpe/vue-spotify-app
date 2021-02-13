@@ -13,13 +13,13 @@ export default {
     })
   },
 
-  pause(device_id: string) {
+  pause(device_id?: string) {
     return request.put('me/player/pause', {
       device_id,
     })
   },
 
-  play(context_uri: string, offset: number, uris: any) {
+  play(context_uri?: string, offset?: number, uris?: any) {
     return request({
       method: 'put',
       url: 'me/player/play',
