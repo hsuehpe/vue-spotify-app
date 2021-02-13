@@ -2,7 +2,7 @@ import { ActionContext, ActionTree } from 'vuex'
 import { State as RootState } from '../index'
 import { MutationTypes } from './mutations'
 import { State } from './index'
-import { playerApi } from '/~/api/spotify/player'
+import playerApi from '/~/api/spotify/player'
 
 export enum ActionTypes {
   INIT = 'INIT',
