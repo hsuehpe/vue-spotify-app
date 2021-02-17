@@ -10,7 +10,7 @@ export default {
     })
   },
 
-  getUserPlaylists(userID: string, offset: number, limit: number) {
+  getUserPlaylists(userID: string | string[] | null, offset: number, limit: number) {
     return request.get(`users/${userID}/playlists`, {
       params: {
         limit,

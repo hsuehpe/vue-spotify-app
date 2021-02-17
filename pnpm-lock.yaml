@@ -7,6 +7,7 @@ dependencies:
   vue-i18n: 9.0.0-beta.8_vue@3.0.4
   vue-infinite-loading: 2.4.5_vue@3.0.4
   vue-router: 4.0.1_vue@3.0.4
+  vue3-lazy: 1.0.0-alpha.1_vue@3.0.4
   vuex: 4.0.0-rc.2_vue@3.0.4
   vuex-persistedstate: 4.0.0-beta.1_vue@3.0.4+vuex@4.0.0-rc.2
 devDependencies:
@@ -9221,6 +9222,16 @@ packages:
       '@vue/shared': 3.0.4
     resolution:
       integrity: sha512-2o+AiQF8sAupyhbyl3oxVCl3WCwC/n5NI7VMM+gVQ231qvSB8eI7sCBloloqDJK6yA367EEtmRSeSCf4sxCC+A==
+  /vue3-lazy/1.0.0-alpha.1_vue@3.0.4:
+    dependencies:
+      vue: 3.0.4
+    dev: false
+    engines:
+      node: '>=6.0.0'
+    peerDependencies:
+      vue: ^3.0.0-alpha.9
+    resolution:
+      integrity: sha512-dpjpKK4DC5q+wZVtS/VY3X6pYBJHxRmYanr20s39RB6o6fvbneQ/DNuz37bipYfEdrEvbSZ95Y2SCexuznQNrQ==
   /vuex-persistedstate/4.0.0-beta.1_vue@3.0.4+vuex@4.0.0-rc.2:
     dependencies:
       deepmerge: 4.2.2
@@ -9625,5 +9636,6 @@ specifiers:
   vue-infinite-loading: ^2.4.5
   vue-jest: ^5.0.0-alpha.1
   vue-router: ^4.0.0-rc.6
+  vue3-lazy: ^1.0.0-alpha.1
   vuex: ^4.0.0-rc.2
   vuex-persistedstate: ^4.0.0-beta.1

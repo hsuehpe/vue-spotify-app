@@ -24,6 +24,6 @@ describe('Component App', () => {
       },
     })
 
-    expect(store.dispatch).toHaveBeenCalledWith('AuthModule/LOGIN_USER', undefined)
+    expect(store.dispatch).toHaveBeenCalledWith('AppModule/INIT')
   })
 })

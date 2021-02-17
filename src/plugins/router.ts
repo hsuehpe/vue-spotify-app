@@ -36,6 +36,10 @@ export default (app: App) => {
         component: BrowseView,
       },
       {
+        path: '/user/:user_id/playlist/:playlist_id',
+        name: 'playlist',
+      },
+      {
         path: '/:pathMatch(.*)*',
         name: 'not-found',
         beforeEnter(_to, _from, next) {

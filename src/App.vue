@@ -12,6 +12,7 @@
 import { computed, ref } from 'vue'
 import { ActionTypes as AuthActionTypes } from '/~/store/auth/actions'
 import { ActionTypes as AppActionTypes } from '/~/store/app/actions'
+import { ActionTypes as PlayerActionTypes } from '/~/store/player/actions'
 import { useStore } from 'vuex'
 import NotFound from '/~/views/NotFound.vue'
 import NavBar from '/~/components/NavBar/index.vue'
@@ -22,7 +23,8 @@ const accessToken = getters['AuthModule/getAccessToken']
 const notFound = ref(false)
 
 const initApp = () => {
-  store.dispatch(`AppModule/${AppActionTypes.INIT}`)
+  if (accessToken) store.dispatch(`AppModule/${AppActionTypes.INIT}`)
+  store.dispatch(`PlayerModule/${PlayerActionTypes.INIT}`)
 }
 initApp()
 
