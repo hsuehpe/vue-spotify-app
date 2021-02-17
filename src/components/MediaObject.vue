@@ -11,7 +11,6 @@
       <div class="media-object__cover-hover">
         <Icon class="media-object__play" icon="el-play-alt" @click="onPlay" />
         <Icon class="media-object__sound-on" icon="akar-icons:sound-on" />
-        <Icon class="media-object__sound-off" icon="akar-icons:sound-off" />
         <Icon class="media-object__pause" icon="el-pause-alt" @click="onPause" />
       </div>
     </router-link>
@@ -22,14 +21,14 @@
         </router-link>
 
         <router-link
-          v-for="(artist, index) in artists"
-          v-if="artists"
+          v-for="(artist, index) in props.artists"
+          v-if="props.artists"
           :key="artist.id"
           class="media-object__artist"
           :to="{ name: 'artist', params: { id: artist.id } }"
         >
           {{ artist.name }}
-          <template v-if="index !== artists.length - 1">
+          <template v-if="index !== props.artists.length - 1">
             ,&nbsp;
           </template>
         </router-link>
@@ -38,8 +37,14 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { defineProps, computed } from 'vue'
+<script setup="props" lang="ts">
+import { defineProps, reactive, computed } from 'vue'
+import { useStore } from 'vuex'
+import playerApi from '/~/api/spotify/player'
+
+const store = useStore()
+const getters = store.getters
+const playbackContext = getters['PlayerModule/getPlaybackContext']
 
 const props = defineProps({
   id: {
@@ -47,9 +52,11 @@ const props = defineProps({
   },
   uri: {
     required: true,
+    type: String,
   },
   coverImg: {
     required: true,
+    type: Array,
   },
   name: {
     type: String,
@@ -62,9 +69,63 @@ const props = defineProps({
     required: false,
   },
 })
+
+const mediaPlaying = computed(() => playbackContext && !playbackContext.paused && playbackContext.context.uri && playbackContext.context.uri.includes(props.id))
+const mediaActive = computed(() => playbackContext && playbackContext.context.uri && playbackContext.context.uri.includes(props.id))
+const mediaEmpty = computed(() => !props.coverImg[0])
+
+const elClass = reactive(['media-object', { 'media-object--playing': mediaPlaying, 'media-object--active': mediaActive, 'media-object--no-image': mediaEmpty }])
+const createUrl = () => {
+  const chunks = props.uri.split(':')
+  let url = null
+
+  switch (props.type) {
+    case 'album':
+      url = { name: 'album', params: { id: props.id } }
+      break
+
+    case 'artist':
+      url = { name: 'artist', params: { id: props.id } }
+      break
+
+    case 'playlist':
+      url = {
+        name: 'playlist',
+        params: {
+          user_id: chunks[2],
+          playlist_id: chunks[chunks.length - 1],
+        },
+      }
+      break
+  }
+
+  return url
+}
+
+const onPlay = (e: Event) => {
+  e.stopPropagation()
+  if (
+    playbackContext
+          && playbackContext.context.uri
+          && playbackContext.context.uri.includes(props.id)
+  )
+    playerApi.play()
+  else
+    playerApi.play(props.uri)
+}
+
+const onPause = (e: Event) => {
+  e.stopPropagation()
+  playerApi.pause()
+}
+
 </script>
 
 <style scoped>
+.media-object {
+  @apply sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 p-2;
+}
+
 .media-object:hover .media-object__play {
   @apply block;
 }
@@ -99,7 +160,7 @@ const props = defineProps({
 .media-object__cover {
   min-width: 130px;
   padding-top: 100%;
-  @apply relative;
+  @apply relative block;
 }
 
 .media-object__cover:hover .media-object__cover-hover {
@@ -115,7 +176,7 @@ const props = defineProps({
 }
 
 .media-object__cover-hover > div {
-  @apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white outline-none text-3xl;
+  @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white outline-none text-3xl;
 }
 
 .media-object__info {

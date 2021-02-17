@@ -7,17 +7,31 @@
     <h1 class="text-3xl">
       {{ state.user.display_name }}
     </h1>
+    <div class="flex flex-wrap py-4 bg-black">
+      <media-object
+        v-for="item in playlistItems"
+        :id="item.id"
+        :key="item.id"
+        :uri="item.uri"
+        :cover-img="item.images"
+        :name="item.name"
+        :type="item.type"
+      />
+    </div>
+    <!-- <infinite-loading @infinite="loadMore" /> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import usersApi from '/~/api/spotify/users'
 import playlistsApi from '/~/api/spotify/playlists'
 import { ActionTypes as AppActionTypes } from '/~/store/app/actions'
 import playlists from '/~/api/spotify/playlists'
+import InfiniteLoading from 'vue-infinite-loading'
+import MediaObject from '/~/components/MediaObject.vue'
 
 const store = useStore()
 const route = useRoute()
@@ -34,6 +48,10 @@ const state = reactive({
     items: [] as object[],
   },
   isMore: false,
+})
+
+const playlistItems = computed(() => {
+  return state.playlists.items
 })
 
 const getUser = async(id: string | string[] | null) => {
@@ -54,7 +72,7 @@ const getUserPlaylists = async(id: string | string[] | null) => {
       state.playlists.offset = res.data.offset + state.playlists.limit
       state.playlists.total = res.data.total
       const items = res.data.items
-      state.playlists.items.push(items)
+      state.playlists.items.push(...items)
       state.isMore = false
     }
   }
