@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center">
+  <div class="flex flex-col items-center" @vScroll="loadMore">
     <img v-if="!!(state.user.images && state.user.images[0])" :src="state.user.images[0].url" class="relative rounded-full w-52 h-52 mt-8">
     <div v-else class="relative rounded-full w-52 h-52 mt-8 text-9xl">
       <Icon icon="carbon-user-avatar-filled" />
@@ -18,7 +18,6 @@
         :type="item.type"
       />
     </div>
-    <!-- <infinite-loading @infinite="loadMore" /> -->
   </div>
 </template>
 
