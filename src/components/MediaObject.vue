@@ -9,9 +9,9 @@
       >
       <div v-else class="media-object__cover-inner" />
       <div class="media-object__cover-hover">
-        <Icon class="media-object__play" icon="el-play-alt" @click="onPlay" />
+        <Icon class="media-object__play" icon="el-play-alt" @click.prevent="onPlay" />
         <Icon class="media-object__sound-on" icon="akar-icons:sound-on" />
-        <Icon class="media-object__pause" icon="el-pause-alt" @click="onPause" />
+        <Icon class="media-object__pause" icon="el-pause-alt" @click.prevent="onPause" />
       </div>
     </router-link>
     <div class="media-object__info">
@@ -44,7 +44,7 @@ import playerApi from '/~/api/spotify/player'
 
 const store = useStore()
 const getters = store.getters
-const playbackContext = getters['PlayerModule/getPlaybackContext']
+const playbackContext = computed(() => getters['PlayerModule/getPlaybackContext'])
 
 const props = defineProps({
   id: {
@@ -70,11 +70,11 @@ const props = defineProps({
   },
 })
 
-const mediaPlaying = computed(() => playbackContext && !playbackContext.paused && playbackContext.context.uri && playbackContext.context.uri.includes(props.id))
-const mediaActive = computed(() => playbackContext && playbackContext.context.uri && playbackContext.context.uri.includes(props.id))
+const mediaPlaying = computed(() => playbackContext.value && !playbackContext.value.paused && playbackContext.value.context.uri && playbackContext.value.context.uri.includes(props.id))
+const mediaActive = computed(() => playbackContext.value && playbackContext.value.context.uri && playbackContext.value.context.uri.includes(props.id))
 const mediaEmpty = computed(() => !props.coverImg[0])
+const elClass = computed(() => ['media-object', { 'media-object--playing': mediaPlaying.value, 'media-object--active': mediaActive.value, 'media-object--no-image': mediaEmpty.value }])
 
-const elClass = reactive(['media-object', { 'media-object--playing': mediaPlaying, 'media-object--active': mediaActive, 'media-object--no-image': mediaEmpty }])
 const createUrl = () => {
   const chunks = props.uri.split(':')
   let url = null
@@ -105,9 +105,9 @@ const createUrl = () => {
 const onPlay = (e: Event) => {
   e.stopPropagation()
   if (
-    playbackContext
-          && playbackContext.context.uri
-          && playbackContext.context.uri.includes(props.id)
+    playbackContext.value
+          && playbackContext.value.context.uri
+          && playbackContext.value.context.uri.includes(props.id)
   )
     playerApi.play()
   else
