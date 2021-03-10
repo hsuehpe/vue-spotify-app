@@ -20,7 +20,7 @@ export interface Actions {
 
 const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.GET_USER_PROFILE]({ commit }: ActionContext<State, RootState>) {
-    const res = await usersApi.getUserProfile(null)
+    const res = await usersApi.getUserProfile()
     commit(MutationTypes.SET_PROFILE, res.data)
   },
   async [ActionTypes.GET_CURRENT_USER_PLAYLISTS]({ getters, commit }: ActionContext<State, RootState>, limit = 50) {

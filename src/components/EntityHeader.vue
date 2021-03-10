@@ -14,7 +14,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
-
+  small: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const titleCls = computed(() => (props.small) ? 'mt-8 mb-0 mx-4 text-xl' : 'mt-8 mb-0 mx-4 text-3xl')
