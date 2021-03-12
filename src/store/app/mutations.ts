@@ -12,13 +12,6 @@ export type Mutations<S = State> = {
 }
 
 const mutations: MutationTree<State> & Mutations = {
-  /**
-  * Push credentials to state.
-  * @param { object } payload The function payload.
-  * @param { string } payload.accessToken The spotify api access token.
-  * @param { string } payload.refreshToken The spotify api refresh token.
-  * @param { number } payload.expiresIn The duration in seconds that the token is valid..
-  */
   [MutationTypes.SET_NOT_FOUND](state: State, status: boolean) {
     state.notFound = status
   },

@@ -24,6 +24,6 @@ describe('Component App', () => {
       },
     })
 
-    expect(store.dispatch).toHaveBeenCalledWith('AppModule/INIT')
+    expect(store.dispatch).toHaveBeenCalledWith('PlayerModule/INIT')
   })
 })
