@@ -36,7 +36,7 @@ VuexStore<S>,
   ): ReturnType<Actions[K]>
 }
 
-export const PlayerModule: Module<State, RootState> = {
+export const LibraryModule: Module<State, RootState> = {
   namespaced: true,
   state,
   actions,

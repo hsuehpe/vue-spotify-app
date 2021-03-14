@@ -8,25 +8,36 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { computed, ref } from 'vue'
-import { ActionTypes as AuthActionTypes } from '/~/store/auth/actions'
+<script lang="ts">
+import { defineComponent, ref } from 'vue'
 import { ActionTypes as AppActionTypes } from '/~/store/app/actions'
 import { ActionTypes as PlayerActionTypes } from '/~/store/player/actions'
 import { useStore } from 'vuex'
 import NotFound from '/~/views/NotFound.vue'
 import NavBar from '/~/components/NavBar/index.vue'
 
-const store = useStore()
-const getters = store.getters
-const accessToken = getters['AuthModule/getAccessToken']
-const notFound = ref(false)
+export default defineComponent({
+  components: {
+    NotFound,
+    NavBar,
+  },
+  setup() {
+    const store = useStore()
+    const getters = store.getters
+    const accessToken = getters['AuthModule/getAccessToken']
+    const notFound = ref(false)
 
-const initApp = () => {
-  if (accessToken) store.dispatch(`AppModule/${AppActionTypes.INIT}`)
-  store.dispatch(`PlayerModule/${PlayerActionTypes.INIT}`)
-}
-initApp()
+    const initApp = () => {
+      if (accessToken) store.dispatch(`AppModule/${AppActionTypes.INIT}`)
+      store.dispatch(`PlayerModule/${PlayerActionTypes.INIT}`)
+    }
+    initApp()
+
+    return {
+      notFound,
+    }
+  },
+})
 
 </script>
 

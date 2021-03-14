@@ -2,27 +2,29 @@
   Loading...
 </template>
 
-<script setup lang="ts">
-import { computed } from 'vue'
+<script lang="ts">
+import { defineComponent } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { ActionTypes } from '/~/store/auth/actions'
 
-const store = useStore()
-const state = store.state
-const getters = store.getters
-const route = useRoute()
-const router = useRouter()
+export default defineComponent({
+  setup() {
+    const store = useStore()
+    const route = useRoute()
+    const router = useRouter()
 
-const getTokenFromURL = () => {
-  const { code }: any = route.query || ''
-  const isToken = /^[AQ]{2}/.test(code)
+    const getTokenFromURL = () => {
+      const { code }: any = route.query || ''
+      const isToken = /^[AQ]{2}/.test(code)
 
-  if (isToken) store.dispatch(`AuthModule/${ActionTypes.SET_CREDENTIALS}`, { code })
+      if (isToken) store.dispatch(`AuthModule/${ActionTypes.SET_CREDENTIALS}`, { code })
 
-  router.push('/')
-}
+      router.push('/')
+    }
 
-getTokenFromURL()
+    getTokenFromURL()
+  },
+})
 
 </script>

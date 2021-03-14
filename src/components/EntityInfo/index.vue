@@ -52,9 +52,9 @@
       <entity-action
         v-if="type === 'playlist'"
         :type="type"
-        :playlist-i-d="playlistID"
+        :playlist-id="playlistID"
         :uri="uri"
-        :owner-i-d="ownerID"
+        :owner-id="ownerID"
       />
     </div>
 
@@ -69,63 +69,81 @@
   </div>
 </template>
 
-<script setup="props" lang="ts">
-import { defineProps, computed } from 'vue'
+<script lang="ts">
+import { computed, defineComponent } from 'vue'
 import { useStore } from 'vuex'
 import PlaylistUpdateModal from '@/components/PlaylistUpdateModal.vue'
 import EntityAction from './EntityAction.vue'
 
-const store = useStore()
-const getters = store.getters
-const user = getters['UserModule/getProfile']
+interface CoverImg {
+  url: string
+}
 
-const props = defineProps({
-  uri: {
-    required: true,
+interface Artist {
+  id: string
+  name: string
+}
+
+export default defineComponent({
+  props: {
+    uri: {
+      required: true,
+    },
+    playlistID: {
+      type: String,
+      required: false,
+    },
+    coverImg: {
+      type: Array as () => Array<CoverImg>,
+      required: true,
+    },
+    type: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: false,
+    },
+    author: {
+      type: String,
+      required: false,
+    },
+    artists: {
+      type: Array as () => Array<Artist>,
+      required: true,
+    },
+    followers: {
+      type: [Number, String],
+      required: false,
+    },
+    ownerID: {
+      type: String,
+      required: false,
+    },
   },
-  playlistID: {
-    type: String,
-    required: false,
-  },
-  coverImg: {
-    type: Array,
-    required: false,
-  },
-  type: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: false,
-  },
-  author: {
-    type: String,
-    required: false,
-  },
-  artists: {
-    type: Array,
-    required: false,
-  },
-  followers: {
-    type: [Number, String],
-    required: false,
-  },
-  ownerID: {
-    type: String,
-    required: false,
+  setup(props) {
+    const store = useStore()
+    const getters = store.getters
+    const user = getters['UserModule/getProfile']
+
+    const elClass = computed(() => ['entity-info', { editable: props.ownerID === user.id && props.type === 'playlist' }])
+
+    const onCoverClick = () => {
+      this.$modal.show('playlist-update-modal')
+    }
+
+    return {
+      user,
+      elClass,
+      onCoverClick,
+    }
   },
 })
-
-const elClass = computed(() => ['entity-info', { editable: props.ownerID === user.id && props.type === 'playlist' }])
-
-const onCoverClick = () => {
-  this.$modal.show('playlist-update-modal')
-}
 
 </script>
 

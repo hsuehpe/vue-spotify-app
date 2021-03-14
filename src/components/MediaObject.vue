@@ -19,105 +19,128 @@
         <router-link class="name" :to="createUrl()">
           {{ name }}
         </router-link>
-
-        <router-link
-          v-for="(artist, index) in props.artists"
-          v-if="props.artists"
-          :key="artist.id"
-          class="artist"
-          :to="{ name: 'artist', params: { id: artist.id } }"
+        <div
+          v-if="artists"
         >
-          {{ artist.name }}
-          <template v-if="index !== props.artists.length - 1">
-            ,&nbsp;
-          </template>
-        </router-link>
+          <router-link
+            v-for="(artist, index) in artists"
+            :key="artist.id"
+            class="artist"
+            :to="{ name: 'artist', params: { id: artist.id } }"
+          >
+            {{ artist.name }}
+            <template v-if="index !== artists.length - 1">
+              ,&nbsp;
+            </template>
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-<script setup="props" lang="ts">
-import { defineProps, reactive, computed } from 'vue'
+<script lang="ts">
+import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
 import playerApi from '/~/api/spotify/player'
 
-const store = useStore()
-const getters = store.getters
-const playbackContext = computed(() => getters['PlayerModule/getPlaybackContext'])
-
-const props = defineProps({
-  id: {
-    required: true,
-  },
-  uri: {
-    required: true,
-    type: String,
-  },
-  coverImg: {
-    required: true,
-    type: Array,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  type: {
-    required: true,
-  },
-  artists: {
-    required: false,
-  },
-})
-
-const mediaPlaying = computed(() => playbackContext.value && !playbackContext.value.paused && playbackContext.value.context.uri && playbackContext.value.context.uri.includes(props.id))
-const mediaActive = computed(() => playbackContext.value && playbackContext.value.context.uri && playbackContext.value.context.uri.includes(props.id))
-const mediaEmpty = computed(() => !props.coverImg[0])
-const elClass = computed(() => ['media-object', { playing: mediaPlaying.value, active: mediaActive.value, 'no-image': mediaEmpty.value }])
-
-const createUrl = () => {
-  const chunks = props.uri.split(':')
-  let url = null
-
-  switch (props.type) {
-    case 'album':
-      url = { name: 'album', params: { id: props.id } }
-      break
-
-    case 'artist':
-      url = { name: 'artist', params: { id: props.id } }
-      break
-
-    case 'playlist':
-      url = {
-        name: 'playlist',
-        params: {
-          user_id: chunks[2],
-          playlist_id: chunks[chunks.length - 1],
-        },
-      }
-      break
-  }
-
-  return url
+interface CoverImg {
+  url: string
 }
 
-const onPlay = (e: Event) => {
-  e.stopPropagation()
-  if (
-    playbackContext.value
+interface Artist {
+  id: string
+  name: string
+}
+
+export default defineComponent({
+  props: {
+    id: {
+      type: String,
+      required: true,
+    },
+    uri: {
+      required: true,
+      type: String,
+    },
+    coverImg: {
+      required: true,
+      type: Array as () => Array<CoverImg>,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    type: {
+      type: String,
+      required: true,
+    },
+    artists: {
+      type: Array as () => Array<Artist>,
+      required: true,
+    },
+  },
+  setup(props) {
+    const store = useStore()
+    const getters = store.getters
+    const playbackContext = computed(() => getters['PlayerModule/getPlaybackContext'])
+    const mediaPlaying = computed(() => playbackContext.value && !playbackContext.value.paused && playbackContext.value.context.uri && playbackContext.value.context.uri.includes(props.id))
+    const mediaActive = computed(() => playbackContext.value && playbackContext.value.context.uri && playbackContext.value.context.uri.includes(props.id))
+    const mediaEmpty = computed(() => !props.coverImg[0])
+    const elClass = computed(() => ['media-object', { playing: mediaPlaying.value, active: mediaActive.value, 'no-image': mediaEmpty.value }])
+
+    const createUrl = () => {
+      const chunks = props.uri.split(':')
+      let url = null
+
+      switch (props.type) {
+        case 'album':
+          url = { name: 'album', params: { id: props.id } }
+          break
+
+        case 'artist':
+          url = { name: 'artist', params: { id: props.id } }
+          break
+
+        case 'playlist':
+          url = {
+            name: 'playlist',
+            params: {
+              user_id: chunks[2],
+              playlist_id: chunks[chunks.length - 1],
+            },
+          }
+          break
+      }
+
+      return url
+    }
+
+    const onPlay = (e: Event) => {
+      e.stopPropagation()
+      if (
+        playbackContext.value
           && playbackContext.value.context.uri
           && playbackContext.value.context.uri.includes(props.id)
-  )
-    playerApi.play()
-  else
-    playerApi.play(props.uri)
-}
+      )
+        playerApi.play()
+      else
+        playerApi.play(props.uri)
+    }
 
-const onPause = (e: Event) => {
-  e.stopPropagation()
-  playerApi.pause()
-}
+    const onPause = (e: Event) => {
+      e.stopPropagation()
+      playerApi.pause()
+    }
+
+    return {
+      elClass,
+      createUrl,
+      onPlay,
+      onPause,
+    }
+  },
+})
 
 </script>
 

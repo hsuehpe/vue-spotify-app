@@ -2,10 +2,14 @@
   <div>Browse</div>
 </template>
 
-<script setup lang="ts">
-import { onMounted } from 'vue'
+<script lang="ts">
+import { defineComponent, onMounted } from 'vue'
 
-onMounted(() => {
-  console.log('browse mounted')
+export default defineComponent({
+  setup() {
+    onMounted(() => {
+      console.log('browse mounted')
+    })
+  },
 })
 </script>

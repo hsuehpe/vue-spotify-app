@@ -42,7 +42,7 @@ export default {
    * @param {Array<string>} [uris] - Array of URIs
    * @param {number} [positionMs]
    */
-  play(contextUri?: string, offset?: number, uris?: Array<string>) {
+  play(contextUri?: string | null, offset?: object, uris?: Array<any>) {
     return request({
       method: 'put',
       url: 'me/player/play',

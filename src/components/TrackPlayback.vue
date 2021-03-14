@@ -1,71 +1,77 @@
 <template>
   <div :class="elClass">
     <button>
-      <Icon class="play" icon="el-play-alt" @click.prevent="onPlay" />
+      <Icon class="play" icon="el-play-alt" @click.prevent="play" />
     </button>
     <button>
       <Icon class="sound-on" icon="akar-icons:sound-on" />
     </button>
     <button>
-      <Icon class="pause" icon="el-pause-alt" @click.prevent="onPause" />
+      <Icon class="pause" icon="el-pause-alt" @click.prevent="pause" />
     </button>
   </div>
 </template>
 
 <script setup="props" lang="ts">
-import { defineProps, computed } from 'vue'
+import { defineProps, computed, defineComponent } from 'vue'
 import { useStore } from 'vuex'
 import playerApi from '/~/api/spotify/player'
 
-const store = useStore()
-const getters = store.getters
+export default defineComponent({
+  props: {
+    trackUri: {
+      required: true,
+    },
 
-const playback = computed(() => getters['PlayerModule/getPlayback'])
-const playbackContext = computed(() => getters['PlayerModule/getPlaybackContext'])
+    tracksUris: {
+      type: Array,
+      required: false,
+    },
+    contextUri: {
+      type: String,
+      required: false,
+    },
 
-const props = defineProps({
-  trackUri: {
-    required: true,
+    offset: {
+      required: false,
+    },
   },
+  setup(props) {
+    const store = useStore()
+    const getters = store.getters
+    const playback = computed(() => getters['PlayerModule/getPlayback'])
+    const playbackContext = computed(() => getters['PlayerModule/getPlaybackContext'])
+    const isActiveTrack = computed(() => playback.value.item && playback.value.item.uri === props.trackUri)
+    const isPaused = computed(() => isActiveTrack.value && playbackContext.value && playbackContext.value.paused)
+    const elClass = computed(() => ['track-playback', { '--active': isActiveTrack.value, '--paused': isPaused.value }])
 
-  tracksUris: {
-    type: Array,
-    required: false,
-  },
+    const play = () => {
+      if (props.contextUri) {
+        playerApi.play(props.contextUri, { position: props.offset })
+      }
+      else if (playback.value.item && playback.value.item.uri === props.trackUri) {
+        playerApi.play()
+      }
+      else {
+        playerApi.play(
+          null,
+          { uri: props.trackUri },
+          props.tracksUris,
+        )
+      }
+    }
 
-  contextUri: {
-    type: String,
-    required: false,
-  },
+    const pause = () => {
+      playerApi.pause()
+    }
 
-  offset: {
-    required: false,
+    return {
+      elClass,
+      play,
+      pause,
+    }
   },
 })
-
-const isActiveTrack = computed(() => playback.value.item && playback.value.item.uri === props.trackUri)
-const isPaused = computed(() => isActiveTrack.value && playbackContext.value && playbackContext.value.paused)
-const elClass = computed(() => ['track-playback', { '--active': isActiveTrack.value, '--paused': isPaused.value }])
-
-const play = () => {
-  if (props.contextUri) {
-    playerApi.play(props.contextUri, { position: props.offset })
-  }
-  else if (playback.value.item && playback.value.item.uri === props.trackUri) {
-    playerApi.play()
-  }
-  else {
-    playerApi.play(
-      null,
-      { uri: props.trackUri },
-      props.tracksUris,
-    )
-  }
-}
-
-const pause = () => {
-  playerApi.pause()
-}
 </script>
 
 <style lang="postcss" scoped>

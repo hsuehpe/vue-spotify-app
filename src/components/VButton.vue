@@ -1,23 +1,31 @@
 <template>
-  <button :class="elClass" @click="props['on-click']">
+  <button :class="elClass" @click="onClick">
     <slot />
   </button>
 </template>
 
-<script setup="props" lang="ts">
-import { defineProps, computed } from 'vue'
+<script lang="ts">
+import { computed, defineComponent } from 'vue'
 
-const props = defineProps({
-  'on-click': {
-    required: true,
+export default defineComponent({
+  props: {
+    onClick: {
+      type: Function,
+      required: true,
+    },
+    isBlack: {
+      type: Boolean,
+      default: false,
+    },
   },
-  'is-black': {
-    default: false,
+  setup(props) {
+    const elClass = computed(() => ['btn', { black: props.isBlack }])
+
+    return {
+      elClass,
+    }
   },
 })
-
-const elClass = computed(() => ['btn', { black: props['is-black'] }])
-
 </script>
 
 <style lang="postcss" scoped>
