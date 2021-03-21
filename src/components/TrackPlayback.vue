@@ -22,7 +22,6 @@ export default defineComponent({
     trackUri: {
       required: true,
     },
-
     tracksUris: {
       type: Array,
       required: false,
@@ -31,7 +30,6 @@ export default defineComponent({
       type: String,
       required: false,
     },
-
     offset: {
       required: false,
     },
