@@ -10,6 +10,7 @@
     "@vueuse/core": "^4.0.0-rc.5",
     "axios": "^0.21.0",
     "lodash-es": "^4.17.21",
+    "moment": "^2.29.1",
     "nprogress": "^0.2.0",
     "optiscroll": "^3.2.1",
     "vue": "^3.0.4",
