@@ -32,22 +32,33 @@ import {
   State as LibraryState,
 } from './library'
 
+import {
+  PlaylistModule,
+  Store as PlaylistStore,
+  State as PlaylistState,
+} from './playlist'
+
 export type State = {
   auth: AuthState
   app: AppState
   user: UserState
   player: PlayerState
   library: LibraryState
+  playlist: PlaylistState
 }
 
-export type Store = AuthStore<Pick<State, 'auth'>> | AppStore<Pick<State, 'app'>> | UserStore<Pick<State, 'user'>> | LibraryStore<Pick<State, 'library'>>
+export type Store = AuthStore<Pick<State, 'auth'>> |
+AppStore<Pick<State, 'app'>> |
+UserStore<Pick<State, 'user'>> |
+LibraryStore<Pick<State, 'library'>> |
+PlaylistStore<Pick<State, 'playlist'>>
 
 export const store = createStore({
   plugins:
     process.env.NODE_ENV === 'production'
       ? [createPersistedState(), spotifyApiPlugin]
       : [createLogger(), createPersistedState(), spotifyApiPlugin],
-  modules: { AuthModule, AppModule, UserModule, PlayerModule, LibraryModule },
+  modules: { AuthModule, AppModule, UserModule, PlayerModule, LibraryModule, PlaylistModule },
 })
 
 export default store

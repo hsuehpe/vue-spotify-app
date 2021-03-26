@@ -2,6 +2,21 @@ import request from './request'
 
 export default {
   /**
+   * Get a Playlist
+   * Get a playlist owned by a Spotify user.
+   * https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-playlist
+   * @param {string} playlistID - The Spotify ID for the playlist.
+   * @param {string} [fields] -  Filters for the query: a comma-separated list of the fields to return
+   * @returns {Array<object>} - array of playlist objects
+   */
+  getPlaylist(playlistID: string, fields: string) {
+    return request.get(`/playlists/${playlistID}`, {
+      params: {
+        fields,
+      },
+    })
+  },
+  /**
    * Get a List of Current User's Playlists
    * Get a list of the playlists owned or followed by the current Spotify user.
    * @param {number} [limit=20] - ‘The maximum number of playlists to return. Default: 20. Minimum: 1. Maximum: 50.’
