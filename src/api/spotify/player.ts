@@ -150,7 +150,7 @@ export default {
    */
   transferUsersPlayback(deviceIDs: Array<string>, play = false) {
     return request.put('me/player', {
-      deviceIDs,
+      device_ids: deviceIDs,
       play,
     })
   },
