@@ -88,11 +88,11 @@ export default defineComponent({
     const mediaActive = computed(() => playbackContext.value && playbackContext.value.context.uri && playbackContext.value.context.uri.includes(props.id))
     const mediaEmpty = computed(() => !props.coverImg[0])
     const elClass = computed(() => ['media-object', { playing: mediaPlaying.value, active: mediaActive.value, 'no-image': mediaEmpty.value }])
+    const user = getters['UserModule/getProfile']
 
     const createUrl = () => {
       const chunks = props.uri.split(':')
       let url = null
-
       switch (props.type) {
         case 'album':
           url = { name: 'album', params: { id: props.id } }
@@ -106,7 +106,7 @@ export default defineComponent({
           url = {
             name: 'playlist',
             params: {
-              user_id: chunks[2],
+              user_id: user.id,
               playlist_id: chunks[chunks.length - 1],
             },
           }

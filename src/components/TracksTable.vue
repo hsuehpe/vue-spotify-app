@@ -96,12 +96,6 @@ import TrackAddition from './TrackAddition.vue'
 import TrackPlayback from './TrackPlayback.vue'
 import libraryApi from '/~/api/spotify/library'
 
-const store = useStore()
-const getters = store.getters
-const user = getters['UserModule/getProfile']
-const playback = computed(() => getters['PlayerModule/getPlayback'])
-const playbackContext = computed(() => getters['PlayerModule/getPlaybackContext'])
-
 interface Artist {
   external_urls: object
   href: string
@@ -153,6 +147,12 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const store = useStore()
+    const getters = store.getters
+    const user = getters['UserModule/getProfile']
+    const playback = computed(() => getters['PlayerModule/getPlayback'])
+    const playbackContext = computed(() => getters['PlayerModule/getPlaybackContext'])
+
     const data = reactive({
       tracksUris: [] as Array<string>,
       tracksIds: [] as Array<string>,

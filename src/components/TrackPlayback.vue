@@ -12,8 +12,8 @@
   </div>
 </template>
 
-<script setup="props" lang="ts">
-import { defineProps, computed, defineComponent } from 'vue'
+<script lang="ts">
+import { computed, defineComponent } from 'vue'
 import { useStore } from 'vuex'
 import playerApi from '/~/api/spotify/player'
 
@@ -74,6 +74,10 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .track-playback {
+  .play, .pause, .sound-on {
+    @apply h-6 w-6;
+  }
+
   .play {
     @apply block;
   }
@@ -107,7 +111,7 @@ export default defineComponent({
   }
 
   button {
-    @apply hidden w-6 h-6 text-gray-300 text-2xl outline-none;
+    @apply w-6 h-6 text-gray-300 text-2xl outline-none;
     &:hover {
       @apply text-white;
     }
