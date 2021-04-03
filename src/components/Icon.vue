@@ -37,6 +37,10 @@ export default defineComponent({
     watch(() => props.icon, update, { flush: 'post' })
 
     onMounted(update)
+
+    return {
+      el,
+    }
   },
 })
 </script>
