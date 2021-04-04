@@ -77,7 +77,7 @@ export default defineComponent({
     },
     artists: {
       type: Array as () => Array<Artist>,
-      required: true,
+      default: [],
     },
   },
   setup(props) {

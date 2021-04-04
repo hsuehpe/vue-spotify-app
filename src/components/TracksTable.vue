@@ -95,6 +95,7 @@ import { useStore } from 'vuex'
 import TrackAddition from './TrackAddition.vue'
 import TrackPlayback from './TrackPlayback.vue'
 import libraryApi from '/~/api/spotify/library'
+import { isDark } from '/~/logics'
 
 interface Artist {
   external_urls: object
@@ -236,7 +237,6 @@ export default defineComponent({
   @apply flex flex-col pt-0 px-4 pb-5;
 
   & .link {
-    @apply text-white;
     &:hover {
       @apply underline;
     }
@@ -245,20 +245,11 @@ export default defineComponent({
   .row {
     min-height: 40px;
     border-bottom: 1px solid #333;
-    @apply flex relative p-1 text-white text-xs;
+    @apply flex relative p-1 text-black text-xs;
 
     &:hover {
       &:not(:first-of-type) {
-        background-color: #333;
-        @apply text-white;
-      }
-
-      .explicit-label {
-        @apply text-white border-white
-      }
-
-      .addition-button {
-        @apply text-white;
+        @apply bg-gray-200;
       }
 
       .track-playback {

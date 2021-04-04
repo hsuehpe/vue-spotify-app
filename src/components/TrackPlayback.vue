@@ -1,14 +1,8 @@
 <template>
   <div :class="elClass">
-    <button>
-      <Icon class="play" icon="el-play-alt" @click.prevent="play" />
-    </button>
-    <button>
-      <Icon class="sound-on" icon="akar-icons:sound-on" />
-    </button>
-    <button>
-      <Icon class="pause" icon="el-pause-alt" @click.prevent="pause" />
-    </button>
+    <Icon class="btn play" icon="el-play-alt" @click.prevent="play" />
+    <Icon class="btn sound-on" icon="akar-icons:sound-on" />
+    <Icon class="btn pause" icon="el-pause-alt" @click.prevent="pause" />
   </div>
 </template>
 
@@ -20,18 +14,23 @@ import playerApi from '/~/api/spotify/player'
 export default defineComponent({
   props: {
     trackUri: {
+      type: String,
       required: true,
     },
     tracksUris: {
       type: Array,
       required: false,
+      default: () => [],
     },
     contextUri: {
       type: String,
       required: false,
+      default: '',
     },
     offset: {
+      type: Number,
       required: false,
+      default: 0,
     },
   },
   setup(props) {
@@ -44,6 +43,7 @@ export default defineComponent({
     const elClass = computed(() => ['track-playback', { '--active': isActiveTrack.value, '--paused': isPaused.value }])
 
     const play = () => {
+      console.log(props)
       if (props.contextUri) {
         playerApi.play(props.contextUri, { position: props.offset })
       }
@@ -74,12 +74,12 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .track-playback {
-  .play, .pause, .sound-on {
-    @apply h-6 w-6;
+  .btn {
+    @apply h-6 w-6 text-2xl;
   }
 
-  .play {
-    @apply block;
+  .pause, .sound-on {
+    @apply hidden;
   }
 
   .--active {
@@ -88,7 +88,7 @@ export default defineComponent({
     }
 
     .sound-on {
-      @apply block;
+      @apply inline-block;
     }
   }
 
@@ -97,7 +97,7 @@ export default defineComponent({
       @apply hidden;
     }
     .pause {
-      @apply block;
+      @apply inline-block;
     }
   }
 
@@ -106,17 +106,7 @@ export default defineComponent({
       @apply hidden;
     }
     .play {
-      @apply block;
-    }
-  }
-
-  button {
-    @apply w-6 h-6 text-gray-300 text-2xl outline-none;
-    &:hover {
-      @apply text-white;
-    }
-    .sound-on {
-      @apply h-4 text-white text-lg;
+      @apply inline-block;
     }
   }
 }
