@@ -51,7 +51,8 @@ export type Store = AuthStore<Pick<State, 'auth'>> |
 AppStore<Pick<State, 'app'>> |
 UserStore<Pick<State, 'user'>> |
 LibraryStore<Pick<State, 'library'>> |
-PlaylistStore<Pick<State, 'playlist'>>
+PlaylistStore<Pick<State, 'playlist'>> |
+PlayerStore<Pick<State, 'player'>>
 
 export const store = createStore({
   plugins:

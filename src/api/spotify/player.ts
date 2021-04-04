@@ -49,7 +49,7 @@ export default {
       data: {
         offset,
         uris,
-        ...(contextUri && { contextUri }),
+        context_uri: contextUri,
       },
     })
   },
