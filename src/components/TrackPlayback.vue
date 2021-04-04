@@ -43,11 +43,11 @@ export default defineComponent({
     const elClass = computed(() => ['track-playback', { '--active': isActiveTrack.value, '--paused': isPaused.value }])
 
     const play = () => {
-      console.log(props)
-      if (props.contextUri) {
+      console.log(props.contextUri, props.trackUri, playback.value.item)
+      if (props.contextUri && !isPaused.value) {
         playerApi.play(props.contextUri, { position: props.offset })
       }
-      else if (playback.value.item && playback.value.item.uri === props.trackUri) {
+      else if (isPaused.value) {
         playerApi.play()
       }
       else {
@@ -82,7 +82,7 @@ export default defineComponent({
     @apply hidden;
   }
 
-  .--active {
+  &.--active {
     .play, .pause {
       @apply hidden;
     }
@@ -92,16 +92,26 @@ export default defineComponent({
     }
   }
 
-  .--active:hover {
+  &.--active:hover {
     .play, .sound-on {
       @apply hidden;
     }
     .pause {
-      @apply inline-block;
+      @apply block;
     }
   }
 
-  .--paused:hover {
+  &.--paused {
+    .play {
+      @apply block;
+    }
+
+    .sound-on, .puase {
+      @apply hidden;
+    }
+  }
+
+  &.--paused:hover {
     .pause, .sound-on {
       @apply hidden;
     }
