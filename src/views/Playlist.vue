@@ -12,7 +12,7 @@
         :playlist-id="data.playlistID"
         :owner-id="playlist.owner.id"
       />
-      <tracks-table v-if="data.tracks && data.tracks.items.length > 0" :tracks="data.tracks.items" :context-uri="playlist.uri" /> -->
+      <tracks-table v-if="data.tracks && data.tracks.items.length > 0" :tracks="data.tracks.items" :context-uri="playlist.uri" />
     </div>
   </div>
 </template>

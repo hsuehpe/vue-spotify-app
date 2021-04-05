@@ -51,9 +51,9 @@ export default {
   /**
    * Save Tracks for User
    * Save one or more tracks to the current user’s ‘Your Music’ library.
-   * @param {string} ids - A comma-separated list of the Spotify IDs. For example: ids=4iV5W9uYEdYUVa79Axb7Rh,1301WleyT98MSxVHPZCA6M. Maximum: 50 IDs.
+   * @param {string[]} ids - A comma-separated list of the Spotify IDs. For example: ids=4iV5W9uYEdYUVa79Axb7Rh,1301WleyT98MSxVHPZCA6M. Maximum: 50 IDs.
    */
-  saveTracks(ids: string) {
+  saveTracks(ids: string[]) {
     return request.put('me/tracks', {
       ids,
     })
@@ -62,9 +62,9 @@ export default {
   /**
    * Remove User's Saved Tracks
    * Remove one or more tracks from the current user’s ‘Your Music’ library.
-   * @param {string} ids - A comma-separated list of the Spotify IDs. For example: ids=4iV5W9uYEdYUVa79Axb7Rh,1301WleyT98MSxVHPZCA6M. Maximum: 50 IDs.
+   * @param {string[]} ids - A comma-separated list of the Spotify IDs. For example: ids=4iV5W9uYEdYUVa79Axb7Rh,1301WleyT98MSxVHPZCA6M. Maximum: 50 IDs.
    */
-  removeTracks(ids: string) {
+  removeTracks(ids: string[]) {
     return request.delete('me/tracks', {
       data: {
         ids,

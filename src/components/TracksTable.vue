@@ -1,8 +1,8 @@
 <template>
   <div v-if="!!tracks.length" class="tracks-table">
     <div class="row header">
-      <div class="cell playback" />
-      <div class="cell addition" />
+      <div class="cell --playback" />
+      <div class="cell --addition" />
       <div class="cell name">
         Title
       </div>
@@ -26,7 +26,7 @@
       :class="isActiveTrack(item.track)"
       :data-id="item.track.id"
     >
-      <div class="cell playback">
+      <div class="cell --playback">
         <track-playback
           :track-uri="item.track.uri"
           :tracks-uris="data.tracksUris"
@@ -35,12 +35,12 @@
         />
       </div>
 
-      <div class="cell addition">
+      <div class="cell --addition">
         <track-addition
-          :track-i-d="item.track.id"
+          :track-id="item.track.id"
           :is-saved="data.savedTracks[index]"
-          @updateTrackstatus="onTrackUpdate"
-          @savedTrackRemove="onSavedTrackRemove"
+          @update-track-status="onTrackUpdate"
+          @saved-track-remove="onSavedTrackRemove"
         />
       </div>
 
@@ -88,7 +88,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed } from 'vue'
+import { defineComponent, reactive, computed, onMounted } from 'vue'
 import moment from 'moment'
 import { msToMinutes } from '/~/logics/time-format'
 import { useStore } from 'vuex'
@@ -182,7 +182,6 @@ export default defineComponent({
           total: props.tracks.length || 0,
           items: [] as any,
         }
-
         while (saved.total > saved.offset) {
           const res = await libraryApi.checkUserSavedTracks(
             data.tracksIds
@@ -216,6 +215,12 @@ export default defineComponent({
       if (props.type === 'library')
         document.querySelectorAll(`[data-id=${id}]`)[0].remove()
     }
+
+    onMounted(() => {
+      fetchTrackIds()
+      fetchTrackUris()
+      checkSavedTracks()
+    })
 
     return {
       fetchTrackUris,

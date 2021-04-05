@@ -41,17 +41,17 @@ const actions: ActionTree<State, RootState> & Actions = {
       })
     }
 
-    async function waitUntilUserHasSelectedPlayer(sdk: { getCurrentState: () => any }) {
-      return new Promise((resolve) => {
-        const interval = setInterval(async() => {
-          const state = await sdk.getCurrentState()
-          if (state !== null) {
-            resolve(state)
-            clearInterval(interval)
-          }
-        })
-      })
-    }
+    // async function waitUntilUserHasSelectedPlayer(sdk: { getCurrentState: () => any }) {
+    //   return new Promise((resolve) => {
+    //     const interval = setInterval(async() => {
+    //       const state = await sdk.getCurrentState()
+    //       if (state !== null) {
+    //         resolve(state)
+    //         clearInterval(interval)
+    //       }
+    //     })
+    //   })
+    // }
 
     (async() => {
       const { Player } = await waitForSpotifyWebPlaybackSDKToLoad()
@@ -105,10 +105,10 @@ const actions: ActionTree<State, RootState> & Actions = {
       })
 
       // Connect to the player!
-      const connected = await player.connect()
+      await player.connect()
 
-      if (connected)
-        await waitUntilUserHasSelectedPlayer(player)
+      // if (connected)
+      //   await waitUntilUserHasSelectedPlayer(player)
     })()
   },
 

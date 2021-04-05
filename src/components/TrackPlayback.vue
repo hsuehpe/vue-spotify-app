@@ -43,7 +43,6 @@ export default defineComponent({
     const elClass = computed(() => ['track-playback', { '--active': isActiveTrack.value, '--paused': isPaused.value }])
 
     const play = () => {
-      console.log(props.contextUri, props.trackUri, playback.value.item)
       if (props.contextUri && !isPaused.value) {
         playerApi.play(props.contextUri, { position: props.offset })
       }

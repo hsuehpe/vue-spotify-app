@@ -1,8 +1,7 @@
 <template>
   <div class="track-addition">
     <button
-      v-if="isSaved"
-      class="button"
+      v-if="!isSaved"
       title="Save to your library"
       @click="saveTrack"
     >
@@ -10,12 +9,12 @@
     </button>
     <button
       v-else
-      class="button --revove"
+      class="--remove"
       title="Remove from your library"
       @click="removeTrack"
     >
-      <Icon icon="ant-design:check-outlined" />
-      <Icon icon="clarity-times-line" />
+      <Icon class="icon-saved" icon="ant-design:check-outlined" />
+      <Icon class="icon-remove" icon="clarity-times-line" />
     </button>
   </div>
 </template>
@@ -28,7 +27,7 @@ import libraryApi from '/~/api/spotify/library'
 
 export default defineComponent({
   props: {
-    trackID: {
+    trackId: {
       type: String,
       required: true,
     },
@@ -38,7 +37,7 @@ export default defineComponent({
     },
   },
   emits: ['saved-track-remove', 'update-track-status'],
-  setup(props, context) {
+  setup(props, { emit }) {
     const store = useStore()
     const getters = store.getters
     const savedTrack = computed(() => getters['LibraryModule/getSavedTrack'])
@@ -46,8 +45,9 @@ export default defineComponent({
 
     const saveTrack = async() => {
       try {
-        await libraryApi.saveTracks(props.trackID)
-        store.dispatch(`LibraryModule/${LibraryActionTypes.SAVE_TRACK}`, props.trackID)
+        await libraryApi.saveTracks([props.trackId])
+        store.dispatch(`LibraryModule/${LibraryActionTypes.SAVE_TRACK}`, props.trackId)
+        emit('update-track-status')
       }
       catch (e) {
         console.log(e)
@@ -56,22 +56,25 @@ export default defineComponent({
 
     const removeTrack = async() => {
       try {
-        await libraryApi.removeTracks(props.trackID)
-        store.dispatch(`LibraryModule/${LibraryActionTypes.REMOVE_TRACK}`, props.trackID)
-        context.emit('saved-track-remove', props.trackID)
+        await libraryApi.removeTracks([props.trackId])
+        store.dispatch(`LibraryModule/${LibraryActionTypes.REMOVE_TRACK}`, props.trackId)
+        emit('saved-track-remove', props.trackId)
+        emit('update-track-status')
       }
       catch (e) {
         console.log(e)
       }
     }
 
-    watch(() => savedTrack, (val) => {
-      if (val === props.trackID) context.emit('update-track-status', val)
-    })
+    // watch(savedTrack, (val) => {
+    //   console.log(val)
+    //   if (val === props.trackId) emit('update-track-status', val)
+    // })
 
-    watch(() => removedTrack, (val) => {
-      if (val === props.trackID) context.emit('update-track-status', val)
-    })
+    // watch(removedTrack, (val) => {
+    //   console.log(val)
+    //   if (val === props.trackId) emit('update-track-status', val)
+    // })
 
     return {
       saveTrack,
@@ -83,6 +86,29 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .track-addition {
-  @apply inline-block leading-none
+  @apply inline-block leading-none;
+
+  button {
+    color: #959595;
+    @apply outline-none text-lg;
+    &:hover {
+      @apply text-black;
+    }
+
+    &.--remove {
+      .icon-remove {
+        @apply hidden;
+      }
+      &:hover {
+        .icon-saved {
+          @apply hidden;
+        }
+
+        .icon-remove {
+          @apply block;
+        }
+      }
+    }
+  }
 }
 </style>
