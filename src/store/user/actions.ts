@@ -23,12 +23,14 @@ const actions: ActionTree<State, RootState> & Actions = {
     const res = await usersApi.getUserProfile()
     commit(MutationTypes.SET_PROFILE, res.data)
   },
-  async [ActionTypes.GET_CURRENT_USER_PLAYLISTS]({ getters, commit }: ActionContext<State, RootState>, limit = 50) {
+  async [ActionTypes.GET_CURRENT_USER_PLAYLISTS]({ commit, rootGetters }: ActionContext<State, RootState>, limit = 50) {
     let offset = 0
-    if (getters.getPlaylists)
-      offset = getters.getPlaylists.limit + getters.getPlaylists.offset
+    const userPlaylists = rootGetters['UserModule/getPlaylists']
 
-    if (!(getters.getPlaylists.total < offset)) {
+    if (Object.keys(userPlaylists).length > 0)
+      offset = userPlaylists.limit + userPlaylists.offset
+
+    if (Object.keys(userPlaylists).length === 0 || userPlaylists.total > offset) {
       try {
         const response = await playlistsApi.getCurrentUserPlaylists(limit, offset)
         commit(MutationTypes.SET_PLAYLISTS, response.data)

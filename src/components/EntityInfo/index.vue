@@ -52,7 +52,7 @@
       <entity-action
         v-if="type === 'playlist'"
         :type="type"
-        :playlist-id="playlistID"
+        :playlist-id="playlistId"
         :uri="uri"
         :owner-id="ownerID"
       />
@@ -70,7 +70,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import PlaylistUpdateModal from '@/components/PlaylistUpdateModal.vue'
 import EntityAction from './EntityAction.vue'
@@ -85,13 +85,18 @@ interface Artist {
 }
 
 export default defineComponent({
+  components: {
+    EntityAction,
+  },
   props: {
     uri: {
+      type: String,
       required: true,
     },
-    playlistID: {
+    playlistId: {
       type: String,
       required: false,
+      default: '',
     },
     coverImg: {
       type: Array as () => Array<CoverImg>,
@@ -108,10 +113,12 @@ export default defineComponent({
     description: {
       type: String,
       required: false,
+      default: '',
     },
     author: {
       type: String,
       required: false,
+      default: '',
     },
     artists: {
       type: Array as () => Array<Artist>,
@@ -120,10 +127,12 @@ export default defineComponent({
     followers: {
       type: [Number, String],
       required: false,
+      default: null,
     },
     ownerID: {
       type: String,
       required: false,
+      default: '',
     },
   },
   setup(props) {
@@ -134,7 +143,7 @@ export default defineComponent({
     const elClass = computed(() => ['entity-info', { editable: props.ownerID === user.id && props.type === 'playlist' }])
 
     const onCoverClick = () => {
-      this.$modal.show('playlist-update-modal')
+      // this.$modal.show('playlist-update-modal')
     }
 
     return {

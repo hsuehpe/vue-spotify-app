@@ -79,7 +79,6 @@ export default defineComponent({
           data.tracks.total = res.data.total
           data.tracks.items.push(...res.data.items)
           data.more = false
-          console.log(data.tracks)
         }
       }
       catch (e) {
@@ -104,8 +103,8 @@ export default defineComponent({
       store.dispatch(`PlaylistModule/${PlaylistActionTypes.FETCH_PLAYLIST}`, playlistID)
     }
 
-    watch(() => route.params, async() => {
-      init()
+    watch(() => route.params, async(newVal) => {
+      if (newVal.playlist_id) init()
     })
 
     onMounted(() => {

@@ -19,7 +19,13 @@ export type State = {
 
 const state: State = {
   profile: {},
-  playlists: {},
+  playlists: {
+    offset: 0,
+    limit: 50,
+    next: 0,
+    total: -1,
+    items: [],
+  },
 }
 
 // setup store type

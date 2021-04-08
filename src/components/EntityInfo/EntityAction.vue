@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ref, watch, onMounted, defineComponent } from 'vue'
+import { computed, ref, defineComponent, onUpdated } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { ActionTypes as UserActionTypes } from '/~/store/user/actions'
@@ -49,11 +49,11 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    playlistID: {
+    playlistId: {
       type: String,
       required: true,
     },
-    ownerID: {
+    ownerId: {
       type: String,
       required: true,
     },
@@ -64,21 +64,12 @@ export default defineComponent({
   },
   setup(props) {
     const isFollowing = ref(false)
-
     const store = useStore()
     const getters = store.getters
-
-    const route = useRoute()
-
     const user = getters['UserModule/getProfile']
     const playbackContext = computed(() => getters['PlayerModule/getPlaybackContext'])
-    const mediaPlaying = computed(() => playbackContext.value && playbackContext.value.context.uri && playbackContext.value.context.uri.includes(props.id))
-
-    const elClass = computed(() => ['entity-action', { playing: mediaPlaying, following: isFollowing.value }])
-
-    watch(() => route.params, async(newParams) => {
-      init()
-    })
+    const mediaPlaying = computed(() => playbackContext.value && !playbackContext.value.paused && playbackContext.value.context.uri && playbackContext.value.context.uri === props.uri)
+    const elClass = computed(() => ['entity-action', { '--playing': mediaPlaying.value, '--following': isFollowing.value }])
 
     const onPlay = () => {
       if (playbackContext.value.context.uri === props.uri)
@@ -94,7 +85,7 @@ export default defineComponent({
     const onFollow = async() => {
       try {
         await followApi.followPlaylist(
-          props.playlistID,
+          props.playlistId,
         )
         isFollowing.value = !isFollowing.value
         store.dispatch(`UserModule/${UserActionTypes.CLEAR_USER_PLAYLISTS}`)
@@ -108,7 +99,7 @@ export default defineComponent({
     const onUnfollow = async() => {
       try {
         await followApi.unfollowPlaylist(
-          props.playlistID,
+          props.playlistId,
         )
         isFollowing.value = !isFollowing.value
 
@@ -120,9 +111,9 @@ export default defineComponent({
       }
     }
 
-    const checkIfUserFollowPlaylist = async(playlistID: string, ids: string) => {
+    const checkIfUserFollowPlaylist = async(playlistId: string, ids: string) => {
       try {
-        const res = await followApi.checkIfUserFollowPlaylist(playlistID, ids)
+        const res = await followApi.checkIfUserFollowPlaylist(playlistId, ids)
         isFollowing.value = res.data[0]
       }
       catch (e) {
@@ -132,12 +123,12 @@ export default defineComponent({
 
     const init = () => {
       checkIfUserFollowPlaylist(
-        props.playlistID,
+        props.playlistId,
         user.id,
       )
     }
 
-    onMounted(() => {
+    onUpdated(() => {
       init()
     })
 
@@ -156,7 +147,11 @@ export default defineComponent({
 <style lang="postcss" scoped>
 .entity-action {
   @apply flex pt-4 pb-3;
-  &.playing {
+  .pause, .unfollow {
+    @apply hidden;
+  }
+
+  &.--playing {
     .play {
       @apply hidden;
     }
@@ -166,9 +161,9 @@ export default defineComponent({
     }
   }
 
-  &.following {
+  &.--following {
     .follow {
-      @apply: hidden;
+      @apply hidden;
     }
 
     .unfollow {
