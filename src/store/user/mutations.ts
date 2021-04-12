@@ -27,7 +27,7 @@ const mutations: MutationTree<State> & Mutations = {
     state.profile = profile
   },
   [MutationTypes.SET_PLAYLISTS](state: State, playlists: Playlists) {
-    if (state.playlists) {
+    if (Object.keys(state.playlists).length > 0) {
       if (playlists.limit) state.playlists.limit = playlists.limit
       state.playlists.offset = playlists.offset
       state.playlists.next = playlists.next

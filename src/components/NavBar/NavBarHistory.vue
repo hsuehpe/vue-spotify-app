@@ -9,16 +9,27 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
+import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
-const router = useRouter()
 
-const onNextClick = () => {
-  router.forward()
-}
+export default defineComponent({
+  setup() {
+    const router = useRouter()
 
-const onPrevClick = () => {
-  router.back()
-}
+    const onNextClick = () => {
+      router.forward()
+    }
+
+    const onPrevClick = () => {
+      router.back()
+    }
+
+    return {
+      onNextClick,
+      onPrevClick,
+    }
+  },
+})
 
 </script>

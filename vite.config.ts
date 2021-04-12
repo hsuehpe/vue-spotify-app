@@ -1,6 +1,5 @@
 import path from 'path'
 import { UserConfig } from 'vite'
-import Voie from 'vite-plugin-voie'
 import PurgeIcons from 'vite-plugin-purge-icons'
 import ViteComponents from 'vite-plugin-components'
 import Markdown from 'vite-plugin-md'
@@ -13,18 +12,6 @@ const alias = {
 const config: UserConfig = {
   alias,
   plugins: [
-
-    // https://github.com/vamplate/vite-plugin-voie
-    Voie({
-      // load index page sync and bundled with the landing page to improve first loading time.
-      // feel free to remove if you don't need it
-      importMode(path: string) {
-        if (path === '/src/pages/index.vue')
-          return 'sync'
-        return 'async'
-      },
-      extensions: ['vue', 'md'],
-    }),
 
     // https://github.com/antfu/vite-plugin-md
     Markdown(),

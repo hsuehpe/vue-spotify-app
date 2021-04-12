@@ -21,75 +21,98 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { reactive, computed } from 'vue'
+<script lang="ts">
+import { reactive, computed, defineComponent } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import usersApi from '/~/api/spotify/users'
 import playlistsApi from '/~/api/spotify/playlists'
 import { ActionTypes as AppActionTypes } from '/~/store/app/actions'
-import playlists from '/~/api/spotify/playlists'
-import InfiniteLoading from 'vue-infinite-loading'
 import MediaObject from '/~/components/MediaObject.vue'
 
-const store = useStore()
-const route = useRoute()
+interface User {
+  images: Array<object>
+  display_name: string
+}
 
-const userID = route.params.id
+interface PlaylistItem {
+  id: string
+  uri: string
+  images: Array<object>
+  name: string
+  type: string
+}
 
-const state = reactive({
-  user: '',
-  userID: '',
-  playlists: {
-    limit: 25,
-    offset: 0,
-    total: 1,
-    items: [] as object[],
+export default defineComponent({
+  components: {
+    MediaObject,
   },
-  isMore: false,
-})
+  setup() {
+    const store = useStore()
+    const route = useRoute()
+    const userID = route.params.id
 
-const playlistItems = computed(() => {
-  return state.playlists.items
-})
+    const state = reactive({
+      user: {} as User,
+      userID: '',
+      playlists: {
+        limit: 25,
+        offset: 0,
+        total: 1,
+        items: [] as Array<PlaylistItem>,
+      },
+      isMore: false,
+    })
 
-const getUser = async(id: string | string[] | null) => {
-  try {
-    const res = await usersApi.getUserProfile(id)
-    state.user = res.data
-  }
-  catch (e) {
-    store.dispatch(`AppModule/${AppActionTypes.SET_NOT_FOUND}`, true)
-  }
-}
+    const playlistItems = computed(() => {
+      return state.playlists.items
+    })
 
-const getUserPlaylists = async(id: string | string[] | null) => {
-  try {
-    if (state.playlists.total > state.playlists.offset) {
-      const res = await playlistsApi.getUserPlaylists(id, state.playlists.offset, state.playlists.limit)
-
-      state.playlists.offset = res.data.offset + state.playlists.limit
-      state.playlists.total = res.data.total
-      const items = res.data.items
-      state.playlists.items.push(...items)
-      state.isMore = false
+    const getUser = async(id: string) => {
+      try {
+        const res = await usersApi.getUserProfile(id)
+        state.user = res.data
+      }
+      catch (e) {
+        store.dispatch(`AppModule/${AppActionTypes.SET_NOT_FOUND}`, true)
+      }
     }
-  }
-  catch (e) {
-    console.log(e)
-  }
-}
 
-const loadMore = (ev: { detail: { scrollbarV: { percent: number } } }) => {
-  if (state.isMore) return false
+    const getUserPlaylists = async(id: string | string[] | null) => {
+      try {
+        if (state.playlists.total > state.playlists.offset) {
+          const res = await playlistsApi.getUserPlaylists(id, state.playlists.offset, state.playlists.limit)
 
-  if (ev.detail.scrollbarV.percent > 70) {
-    state.isMore = true
-    getUserPlaylists(state.userID)
-  }
-}
+          state.playlists.offset = res.data.offset + state.playlists.limit
+          state.playlists.total = res.data.total
+          const items = res.data.items
+          state.playlists.items.push(...items)
+          state.isMore = false
+        }
+      }
+      catch (e) {
+        console.log(e)
+      }
+    }
 
-getUser(userID)
-getUserPlaylists(userID)
+    const loadMore = (ev: { detail: { scrollbarV: { percent: number } } }) => {
+      if (state.isMore) return false
+
+      if (ev.detail.scrollbarV.percent > 70) {
+        state.isMore = true
+        getUserPlaylists(state.userID)
+      }
+    }
+
+    getUser(userID)
+    getUserPlaylists(userID)
+
+    return {
+      state,
+      playlistItems,
+      loadMore,
+    }
+  },
+})
 
 </script>

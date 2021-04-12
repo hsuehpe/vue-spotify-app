@@ -4,28 +4,14 @@ import mutations, { Mutations } from './mutations'
 import getters, { Getters } from './getters'
 import actions, { Actions } from './actions'
 
-export type Playlists = {
-  limit: number
-  offset: number
-  next: string
-  total: number
-  items: Array<object>
-}
-
 export type State = {
-  profile: object
-  playlists: Playlists | any
+  lastSavedTrack: string
+  lastRemovedTrack: string
 }
 
 const state: State = {
-  profile: {},
-  playlists: {
-    offset: 0,
-    limit: 50,
-    next: 0,
-    total: -1,
-    items: [],
-  },
+  lastSavedTrack: '',
+  lastRemovedTrack: '',
 }
 
 // setup store type
@@ -50,7 +36,7 @@ VuexStore<S>,
   ): ReturnType<Actions[K]>
 }
 
-export const UserModule: Module<State, RootState> = {
+export const LibraryModule: Module<State, RootState> = {
   namespaced: true,
   state,
   actions,

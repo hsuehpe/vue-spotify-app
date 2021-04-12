@@ -13,11 +13,20 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
+import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 
-const router = useRouter()
-const backButton = () => {
-  router.push('/')
-}
+export default defineComponent({
+  setup() {
+    const router = useRouter()
+    const backButton = () => {
+      router.push('/')
+    }
+
+    return {
+      backButton,
+    }
+  },
+})
 </script>
