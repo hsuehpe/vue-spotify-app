@@ -2,10 +2,6 @@ import { App } from 'vue'
 import { createRouter, createWebHistory, RouterOptions } from 'vue-router'
 // progress bar
 import NProgress from 'nprogress'
-import Login from '/~/views/Login.vue'
-import BrowseView from '/~/views/Browse/index.vue'
-import User from '/~/views/User/index.vue'
-import PlaylistView from '/~/views/Playlist.vue'
 import store from '../store'
 import { ActionTypes as appActionTypes } from '/~/store/app/actions'
 import { ActionTypes as authActionTypes } from '/~/store/auth/actions'
@@ -17,7 +13,7 @@ export default (app: App) => {
       {
         path: '/login',
         name: 'Login',
-        component: Login,
+        component: () => import('/~/views/Login.vue'),
       },
       {
         path: '/',
@@ -29,11 +25,12 @@ export default (app: App) => {
       {
         path: '/user/:id',
         name: 'user',
-        component: User,
+        component: () => import('/~/views/User/index.vue'),
       },
       {
         path: '/artist/:id',
         name: 'artist',
+        component: () => import('/~/views/Artist.vue'),
       },
       {
         path: '/album/:id',
@@ -42,12 +39,12 @@ export default (app: App) => {
       {
         path: '/browse',
         name: 'browse',
-        component: BrowseView,
+        component: () => import('/~/views/Browse/index.vue'),
       },
       {
         path: '/user/:user_id/playlist/:playlist_id',
         name: 'playlist',
-        component: PlaylistView,
+        component: () => import('/~/views/Playlist.vue'),
       },
       {
         path: '/:pathMatch(.*)*',
