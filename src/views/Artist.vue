@@ -11,16 +11,18 @@
       />
       <entity-header title="Popular" :small="true" />
       <tracks-list :tracks="data.tracks" />
-      <media-object
-        v-for="(item, index) in data.albums.items"
-        :id="item.id"
-        :key="index"
-        :uri="item.uri"
-        :cover-img="item.images"
-        :name="item.name"
-        :artists="item.artists"
-        :type="item.type"
-      />
+      <div class="flex flex-wrap py-4 bg-black">
+        <media-object
+          v-for="(item, index) in data.albums.items"
+          :id="item.id"
+          :key="index"
+          :uri="item.uri"
+          :cover-img="item.images"
+          :name="item.name"
+          :artists="item.artists"
+          :type="item.type"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -36,8 +38,22 @@ import MediaObject from '/~/components/MediaObject.vue'
 import artistsApi from '/~/api/spotify/artists'
 import { ActionTypes as AppActionTypes } from '/~/store/app/actions'
 
-interface ArtistItem {
+interface Followers {
+  href: object
+  total: number
+}
+
+interface Artist {
+  images: Array<object>
+  type: string
+  name: string
   uri: string
+  followers: Followers
+}
+
+interface AlbumItem {
+  uri: string
+  name: string
   type: string
   album_group: string
   artists: Array<object>
@@ -58,25 +74,43 @@ export default defineComponent({
     const route = useRoute()
     const data = reactive({
       artistID: '' as string | string[],
-      artist: null,
+      artist: {
+        images: [],
+        type: '',
+        name: '',
+        uri: '',
+        followers: {
+          total: 0,
+          href: null,
+        },
+      },
       tracks: null,
       albums: {
         limit: 25,
         offset: 0,
         total: 1,
-        items: [],
+        items: [] as Array<AlbumItem>,
       },
       isMore: false,
     })
 
     const initData = () => {
-      data.artist = null
+      data.artist = {
+        images: [],
+        type: '',
+        name: '',
+        uri: '',
+        followers: {
+          total: 0,
+          href: null,
+        },
+      }
       data.tracks = null
       data.albums = {
         limit: 25,
         offset: 0,
         total: 1,
-        items: [] as Array<ArtistItem>,
+        items: [] as Array<AlbumItem>,
       }
     }
 
@@ -140,9 +174,9 @@ export default defineComponent({
       getArtistTopTracks(artistID)
     }
 
-    watch(() => route.params, (newVal) => {
-      if (newVal.id) init()
-    })
+    // watch(() => route.params, (newVal) => {
+    //   if (newVal.id) init()
+    // })
 
     onMounted(() => {
       init()
