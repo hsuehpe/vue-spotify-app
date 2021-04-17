@@ -13,10 +13,10 @@
         >
 
         <div class="cell index">
-          <span>{{ index + 1 }}</span>
+          <span class="index-text">{{ index + 1 }}</span>
           <track-playback
             :track-uri="item.uri"
-            :tracks-uri="tracksUris"
+            :tracks-uris="tracksUris"
             :context-uri="contextUri"
             :offset="index"
           />
@@ -71,6 +71,30 @@ import TrackPlayback from '/~/components/TrackPlayback.vue'
 import libraryApi from '/~/api/spotify/library'
 import { msToMinutes } from '/~/logics/time-format'
 
+interface Image {
+  url: string
+}
+
+interface Album {
+  images: Array<Image>
+  name: string
+}
+
+interface Artist {
+  id: string
+  name: string
+}
+
+interface Track {
+  name: string
+  id: string
+  album: Album
+  artists: Array<Artist>
+  uri: string
+  explicit: string
+  duration_ms: number
+}
+
 export default defineComponent({
   components: {
     TrackAddition,
@@ -78,7 +102,7 @@ export default defineComponent({
   },
   props: {
     tracks: {
-      type: Array,
+      type: Array as () => Array<Track>,
       required: true,
     },
     showArtists: {
@@ -94,11 +118,11 @@ export default defineComponent({
     const store = useStore()
     const getters = store.getters
     const playbackContext = computed(() => getters['PlayerModule/getPlaybackContext'])
-    const playback = computed(() => getters['PlayModule/getPlayback'])
+    const playback = computed(() => getters['PlayerModule/getPlayback'])
     const tracksUris = computed(() => props.tracks ? props.tracks.map(el => el.uri) : [])
 
     const data = reactive({
-      tracksIds: '',
+      tracksIds: [] as string[],
       savedTracks: [],
     })
 
@@ -112,12 +136,12 @@ export default defineComponent({
           offset: 0,
           limit: 50,
           total: props.tracks.length || 0,
-          items: [],
+          items: [] as any,
         }
 
-        while (saved.total > saved.offest) {
+        while (saved.total > saved.offset) {
           const res = await libraryApi.checkUserSavedTracks(
-            props.tracksIds
+            data.tracksIds
               .slice(saved.offset, saved.offset + saved.limit)
               .toString(),
           )
@@ -132,7 +156,7 @@ export default defineComponent({
       }
     }
 
-    const isActiveTrack = (current) => {
+    const isActiveTrack = (current: { id: any }) => {
       const isActiveTrack = playback.value.item && playback.value.item.id === current.id
 
       return {
@@ -162,7 +186,7 @@ export default defineComponent({
 })
 </script>
 <style lang="postcss" scoped>
-  .track-list {
+  .tracks-list {
     @apply px-4 py-0;
 
     .track-playback {
@@ -189,7 +213,7 @@ export default defineComponent({
           @apply block;
         }
 
-        .index {
+        .index-text {
           @apply hidden;
         }
 
@@ -223,7 +247,7 @@ export default defineComponent({
         @apply w-full;
       }
 
-      .img {
+      & > .img {
         @apply w-10 h-10;
       }
     }
