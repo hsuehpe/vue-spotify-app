@@ -64,7 +64,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, reactive, onUpdated } from 'vue'
+import { defineComponent, computed, reactive, watch } from 'vue'
 import { useStore } from 'vuex'
 import TrackAddition from '/~/components/TrackAddition.vue'
 import TrackPlayback from '/~/components/TrackPlayback.vue'
@@ -170,7 +170,7 @@ export default defineComponent({
       checkSavedTracks()
     }
 
-    onUpdated(() => {
+    watch(() => props.tracks, () => {
       fetchTrackIds()
       checkSavedTracks()
     })
