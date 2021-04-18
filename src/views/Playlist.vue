@@ -1,5 +1,5 @@
 <template>
-  <div v-scroll class="playlist-view" @vScroll="loadMore">
+  <div class="playlist-view" @vScroll="loadMore">
     <div class="content">
       <entity-info
         v-if="playlist"
