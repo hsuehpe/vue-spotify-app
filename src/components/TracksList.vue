@@ -216,17 +216,15 @@ export default defineComponent({
         .index-text {
           @apply hidden;
         }
+      }
 
-        &.--active {
-          @apply bg-gray-300;
+      &.--active {
+        .index-text {
+          @apply hidden;
+        }
 
-          .index {
-            @apply hidden;
-          }
-
-          .track-playback {
-            @apply block;
-          }
+        .track-playback {
+          @apply block;
         }
       }
     }
