@@ -7,7 +7,6 @@
         :src="coverImg[0].url"
         alt="cover"
       >
-      <Icon class="cover-icon" icon="heroicons-solid:music-note" />
       <div
         class="cover-hover"
         title="Edit image"
@@ -181,17 +180,13 @@ export default defineComponent({
       box-shadow: 2px 2px 10px 3px rgba(0, 0, 0, .4);
     }
 
-    .cover-icon {
-      @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2/5 h-2/5;
-    }
-
     .cover-hover {
       @apply hidden absolute top-0 z-10 w-full h-full cursor-pointer;
       background: rgba(0, 0, 0, 0.7);
     }
 
     .info {
-      @apply flex flex-col justify-end w-3/5 py-4;
+      @apply flex flex-col justify-end w-3/5 p-4;
     }
 
     .type {
@@ -214,7 +209,6 @@ export default defineComponent({
     }
 
     .link, a {
-      @apply text-white;
       &:hover {
         @apply underline;
       }

@@ -5,12 +5,14 @@
       :key="index"
       :class="isActiveTrack(item)"
     >
-      <div v-if="item.album" class="cell">
-        <img
-          class="img"
-          :src="item.album.images[2].url"
-          :alt="item.album.name"
-        >
+      <div class="cell">
+        <div v-if="item.album">
+          <img
+            class="img"
+            :src="item.album.images[2].url"
+            :alt="item.album.name"
+          >
+        </div>
 
         <div class="cell index">
           <span class="index-text">{{ index + 1 }}</span>
@@ -64,7 +66,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, reactive, watch } from 'vue'
+import { defineComponent, computed, reactive, watch, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import TrackAddition from '/~/components/TrackAddition.vue'
 import TrackPlayback from '/~/components/TrackPlayback.vue'
@@ -175,6 +177,11 @@ export default defineComponent({
       checkSavedTracks()
     })
 
+    onMounted(() => {
+      fetchTrackIds()
+      checkSavedTracks()
+    })
+
     return {
       data,
       tracksUris,
@@ -199,6 +206,7 @@ export default defineComponent({
 
     .row {
       @apply relative flex text-sm leading-4 border-gray-300 border-b;
+      min-height: 40px;
 
       &:first-of-type {
         @apply border-t border-gray-300;
