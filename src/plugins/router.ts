@@ -35,6 +35,7 @@ export default (app: App) => {
       {
         path: '/album/:id',
         name: 'album',
+        component: () => import('/~/views/Album.vue'),
       },
       {
         path: '/browse',

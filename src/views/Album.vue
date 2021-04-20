@@ -53,7 +53,7 @@ export default defineComponent({
     const getAlbum = async(albumID: string|string[]) => {
       try {
         const res = await albumsApi.getAlbum(albumID)
-        data.albumID = res.data
+        data.album = res.data
       }
       catch (e) {
         store.dispatch(`AppModule/${AppActionTypes.SET_NOT_FOUND}`)
