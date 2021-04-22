@@ -38,9 +38,29 @@ export default (app: App) => {
         component: () => import('/~/views/Album.vue'),
       },
       {
+        path: '/genres/:id',
+        name: 'genres',
+        component: () => import('/~/views/Browse/Genres.vue'),
+      },
+      {
         path: '/browse',
         name: 'browse',
         component: () => import('/~/views/Browse/index.vue'),
+        redirect: {
+          name: 'browse-genres',
+        },
+        children: [
+          {
+            name: 'browse-genres',
+            path: 'genres',
+            component: () => import('/~/views/Browse/Genres.vue'),
+          },
+          {
+            name: 'browse-new-releases',
+            path: 'new-releases',
+            component: () => import('/~/views/Browse/NewReleases.vue'),
+          },
+        ],
       },
       {
         path: '/user/:user_id/playlist/:playlist_id',
@@ -60,7 +80,6 @@ export default (app: App) => {
 
   router.beforeEach((to, from, next) => {
     NProgress.start()
-    console.log(store.getters)
     if (store.getters['AppModule/notFound'])
       store.dispatch(`AppModule/${appActionTypes.SET_NOT_FOUND}`, false)
 
