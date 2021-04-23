@@ -1,5 +1,5 @@
 <template>
-  <div class="playlist-view" @vScroll="loadMore">
+  <div v-scroll="loadMore" class="playlist-view">
     <div class="content">
       <entity-info
         v-if="playlist"
@@ -90,6 +90,7 @@ export default defineComponent({
       if (data.more) return false
 
       if (ev.detail.scrollbarV.percent > 70) {
+        console.log('load more !!!!')
         data.more = true
         getPlaylistTracks(data.playlistID)
       }

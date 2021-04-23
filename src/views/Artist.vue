@@ -1,5 +1,5 @@
 <template>
-  <div class="artist-view" @vScroll="loadMore">
+  <div v-scroll="loadMore" class="artist-view">
     <div class="content">
       <entity-info
         v-if="data.artist"

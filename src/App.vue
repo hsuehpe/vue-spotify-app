@@ -3,7 +3,7 @@
     <not-found v-if="notFound" />
     <div v-else>
       <nav-bar />
-      <router-view />
+      <router-view class="mt-10" />
     </div>
   </div>
 </template>

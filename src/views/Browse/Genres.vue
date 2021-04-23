@@ -56,3 +56,28 @@ export default defineComponent({
   },
 })
 </script>
+
+<style lang="postcss" scoped>
+.genres-view {
+  height: calc(100vh - 14rem);
+
+  .inner {
+    @apply pt-0 pr-4 pb-0 pl-2;
+  }
+
+  .category {
+    @apply relative inline-block w-1/2 p-2 align-top xl:w-1/6 lg:w-1/4 md:w-1/3;
+  }
+
+  .category-img {
+    @apply w-full
+  }
+
+  .category-name {
+    @apply absolute top-3/4 left-0 right-0 py-0 px-4 text-white text-base text-center;
+    &:hover {
+      @apply underline;
+    }
+  }
+}
+</style>

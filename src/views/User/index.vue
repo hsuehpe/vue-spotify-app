@@ -1,12 +1,14 @@
 <template>
-  <div class="flex flex-col items-center" @vScroll="loadMore">
-    <img v-if="!!(state.user.images && state.user.images[0])" :src="state.user.images[0].url" class="relative rounded-full w-52 h-52 mt-8">
-    <div v-else class="relative rounded-full w-52 h-52 mt-8 text-9xl">
-      <Icon icon="carbon-user-avatar-filled" />
+  <div v-scroll="loadMore">
+    <div class="flex flex-col items-center">
+      <img v-if="!!(state.user.images && state.user.images[0])" :src="state.user.images[0].url" class="relative rounded-full w-52 h-52 mt-8">
+      <div v-else class="relative rounded-full w-52 h-52 mt-8 text-9xl">
+        <Icon icon="carbon-user-avatar-filled" />
+      </div>
+      <h1 class="text-3xl">
+        {{ state.user.display_name }}
+      </h1>
     </div>
-    <h1 class="text-3xl">
-      {{ state.user.display_name }}
-    </h1>
     <div class="flex flex-wrap py-4 bg-black">
       <media-object
         v-for="item in playlistItems"
