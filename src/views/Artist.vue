@@ -1,30 +1,34 @@
 <template>
-  <div class="artist-view" @vScroll="loadMore">
-    <div class="content">
-      <entity-info
-        v-if="data.artist"
-        :cover-img="data.artist.images"
-        :type="data.artist.type"
-        :name="data.artist.name"
-        :uri="data.artist.uri"
-        :followers="data.artist.followers.total"
-      />
-      <entity-header title="Popular" :small="true" />
-      <tracks-list :tracks="data.tracks" />
-      <div v-if="data.albums.items.length > 0" class="flex flex-wrap py-4 bg-black">
-        <media-object
-          v-for="(item, index) in data.albums.items"
-          :id="item.id"
-          :key="index"
-          :uri="item.uri"
-          :cover-img="item.images"
-          :name="item.name"
-          :artists="item.artists"
-          :type="item.type"
+  <infinite-loader
+    :more="loadMore"
+  >
+    <div class="artist-view">
+      <div class="content">
+        <entity-info
+          v-if="data.artist"
+          :cover-img="data.artist.images"
+          :type="data.artist.type"
+          :name="data.artist.name"
+          :uri="data.artist.uri"
+          :followers="data.artist.followers.total"
         />
+        <entity-header title="Popular" :small="true" />
+        <tracks-list :tracks="data.tracks" />
+        <div v-if="data.albums.items.length > 0" class="flex flex-wrap py-4 bg-black">
+          <media-object
+            v-for="(item, index) in data.albums.items"
+            :id="item.id"
+            :key="index"
+            :uri="item.uri"
+            :cover-img="item.images"
+            :name="item.name"
+            :artists="item.artists"
+            :type="item.type"
+          />
+        </div>
       </div>
     </div>
-  </div>
+  </infinite-loader>
 </template>
 
 <script lang="ts">
@@ -35,6 +39,7 @@ import EntityInfo from '/~/components/EntityInfo/index.vue'
 import EntityHeader from '/~/components/EntityHeader.vue'
 import TracksList from '/~/components/TracksList.vue'
 import MediaObject from '/~/components/MediaObject.vue'
+import InfiniteLoader from '/~/components/InfiniteLoader.vue'
 import artistsApi from '/~/api/spotify/artists'
 import { ActionTypes as AppActionTypes } from '/~/store/app/actions'
 
@@ -68,6 +73,7 @@ export default defineComponent({
     EntityHeader,
     TracksList,
     MediaObject,
+    InfiniteLoader,
   },
   setup() {
     const store = useStore()
@@ -159,10 +165,8 @@ export default defineComponent({
 
     const loadMore = async(ev: { detail: { scrollbarV: { percent: number } } }) => {
       if (data.isMore) return false
-      if (ev.detail.scrollbarV.percent > 70) {
-        data.isMore = true
-        getArtistAlbums(data.artistID)
-      }
+      data.isMore = true
+      getArtistAlbums(data.artistID)
     }
 
     const init = () => {
@@ -170,13 +174,8 @@ export default defineComponent({
       data.artistID = artistID
       initData()
       getArtist(artistID)
-      getArtistAlbums(artistID)
       getArtistTopTracks(artistID)
     }
-
-    // watch(() => route.params, (newVal) => {
-    //   if (newVal.id) init()
-    // })
 
     onMounted(() => {
       init()

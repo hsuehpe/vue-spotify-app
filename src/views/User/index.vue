@@ -1,24 +1,30 @@
 <template>
-  <div class="flex flex-col items-center" @vScroll="loadMore">
-    <img v-if="!!(state.user.images && state.user.images[0])" :src="state.user.images[0].url" class="relative rounded-full w-52 h-52 mt-8">
-    <div v-else class="relative rounded-full w-52 h-52 mt-8 text-9xl">
-      <Icon icon="carbon-user-avatar-filled" />
+  <infinite-loader
+    :more="loadMore"
+  >
+    <div>
+      <div class="flex flex-col items-center">
+        <img v-if="!!(state.user.images && state.user.images[0])" :src="state.user.images[0].url" class="relative rounded-full w-52 h-52 mt-8">
+        <div v-else class="relative rounded-full w-52 h-52 mt-8 text-9xl">
+          <Icon icon="carbon-user-avatar-filled" />
+        </div>
+        <h1 class="text-3xl">
+          {{ state.user.display_name }}
+        </h1>
+      </div>
+      <div class="flex flex-wrap py-4 bg-black">
+        <media-object
+          v-for="item in playlistItems"
+          :id="item.id"
+          :key="item.id"
+          :uri="item.uri"
+          :cover-img="item.images"
+          :name="item.name"
+          :type="item.type"
+        />
+      </div>
     </div>
-    <h1 class="text-3xl">
-      {{ state.user.display_name }}
-    </h1>
-    <div class="flex flex-wrap py-4 bg-black">
-      <media-object
-        v-for="item in playlistItems"
-        :id="item.id"
-        :key="item.id"
-        :uri="item.uri"
-        :cover-img="item.images"
-        :name="item.name"
-        :type="item.type"
-      />
-    </div>
-  </div>
+  </infinite-loader>
 </template>
 
 <script lang="ts">
@@ -29,6 +35,7 @@ import usersApi from '/~/api/spotify/users'
 import playlistsApi from '/~/api/spotify/playlists'
 import { ActionTypes as AppActionTypes } from '/~/store/app/actions'
 import MediaObject from '/~/components/MediaObject.vue'
+import InfiniteLoader from '/~/components/InfiniteLoader.vue'
 
 interface User {
   images: Array<object>
@@ -97,15 +104,12 @@ export default defineComponent({
 
     const loadMore = (ev: { detail: { scrollbarV: { percent: number } } }) => {
       if (state.isMore) return false
-
-      if (ev.detail.scrollbarV.percent > 70) {
-        state.isMore = true
-        getUserPlaylists(state.userID)
-      }
+      console.log('load more !!')
+      state.isMore = true
+      getUserPlaylists(userID)
     }
 
     getUser(userID)
-    getUserPlaylists(userID)
 
     return {
       state,
