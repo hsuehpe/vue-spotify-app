@@ -1,21 +1,25 @@
 <template>
-  <div v-scroll="loadMore" class="new-releases-view">
-    <entity-header title="New albums & singles" small="true" />
-    <div class="inner">
-      <div v-if="data.albums.items.length > 0" class="flex flex-wrap py-4">
-        <media-object
-          v-for="(item, index) in data.albums.items"
-          :id="item.id"
-          :key="index"
-          :uri="item.uri"
-          :cover-img="item.images"
-          :name="item.name"
-          :artists="item.artists"
-          :type="item.type"
-        />
+  <infinite-loader
+    :more="loadMore"
+  >
+    <div class="new-releases-view">
+      <entity-header title="New albums & singles" small="true" />
+      <div class="inner">
+        <div v-if="data.albums.items.length > 0" class="flex flex-wrap py-4">
+          <media-object
+            v-for="(item, index) in data.albums.items"
+            :id="item.id"
+            :key="index"
+            :uri="item.uri"
+            :cover-img="item.images"
+            :name="item.name"
+            :artists="item.artists"
+            :type="item.type"
+          />
+        </div>
       </div>
     </div>
-  </div>
+  </infinite-loader>
 </template>
 
 <script lang="ts">
@@ -23,8 +27,12 @@ import { defineComponent, onMounted, reactive } from 'vue'
 import browseApi from '/~/api/spotify/browse'
 import MediaObject from '/~/components/MediaObject.vue'
 import EntityHeader from '/~/components/EntityHeader.vue'
+import InfiniteLoader from '/~/components/InfiniteLoader.vue'
 
 export default defineComponent({
+  components: {
+    InfiniteLoader,
+  },
   setup() {
     const data = reactive({
       albums: {
@@ -57,16 +65,9 @@ export default defineComponent({
 
     const loadMore = (ev: { detail: { scrollbarV: { percent: number } } }) => {
       if (data.more) return false
-
-      if (ev.detail.scrollbarV.percent > 70) {
-        data.more = true
-        getNewReleases()
-      }
-    }
-
-    onMounted(() => {
+      data.more = true
       getNewReleases()
-    })
+    }
 
     return {
       data,

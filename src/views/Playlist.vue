@@ -1,20 +1,24 @@
 <template>
-  <div v-scroll="loadMore" class="playlist-view">
-    <div class="content">
-      <entity-info
-        v-if="playlist"
-        :cover-img="playlist.images"
-        :type="playlist.type"
-        :name="playlist.name"
-        :description="playlist.description"
-        :followers="playlist.followers.total"
-        :uri="playlist.uri"
-        :playlist-id="data.playlistID"
-        :owner-id="playlist.owner.id"
-      />
-      <tracks-table v-if="data.tracks && data.tracks.items.length > 0" :tracks="data.tracks.items" :context-uri="playlist.uri" />
+  <infinite-loader
+    :more="loadMore"
+  >
+    <div class="playlist-view">
+      <div class="content">
+        <entity-info
+          v-if="playlist"
+          :cover-img="playlist.images"
+          :type="playlist.type"
+          :name="playlist.name"
+          :description="playlist.description"
+          :followers="playlist.followers.total"
+          :uri="playlist.uri"
+          :playlist-id="data.playlistID"
+          :owner-id="playlist.owner.id"
+        />
+        <tracks-table v-if="data.tracks && data.tracks.items.length > 0" :tracks="data.tracks.items" :context-uri="playlist.uri" />
+      </div>
     </div>
-  </div>
+  </infinite-loader>
 </template>
 
 <script lang="ts">
@@ -26,6 +30,7 @@ import { ActionTypes as AppActionTypes } from '/~/store/app/actions'
 import { ActionTypes as PlaylistActionTypes } from '/~/store/playlist/actions'
 import EntityInfo from '/~/components/EntityInfo/index.vue'
 import TracksTable from '/~/components/TracksTable.vue'
+import InfiniteLoader from '/~/components/InfiniteLoader.vue'
 
 interface Tracks {
   total: number
@@ -38,6 +43,7 @@ export default defineComponent({
   components: {
     EntityInfo,
     TracksTable,
+    InfiniteLoader,
   },
   setup(prop) {
     const store = useStore()
@@ -86,21 +92,16 @@ export default defineComponent({
       }
     }
 
-    const loadMore = (ev: { detail: { scrollbarV: { percent: number } } }) => {
+    const loadMore = () => {
       if (data.more) return false
-
-      if (ev.detail.scrollbarV.percent > 70) {
-        console.log('load more !!!!')
-        data.more = true
-        getPlaylistTracks(data.playlistID)
-      }
+      data.more = true
+      getPlaylistTracks(data.playlistID)
     }
 
     const init = () => {
       const { playlist_id: playlistID } = route.params
       data.playlistID = playlistID || ''
       initData()
-      getPlaylistTracks(playlistID)
       store.dispatch(`PlaylistModule/${PlaylistActionTypes.FETCH_PLAYLIST}`, playlistID)
     }
 

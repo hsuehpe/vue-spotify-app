@@ -1,5 +1,5 @@
 <template>
-  <nav class="h-10 w-full z-50 flex bg-white dark:bg-black fixed top-0">
+  <nav class="h-10 w-full flex bg-white dark:bg-black">
     <nav-bar-history />
     <nav-bar-search />
     <nav-bar-nav />

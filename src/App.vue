@@ -1,9 +1,9 @@
 <template>
-  <div class="text-gray-700 dark:text-gray-200">
+  <div class="view-port text-gray-700 dark:text-gray-200 w-full h-full">
     <not-found v-if="notFound" />
     <div v-else>
       <nav-bar />
-      <router-view class="mt-10" />
+      <router-view />
     </div>
   </div>
 </template>
@@ -42,6 +42,12 @@ export default defineComponent({
 </script>
 
 <style>
+
+.view-port > div {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
 
 * {
   box-sizing: border-box;
