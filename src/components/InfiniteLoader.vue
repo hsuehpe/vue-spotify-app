@@ -5,7 +5,7 @@
       v-if="data.loading"
       name="loader"
     >
-      <Icon icon="mdi-light:loading" class="loading" />
+      <icon icon="mdi-light:loading" class="loading" />
     </slot>
     <div
       ref="trigger"
@@ -15,9 +15,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
+import { defineComponent, onMounted, onUnmounted, reactive, ref } from 'vue'
+import Icon from '/~/components/Icon.vue'
 
 export default defineComponent({
+  components: {
+    Icon,
+  },
   props: {
     triggerDistance: {
       type: Number,

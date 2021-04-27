@@ -7,7 +7,19 @@
       aria-label="Search"
     >
     <button class="absolute -right-2 top-0 bottom-0 h-4 my-auto mx-0 outline-none pointer-events-none">
-      <Icon icon="carbon:search" />
+      <icon icon="carbon:search" />
     </button>
   </form>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue'
+import Icon from '/~/components/Icon.vue'
+
+export default defineComponent({
+  components: {
+    Icon
+  }
+})
+</script>
+

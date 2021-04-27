@@ -1,17 +1,21 @@
 <template>
   <div :class="elClass">
-    <Icon class="btn play" icon="el-play-alt" @click.prevent="play" />
-    <Icon class="btn sound-on" icon="akar-icons:sound-on" />
-    <Icon class="btn pause" icon="el-pause-alt" @click.prevent="pause" />
+    <icon class="btn play" icon="el-play-alt" @click.prevent="play" />
+    <icon class="btn sound-on" icon="akar-icons:sound-on" />
+    <icon class="btn pause" icon="el-pause-alt" @click.prevent="pause" />
   </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
+import Icon from '/~/components/Icon.vue'
 import { useStore } from 'vuex'
 import playerApi from '/~/api/spotify/player'
 
 export default defineComponent({
+  components: {
+    Icon,
+  },
   props: {
     trackUri: {
       type: String,

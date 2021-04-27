@@ -5,7 +5,7 @@
       title="Save to your library"
       @click="saveTrack"
     >
-      <Icon icon="ant-design:plus-outlined" />
+      <icon icon="ant-design:plus-outlined" />
     </button>
     <button
       v-else
@@ -13,19 +13,23 @@
       title="Remove from your library"
       @click="removeTrack"
     >
-      <Icon class="icon-saved" icon="ant-design:check-outlined" />
-      <Icon class="icon-remove" icon="clarity-times-line" />
+      <icon class="icon-saved" icon="ant-design:check-outlined" />
+      <icon class="icon-remove" icon="clarity-times-line" />
     </button>
   </div>
 </template>
 
 <script lang="ts">
 import { computed, watch, defineComponent } from 'vue'
+import Icon from '/~/components/Icon.vue'
 import { useStore } from 'vuex'
 import { ActionTypes as LibraryActionTypes } from '/~/store/library/actions'
 import libraryApi from '/~/api/spotify/library'
 
 export default defineComponent({
+  components: {
+    Icon,
+  },
   props: {
     trackId: {
       type: String,

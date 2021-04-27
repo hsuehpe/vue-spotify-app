@@ -6,7 +6,7 @@
       <div class="flex flex-col items-center">
         <img v-if="!!(state.user.images && state.user.images[0])" :src="state.user.images[0].url" class="relative rounded-full w-52 h-52 mt-8">
         <div v-else class="relative rounded-full w-52 h-52 mt-8 text-9xl">
-          <Icon icon="carbon-user-avatar-filled" />
+          <icon icon="carbon-user-avatar-filled" />
         </div>
         <h1 class="text-3xl">
           {{ state.user.display_name }}
@@ -36,6 +36,7 @@ import playlistsApi from '/~/api/spotify/playlists'
 import { ActionTypes as AppActionTypes } from '/~/store/app/actions'
 import MediaObject from '/~/components/MediaObject.vue'
 import InfiniteLoader from '/~/components/InfiniteLoader.vue'
+import Icon from '/~/components/Icon.vue'
 
 interface User {
   images: Array<object>
@@ -52,6 +53,8 @@ interface PlaylistItem {
 
 export default defineComponent({
   components: {
+    Icon,
+    InfiniteLoader,
     MediaObject,
   },
   setup() {

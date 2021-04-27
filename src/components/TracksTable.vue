@@ -13,10 +13,10 @@
         Album
       </div>
       <div class="cell added-at">
-        <Icon icon="bx-bxs-calendar " />
+        <icon icon="bx-bxs-calendar " />
       </div>
       <div class="cell duration">
-        <Icon icon="ant-design:clock-circle-filled" />
+        <icon icon="ant-design:clock-circle-filled" />
       </div>
     </div>
     <div
@@ -94,6 +94,7 @@ import { msToMinutes } from '/~/logics/time-format'
 import { useStore } from 'vuex'
 import TrackAddition from './TrackAddition.vue'
 import TrackPlayback from './TrackPlayback.vue'
+import Icon from '/~/components/Icon.vue'
 import libraryApi from '/~/api/spotify/library'
 import { isDark } from '/~/logics'
 
@@ -130,6 +131,7 @@ interface Tracks {
 
 export default defineComponent({
   components: {
+    Icon,
     TrackPlayback,
     TrackAddition,
   },
