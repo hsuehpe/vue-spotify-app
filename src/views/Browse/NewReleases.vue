@@ -31,6 +31,7 @@ import InfiniteLoader from '/~/components/InfiniteLoader.vue'
 
 export default defineComponent({
   components: {
+    MediaObject,
     InfiniteLoader,
   },
   setup() {
@@ -63,7 +64,7 @@ export default defineComponent({
       }
     }
 
-    const loadMore = (ev: { detail: { scrollbarV: { percent: number } } }) => {
+    const loadMore = (ev: { detail: { scrollbarV: { percent: number } } }) => {console.log('load more')
       if (data.more) return false
       data.more = true
       getNewReleases()

@@ -5,7 +5,7 @@
         {{ user.display_name }}
       </router-link>
       <button class="cursor-pointer text-base" @click="onClick">
-        <Icon icon="ic-outline-expand-more" />
+        <icon icon="ic-outline-expand-more" />
       </button>
       <transition name="fade mt-8">
         <ul v-show="isVisible" class="text-sm absolute top-8">
@@ -27,9 +27,13 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { useStore } from 'vuex'
+import Icon from '/~/components/Icon.vue'
 import { ActionTypes as AuthActionTypes } from '/~/store/auth/actions'
 
 export default defineComponent({
+  components: {
+    Icon,
+  },
   setup() {
     const isVisible = ref(false)
     const root = ref(null)

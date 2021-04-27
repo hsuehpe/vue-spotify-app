@@ -9,9 +9,9 @@
       >
       <div v-else class="cover-inner" />
       <div class="cover-hover">
-        <Icon class="play" icon="el-play-alt" @click.prevent="onPlay" />
-        <Icon class="sound-on" icon="akar-icons:sound-on" />
-        <Icon class="pause" icon="el-pause-alt" @click.prevent="onPause" />
+        <icon class="play" icon="el-play-alt" @click.prevent="onPlay" />
+        <icon class="sound-on" icon="akar-icons:sound-on" />
+        <icon class="pause" icon="el-pause-alt" @click.prevent="onPause" />
       </div>
     </router-link>
     <div class="info">
@@ -41,6 +41,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
+import Icon from '/~/components/Icon.vue'
 import { useStore } from 'vuex'
 import playerApi from '/~/api/spotify/player'
 
@@ -54,6 +55,9 @@ interface Artist {
 }
 
 export default defineComponent({
+  components: {
+    Icon,
+  },
   props: {
     id: {
       type: String,

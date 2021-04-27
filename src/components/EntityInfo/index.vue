@@ -12,7 +12,7 @@
         title="Edit image"
         @click="onCoverClick"
       >
-        <Icon class="cover-icon" icon="fa-solid:edit" />
+        <icon class="cover-icon" icon="fa-solid:edit" />
       </div>
     </div>
 
@@ -73,6 +73,7 @@ import { computed, defineComponent, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import PlaylistUpdateModal from '@/components/PlaylistUpdateModal.vue'
 import EntityAction from './EntityAction.vue'
+import Icon from '/~/components/Icon.vue'
 
 interface CoverImg {
   url: string
@@ -85,6 +86,7 @@ interface Artist {
 
 export default defineComponent({
   components: {
+    Icon,
     EntityAction,
   },
   props: {
