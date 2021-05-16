@@ -111,7 +111,7 @@ export default {
    * @param {number} positionMs - The position in milliseconds to seek to. Must be a positive number. Passing in a position that is greater than the length of the track will cause the player to start playing the next song.
    * @param {string} [deviceID] - The id of the device this command is targeting. If not supplied, the user’s currently active device is the target.
    */
-  seekToPosition(position_ms: number, device_id: string) {
+  seekToPosition(position_ms: number, device_id?: string) {
     return request({
       method: 'put',
       url: '/me/player/seek',

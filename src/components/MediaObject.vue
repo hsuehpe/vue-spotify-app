@@ -91,7 +91,7 @@ export default defineComponent({
     const mediaPlaying = computed(() => playbackContext.value && !playbackContext.value.paused && playbackContext.value.context.uri && playbackContext.value.context.uri.includes(props.id))
     const mediaActive = computed(() => playbackContext.value && playbackContext.value.context.uri && playbackContext.value.context.uri.includes(props.id))
     const mediaEmpty = computed(() => !props.coverImg[0])
-    const elClass = computed(() => ['media-object', { playing: mediaPlaying.value, active: mediaActive.value, 'no-image': mediaEmpty.value }])
+    const elClass = computed(() => ['media-object', { 'playing': mediaPlaying.value, 'active': mediaActive.value, 'no-image': mediaEmpty.value }])
     const user = getters['UserModule/getProfile']
 
     const createUrl = () => {
@@ -209,7 +209,7 @@ export default defineComponent({
   }
 
   & .name {
-    @apply text-white cursor-pointer;
+    @apply cursor-pointer;
 
     &:hover {
       @apply underline;
@@ -217,9 +217,9 @@ export default defineComponent({
   }
 
   & .artist {
-    @apply text-gray-500 no-underline;
+    @apply no-underline;
     &:hover {
-      @apply text-white underline;
+      @apply underline;
     }
   }
 
