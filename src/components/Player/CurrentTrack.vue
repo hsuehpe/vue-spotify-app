@@ -1,10 +1,10 @@
 <template>
   <div class="current-track">
     <div class="cover">
-      <router-link :to="createUrlForCover(playback.value.context)">
+      <router-link :to="createUrlForCover(playback.context)">
         <img
           class="img"
-          :src="playback.value.item.album.images[2].url"
+          :src="playback.item.album.images[2].url"
         />
       </router-link>
     </div>
@@ -12,9 +12,9 @@
     <div class="info">
       <router-link
         class="name"
-        :to="{ name: 'album', params: { id: playback.value.item.album.id } }"
+        :to="{ name: 'album', params: { id: playback.item.album.id } }"
       >
-        {{ playback.value.item.name }}
+        {{ playback.item.name }}
       </router-link>
       <track-addition
         :track-id="data.currentTrackID"
@@ -24,13 +24,13 @@
 
       <div class="artists">
         <router-link
-          v-for="(artist, index) in playback.value.item.artists"
+          v-for="(artist, index) in playback.item.artists"
           :key="index"
           class="link"
           :to="{ name: 'artist', params: { id: artist.id }}"
         >
           {{ artist.name }}
-          <template v-if="index !== playback.value.item.artists.length - 1">
+          <template v-if="index !== playback.item.artists.length - 1">
             ,&nbsp;
           </template>
         </router-link>
@@ -109,11 +109,13 @@ export default defineComponent({
     })
 
     onMounted(() => {
+      console.log(playback.value.context)
       data.currentTrackID = playback.value.item.id
       checkSavedTrack(data.currentTrackID)
     })
 
     return {
+      data,
       createUrlForCover,
       playback,
     }
