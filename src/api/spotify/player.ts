@@ -65,8 +65,8 @@ export default {
       method: 'put',
       url: '/me/player/volume',
       params: {
-        volumePercent,
-        deviceID,
+        volume_percent: volumePercent,
+        device_id: deviceID,
       },
     })
   },

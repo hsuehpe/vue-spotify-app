@@ -1,6 +1,6 @@
 <template>
   <div ref="root" :class="elClass">
-    <icon class=".btn" icon="fluent-phone-desktop-20-filled" @click="onClick" />
+    <icon class="btn" icon="fluent-phone-desktop-20-filled" @click="onClick" />
     <div
       v-if="data.isVisible"
       class="container"
@@ -9,7 +9,7 @@
         Connect to a device
       </h3>
       <div class="content">
-        <img class="header" :src="require('/~/assets/img/connect-header.png')" alt="connect-header">
+        <!-- <img class="header" :src="require('/~/assets/img/connect-header.png')" alt="connect-header"> -->
         <ul class="list">
           <li
             v-for="(device, index) in data.devices"
@@ -132,18 +132,25 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .device-picker {
-  @apply relative;
+  @apply relative text-left;
+
+  .btn {
+    @apply text-white text-2xl;
+    &:hover {
+      @apply text-gray-300;
+    }
+  }
 
   &.--opened {
     color: #1db954;
   }
 
   .container {
-    @apply absolute bottom-11 -right-24 z-10 pt-2 w-60;
+    @apply absolute bottom-24 -right-24 z-10 pt-2 w-60 bg-black;
   }
 
   .content {
-    @apply h-64;
+    @apply h-6;
   }
 
   .title {

@@ -43,7 +43,7 @@ export default defineComponent({
     const data = reactive({
       progress: 0,
       draggingValue: 0,
-      progressInterval: 0,
+      progressInterval: null as any,
       isDragStart: false,
       songDuration: 0,
     })

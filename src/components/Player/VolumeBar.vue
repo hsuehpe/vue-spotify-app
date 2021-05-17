@@ -1,17 +1,20 @@
 <template>
   <div class="volume-bar">
-    <icon class="btn" :icon="volumeIcon" @click="onButtonClick" />
-    <vue-slider
-      v-model="data.volume"
-      class="slider"
-      :tooltip="false"
-      :dot-size="15"
-      :process-style="{ background: '#1db954' }"
-      :bg-style="{ background: '#737575', width: '80px' }"
-      @drag-start="onDragStart"
-      @callback="onSliderChange"
-      @drag-end="onDragEnd"
-    ></vue-slider>
+    <icon class="btn" :icon="volumeIcon()" @click="onButtonClick" />
+    <div class="slider-wrapper">
+      <vue-slider
+        v-model="data.volume"
+        :tooltip="false"
+        :dot-size="15"
+        :dot-style="{ background: '#fff' }"
+        :process-style="{ background: '#1db954' }"
+        :bg-style="{ background: '#737575', width: '80px' }"
+        @drag-start="onDragStart"
+        @dragging="onDragging"
+        @change="onSliderChange"
+        @drag-end="onDragEnd"
+      ></vue-slider>
+    </div>
   </div>
 </template>
 
@@ -34,6 +37,7 @@ export default defineComponent({
     const data = reactive({
       volume: 0,
       tmpVolume: 0,
+      draggingValue: 0,
       dragStartVolume: 0,
     })
 
@@ -56,17 +60,23 @@ export default defineComponent({
       else {
         data.volume = data.tmpVolume
       }
+
+      setVolume(data.volume)
     }
 
-    const onDragStart = ({ currentValue }: { currentValue: number }) => {
+    const onDragStart = (currentValue: number) => {
       data.dragStartVolume = currentValue
     }
 
-    const onDragEnd = ({ currentValue }: { currentValue: number }) => {
-      setVolume(currentValue)
+    const onDragging = (currentValue: number) => {
+      data.draggingValue = currentValue
     }
 
-    const onSliderChange = ({ currentValue }: { currentValue: number }) => {
+    const onDragEnd = () => {
+      setVolume(data.draggingValue)
+    }
+
+    const onSliderChange = (currentValue: number) => {
       const diff = Math.abs(data.dragStartVolume - currentValue)
 
       if (diff >= 10) {
@@ -88,6 +98,8 @@ export default defineComponent({
       volumeIcon,
       onButtonClick,
       onDragStart,
+      onDragging,
+      onSliderChange,
       onDragEnd,
     }
   },
@@ -97,9 +109,12 @@ export default defineComponent({
 <style lang="postcss" scoped>
 .volume-bar {
   @apply flex;
+  .slider-wrapper {
+    @apply w-24;
+  }
 
   .btn {
-    @apply mr-1 cursor-pointer outline-none;
+    @apply mr-1 cursor-pointer outline-none text-white text-2xl;
 
     &:hover {
       @apply text-gray-300;
