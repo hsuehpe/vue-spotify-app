@@ -10,7 +10,6 @@
         :tooltip="false"
         :dot-size="15"
         :process-style="{ background: '#1db954' }"
-        :bg-style="{ background: '#737575' }"
         @drag-start="onDragStart"
         @dragging="onDragging"
         @change="onProcessChange"
