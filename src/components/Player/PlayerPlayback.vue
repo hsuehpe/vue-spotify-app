@@ -115,7 +115,7 @@ export default defineComponent({
   @apply flex w-full;
 
   .time {
-    min-width: 40px;
+    @apply text-white text-sm px-2;
   }
 
   .progress-bar {

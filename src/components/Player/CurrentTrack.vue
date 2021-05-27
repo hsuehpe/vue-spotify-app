@@ -152,7 +152,7 @@ export default defineComponent({
   }
 
   .artists {
-    @apply overflow-hidden whitespace-nowrap overflow-ellipsis py-1 px-0 text-xs;
+    @apply overflow-hidden whitespace-nowrap overflow-ellipsis py-1 px-0 text-xs text-gray-300;
   }
 
   .link {
