@@ -36,7 +36,7 @@ export default defineComponent({
   },
   setup() {
     const isVisible = ref(false)
-    const root = ref(null)
+    const root = ref()
 
     const store = useStore()
     const getters = store.getters
@@ -89,13 +89,14 @@ export default defineComponent({
       logout,
       user,
       isVisible,
+      root,
     }
   },
 })
 
 </script>
 
-<style>
+<style lang="postcss" scoped>
 .list-item {
   padding: 10px;
   cursor: pointer;

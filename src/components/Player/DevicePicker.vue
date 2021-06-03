@@ -9,45 +9,50 @@
         Connect to a device
       </h3>
       <div class="content">
-        <!-- <img class="header" :src="require('/~/assets/img/connect-header.png')" alt="connect-header"> -->
+        <img class="header" src="/~/assets/img/connect-header.png" alt="connect-header">
         <ul class="list">
           <li
             v-for="(device, index) in data.devices"
             :key="index"
             class="list-item"
             :class="{ '--active': device.is_active }"
+            @click="onDeviceConnect(device.id)"
           >
-            <button
-              @click="onDeviceConnect(device.id)"
-            >
-              <icon
-                v-if="device.type === 'Smartphone'"
-                class="device-icon"
-                icon="ic-baseline-smartphone"
-              />
-              <icon
-                v-if="device.type === 'Computer'"
-                class="device-icon"
-                icon="gridicons-computer"
-              />
+            <icon
+              v-if="device.type === 'Smartphone'"
+              class="device-icon"
+              icon="ic-baseline-smartphone"
+            />
+            <icon
+              v-if="device.type === 'Computer'"
+              class="device-icon"
+              icon="gridicons-computer"
+            />
 
-              <div class="info">
-                <span class="device-title">
-                  <template v-if="!device.is_active">
-                    {{ device.name }}
-                  </template>
-                  <template v-if="device.is_active">Listening On</template>
-                </span>
-                <span class="device-subtitle">
-                  <template v-if="device.is_active">
-                    {{ device.name }}
-                  </template>
-                  <template v-else>
-                    Spotify Connect
-                  </template>
-                </span>
-              </div>
-            </button>
+            <div class="info">
+              <span class="device-title">
+                <template v-if="!device.is_active">
+                  {{ device.name }}
+                </template>
+                <template v-if="device.is_active">
+                  Listening On
+                </template>
+              </span>
+              <span class="device-subtitle">
+                <template v-if="device.is_active">
+                  <div class="flex">
+                    <icon icon="bi-file-music-fill" />
+                    <span>{{ device.name }}</span>
+                  </div>
+                </template>
+                <template v-else>
+                  <div class="flex">
+                    <icon icon="bi-file-music-fill" />
+                    <span>Spotify Connect</span>
+                  </div>
+                </template>
+              </span>
+            </div>
           </li>
         </ul>
       </div>
@@ -65,7 +70,7 @@ export default defineComponent({
     Icon,
   },
   setup() {
-    const root = ref(null)
+    const root = ref()
     const data = reactive({
       devices: {},
       isVisible: false,
@@ -90,16 +95,17 @@ export default defineComponent({
 
     const onClick = () => {
       data.isVisible = !data.isVisible
-
       if (data.isVisible)
         setTimeout(() => document.addEventListener('click', clickOutEvent), 100)
+      else
+        close()
     }
 
     function clickOutEvent(e: {target: any }) {
       const el = root.value
       if (el) {
-        const dropdown = el.children[0]
-        if (e.target !== dropdown && dropdown.contains(e.target)) close()
+        const container = el.children[1]
+        if (container && e.target !== container) close()
       }
     }
 
@@ -125,6 +131,7 @@ export default defineComponent({
       onClick,
       data,
       onDeviceConnect,
+      root,
     }
   },
 })
@@ -142,15 +149,15 @@ export default defineComponent({
   }
 
   &.--opened {
-    color: #1db954;
+    @apply text-white;
   }
 
   .container {
-    @apply absolute bottom-24 -right-24 z-10 pt-2 w-60 bg-black;
+    @apply absolute bottom-8 -left-20 z-10 p-2 w-60 bg-gray-800 rounded;
   }
 
   .content {
-    @apply h-6;
+    @apply h-full;
   }
 
   .title {
@@ -162,14 +169,10 @@ export default defineComponent({
   }
 
   .list-item {
-    @apply flex items-center w-full py-2 px-1 text-left text-sm outline-none;
+    @apply flex items-center w-full py-2 px-1 text-left text-sm outline-none cursor-pointer;
 
-    &.--active {
-      @apply text-gray-300;
-
-      .subtitle {
-        @apply text-gray-300;
-      }
+    &.--active, &.--active .device-subtitle {
+      color: #1db954;
     }
   }
 
@@ -177,12 +180,12 @@ export default defineComponent({
     @apply flex flex-col;
   }
 
-  .subtitle {
+  .device-subtitle {
     @apply flex my-1 mx-0 text-xs text-gray-300;
   }
 
   .device-icon {
-    @apply w-8 h-8 mt-1 mr-4 mb-1 ml-1
+    @apply mt-1 mr-4 mb-1 ml-1 text-3xl;
   }
 }
 </style>
