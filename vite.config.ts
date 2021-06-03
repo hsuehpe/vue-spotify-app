@@ -5,12 +5,12 @@ import Markdown from 'vite-plugin-md'
 import { VitePWA } from 'vite-plugin-pwa'
 import vue from '@vitejs/plugin-vue'
 
-const alias = {
-  '/~': path.resolve(__dirname, 'src'),
-}
-
 export default defineConfig({
-  alias,
+  resolve: {
+    alias: {
+      '/~': path.resolve(__dirname, 'src'),
+    },
+  },
   plugins: [
     vue(),
     // https://github.com/antfu/vite-plugin-md
@@ -40,4 +40,3 @@ export default defineConfig({
     }),
   ],
 })
-

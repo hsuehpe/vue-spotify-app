@@ -12,7 +12,7 @@
           {{ state.user.display_name }}
         </h1>
       </div>
-      <div class="flex flex-wrap py-4 bg-black">
+      <div class="flex flex-wrap py-4">
         <media-object
           v-for="item in playlistItems"
           :id="item.id"

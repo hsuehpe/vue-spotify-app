@@ -64,7 +64,7 @@ export default defineComponent({
       }
     }
 
-    const loadMore = (ev: { detail: { scrollbarV: { percent: number } } }) => {console.log('load more')
+    const loadMore = (ev: { detail: { scrollbarV: { percent: number } } }) => {
       if (data.more) return false
       data.more = true
       getNewReleases()

@@ -40,7 +40,7 @@ export default (app: App) => {
       {
         path: '/genres/:id',
         name: 'genres',
-        component: () => import('/~/views/Browse/Genres.vue'),
+        component: () => import('/~/views/Genres.vue'),
       },
       {
         path: '/browse',

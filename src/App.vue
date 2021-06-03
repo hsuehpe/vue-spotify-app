@@ -4,6 +4,7 @@
     <div v-else>
       <nav-bar />
       <router-view />
+      <player />
     </div>
   </div>
 </template>
@@ -15,11 +16,13 @@ import { ActionTypes as PlayerActionTypes } from '/~/store/player/actions'
 import { useStore } from 'vuex'
 import NotFound from '/~/views/NotFound.vue'
 import NavBar from '/~/components/NavBar/index.vue'
+import Player from '/~/components/Player/index.vue'
 
 export default defineComponent({
   components: {
     NotFound,
     NavBar,
+    Player,
   },
   setup() {
     const store = useStore()

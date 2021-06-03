@@ -162,7 +162,7 @@ export default defineComponent({
       const isActiveTrack = playback.value.item && playback.value.item.id === current.id
 
       return {
-        row: true,
+        'row': true,
         '--active': isActiveTrack,
         '--paused': isActiveTrack && playbackContext.value && playbackContext.value.paused,
       }
