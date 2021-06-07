@@ -3,7 +3,10 @@
     <not-found v-if="notFound" />
     <div v-else>
       <nav-bar />
-      <router-view />
+      <div class="flex flex-grow" :style="{ height: 'calc(100% - 8rem)'}">
+        <sidebar />
+        <router-view class="w-full" />
+      </div>
       <player />
     </div>
   </div>
@@ -17,12 +20,14 @@ import { useStore } from 'vuex'
 import NotFound from '/~/views/NotFound.vue'
 import NavBar from '/~/components/NavBar/index.vue'
 import Player from '/~/components/Player/index.vue'
+import Sidebar from '/~/components/Sidebar/index.vue'
 
 export default defineComponent({
   components: {
     NotFound,
     NavBar,
     Player,
+    Sidebar,
   },
   setup() {
     const store = useStore()
