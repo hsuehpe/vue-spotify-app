@@ -79,11 +79,11 @@ export default {
   /**
    * Get User's Followed Artists
    * @param {string} type - The ID type: currently only artist is supported.
-   * @param {number} limit - The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.
-   * @param {string} after - The last artist ID retrieved from the previous request.
+   * @param {number} [limit=20] - The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.
+   * @param {string} [after] - The last artist ID retrieved from the previous request.
    * @returns {object} - artists
    */
-  getFollowedArtists(limit: number, after: string) {
+  getFollowedArtists(limit?: number, after?: string) {
     return request.get('me/following?type=artist', {
       params: {
         limit,
