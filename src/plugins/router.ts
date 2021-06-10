@@ -63,6 +63,21 @@ export default (app: App) => {
         ],
       },
       {
+        path: '/collection/tracks',
+        name: 'tracks-collection',
+        component: () => import('/~/views/Collection/Tracks.vue'),
+      },
+      {
+        path: '/collection/albums',
+        name: 'albums-collection',
+        component: () => import('/~/views/Collection/Albums.vue'),
+      },
+      {
+        path: '/collection/artists',
+        name: 'artists-collection',
+        component: () => import('/~/views/Collection/Artists.vue'),
+      },
+      {
         path: '/user/:user_id/playlist/:playlist_id',
         name: 'playlist',
         component: () => import('/~/views/Playlist.vue'),

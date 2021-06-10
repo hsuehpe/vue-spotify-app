@@ -3,8 +3,8 @@
     <infinite-loader
       :more="loadMore"
     >
-      <!-- <sidebar-nav :links="browse" />
-      <sidebar-nav title="Library" :links="library" /> -->
+      <sidebar-nav :links="browse" />
+      <sidebar-nav title="Library" :links="library" />
       <sidebar-nav title="Playlists" :links="playlists.items" />
     </infinite-loader>
   </div>

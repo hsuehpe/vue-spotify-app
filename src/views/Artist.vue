@@ -163,7 +163,7 @@ export default defineComponent({
       }
     }
 
-    const loadMore = async(ev: { detail: { scrollbarV: { percent: number } } }) => {
+    const loadMore = () => {
       if (data.isMore) return false
       data.isMore = true
       getArtistAlbums(data.artistID)
