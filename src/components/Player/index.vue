@@ -45,7 +45,7 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .player {
-  @apply fixed bottom-0 w-full h-24 z-20;
+  @apply bottom-0 w-full h-24 z-20;
   background-color: #242729;
 
   .inner {

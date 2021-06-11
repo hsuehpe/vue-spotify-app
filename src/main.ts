@@ -1,7 +1,6 @@
 import './main.postcss'
 import { createApp } from 'vue'
 import lazyPlugin from 'vue3-lazy'
-import debounce from 'lodash-es/debounce'
 import installPlugins from './plugins'
 import { store } from '/~/store'
 import 'vue-slider-component/theme/default.css'

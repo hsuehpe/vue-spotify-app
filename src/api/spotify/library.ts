@@ -25,7 +25,7 @@ export default {
    * @param {number} [offset=0] - The index of the first object to return. Default: 0 (i.e., the first object). Use with limit to get the next set of objects.
    * @param {string} [market] - An ISO 3166-1 alpha-2 country code or the string from_token. Provide this parameter if you want to apply Track Relinking.
    */
-  getAlbums(offset = 0, limit = 50, market: string) {
+  getAlbums(offset = 0, limit = 50, market?: string) {
     return request.get('me/albums', {
       params: {
         limit,
