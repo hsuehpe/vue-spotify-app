@@ -80,7 +80,7 @@ export default defineComponent({
     }
 
     watch(() => playback.value, () => {
-      data.songDuration = playback.value.item.duration_ms
+      data.songDuration = playbackContext.value.duration
     })
 
     watch(() => playbackContext.value, () => {
@@ -93,7 +93,7 @@ export default defineComponent({
 
     onMounted(() => {
       updateProgress()
-      data.songDuration = playback.value.item.duration_ms
+      data.songDuration = playbackContext.value.duration
     })
 
     return {

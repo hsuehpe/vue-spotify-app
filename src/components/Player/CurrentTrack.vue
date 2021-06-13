@@ -4,7 +4,7 @@
       <router-link :to="createUrlForCover(playback.context)">
         <img
           class="img"
-          :src="playback.item.album.images[2].url"
+          :src="currentTrack.album.images[2].url"
         />
       </router-link>
     </div>
@@ -12,9 +12,9 @@
     <div class="info">
       <router-link
         class="name"
-        :to="{ name: 'album', params: { id: playback.item.album.id } }"
+        :to="{ name: 'album', params: { id: currentTrack.album.id } }"
       >
-        {{ playback.item.name }}
+        {{ currentTrack.name }}
       </router-link>
       <track-addition
         :track-id="data.currentTrackID"
@@ -24,13 +24,13 @@
 
       <div class="artists">
         <router-link
-          v-for="(artist, index) in playback.item.artists"
+          v-for="(artist, index) in currentTrack.artists"
           :key="index"
           class="link"
-          :to="{ name: 'artist', params: { id: artist.id }}"
+          :to="{ name: 'artist', params: { id: artist.uri.split(':')[artist.uri.split(':').length - 1] }}"
         >
           {{ artist.name }}
-          <template v-if="index !== playback.item.artists.length - 1">
+          <template v-if="index !== currentTrack.artists.length - 1">
             ,&nbsp;
           </template>
         </router-link>
@@ -53,6 +53,10 @@ export default defineComponent({
     const store = useStore()
     const getters = store.getters
     const playback = computed(() => getters['PlayerModule/getPlayback'])
+    const playbackContext = computed(() => getters['PlayerModule/getPlaybackContext'])
+    const currentTrack = computed(() => playbackContext.value.track_window.current_track)
+
+    console.log(playback.value)
 
     const data = reactive({
       currentTrackID: '',
@@ -102,15 +106,14 @@ export default defineComponent({
     }
 
     watch(() => playback, () => {
-      if (data.currentTrackID !== playback.value.item.id)
-        data.currentTrackID = playback.value.item.id
+      if (data.currentTrackID !== currentTrack.value.id)
+        data.currentTrackID = currentTrack.value.id
 
       checkSavedTrack(data.currentTrackID)
     })
 
     onMounted(() => {
-      console.log(playback.value.context)
-      data.currentTrackID = playback.value.item.id
+      data.currentTrackID = currentTrack.value.id
       checkSavedTrack(data.currentTrackID)
     })
 
@@ -118,6 +121,8 @@ export default defineComponent({
       data,
       createUrlForCover,
       playback,
+      playbackContext,
+      currentTrack,
     }
   },
 })
