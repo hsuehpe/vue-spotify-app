@@ -4,7 +4,7 @@
     <div class="slider-wrapper">
       <vue-slider
         v-model="data.volume"
-        :tooltip="false"
+        tooltip="none"
         :dot-size="15"
         :process-style="{ background: '#1db954' }"
         @drag-start="onDragStart"

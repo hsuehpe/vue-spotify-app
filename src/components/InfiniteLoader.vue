@@ -46,7 +46,6 @@ export default defineComponent({
 
     onMounted(async() => {
       window.__observer = new IntersectionObserver(async(entries) => {
-        console.log(entries[0])
         if (entries[0].isIntersecting && !data.loading) {
           data.loading = true
           await props.more()
@@ -75,7 +74,7 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .infinite-loader {
-  @apply relative overflow-x-hidden overflow-y-scroll h-full pb-10;
+  @apply relative overflow-x-hidden overflow-y-scroll h-full;
 }
 
 .loading {

@@ -34,6 +34,7 @@ export default defineComponent({
     trackId: {
       type: String,
       required: true,
+      default: '',
     },
     isSaved: {
       type: Boolean,

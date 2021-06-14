@@ -7,7 +7,7 @@
       <vue-slider
         v-model="data.progress"
         :max="data.songDuration"
-        :tooltip="false"
+        tooltip="none"
         :dot-size="15"
         :process-style="{ background: '#1db954' }"
         @drag-start="onDragStart"

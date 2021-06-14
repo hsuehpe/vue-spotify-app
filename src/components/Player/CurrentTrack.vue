@@ -18,7 +18,7 @@
       </router-link>
       <track-addition
         :track-id="data.currentTrackID"
-        :is-saved="isSavedTrack"
+        :is-saved="data.isSavedTrack"
         @update-tracks-status="onTrackUpdate"
       />
 
@@ -123,6 +123,7 @@ export default defineComponent({
       playback,
       playbackContext,
       currentTrack,
+      onTrackUpdate,
     }
   },
 })

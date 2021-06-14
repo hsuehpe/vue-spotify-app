@@ -27,10 +27,10 @@ export default defineComponent({
     const getters = store.getters
     const playlists = computed(() => getters['UserModule/getPlaylists'])
     const browse = computed(() => {
-      return {
+      return [{
         type: 'browse',
         name: 'Browse',
-      }
+      }]
     })
     const library = computed(() => {
       return [
