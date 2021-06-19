@@ -37,8 +37,8 @@
 
       <div class="cell --addition">
         <track-addition
-          :track-id="item.track.id"
-          :is-saved="data.savedTracks[index]"
+          :track-id="(item.track.id) ? item.track.id : ''"
+          :is-saved="data.savedTracks[item.track.id]"
           @update-track-status="onTrackUpdate"
           @saved-track-remove="onSavedTrackRemove"
         />
@@ -88,7 +88,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed, onMounted } from 'vue'
+import { defineComponent, reactive, ref, computed, watch } from 'vue'
 import moment from 'moment'
 import { msToMinutes } from '/~/logics/time-format'
 import { useStore } from 'vuex'
@@ -96,7 +96,6 @@ import TrackAddition from './TrackAddition.vue'
 import TrackPlayback from './TrackPlayback.vue'
 import Icon from '/~/components/Icon.vue'
 import libraryApi from '/~/api/spotify/library'
-import { isDark } from '/~/logics'
 
 interface Artist {
   external_urls: object
@@ -143,23 +142,24 @@ export default defineComponent({
     },
     type: {
       type: String,
-      require: false,
+      default: '',
     },
     contextUri: {
+      type: String,
       required: false,
+      default: '',
     },
   },
   setup(props) {
     const store = useStore()
     const getters = store.getters
-    const user = getters['UserModule/getProfile']
     const playback = computed(() => getters['PlayerModule/getPlayback'])
     const playbackContext = computed(() => getters['PlayerModule/getPlaybackContext'])
 
     const data = reactive({
       tracksUris: [] as Array<string>,
       tracksIds: [] as Array<string>,
-      savedTracks: [],
+      savedTracks: {} as any,
     })
 
     const dateFormat = (timestamp: number) => moment(timestamp).format('MM-DD-YYYY')
@@ -176,25 +176,11 @@ export default defineComponent({
       })
     }
 
-    const checkSavedTracks = async() => {
+    const checkSavedTracks = async(trackIds: Array<string>) => {
       try {
-        const saved = {
-          offset: 0,
-          limit: 50,
-          total: props.tracks.length || 0,
-          items: [] as any,
-        }
-        while (saved.total > saved.offset) {
-          const res = await libraryApi.checkUserSavedTracks(
-            data.tracksIds
-              .slice(saved.offset, saved.offset + saved.limit)
-              .toString(),
-          )
-          saved.offset = saved.offset + saved.limit
-          saved.items.push(...res.data)
-        }
-
-        data.savedTracks = saved.items
+        const res = await libraryApi.checkUserSavedTracks(trackIds.toString())
+        for (let i = 0; i < res.data.length; i++)
+          data.savedTracks[trackIds[i]] = res.data[i]
       }
       catch (e) {
         console.log(e)
@@ -209,8 +195,8 @@ export default defineComponent({
       }
     }
 
-    const onTrackUpdate = () => {
-      checkSavedTracks()
+    const onTrackUpdate = (trackId: string) => {
+      checkSavedTracks([trackId])
     }
 
     const onSavedTrackRemove = (id: string) => {
@@ -218,11 +204,16 @@ export default defineComponent({
         document.querySelectorAll(`[data-id=${id}]`)[0].remove()
     }
 
-    onMounted(() => {
+    watch(ref(props.tracks).value, () => {
+      if (props.tracks.length > data.tracksIds.length) {
+        checkSavedTracks(props.tracks.slice(data.tracksIds.length).map((el) => {
+          return el.track.id
+        }))
+      }
+
       fetchTrackIds()
       fetchTrackUris()
-      checkSavedTracks()
-    })
+    }, { immediate: true })
 
     return {
       fetchTrackUris,
