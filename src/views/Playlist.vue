@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive, watch, computed } from 'vue'
+import { defineComponent, onMounted, reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import playlistsApi from '/~/api/spotify/playlists'
@@ -104,10 +104,6 @@ export default defineComponent({
       initData()
       store.dispatch(`PlaylistModule/${PlaylistActionTypes.FETCH_PLAYLIST}`, playlistID)
     }
-
-    watch(() => route.params, async(newVal) => {
-      if (newVal.playlist_id) init()
-    })
 
     onMounted(() => {
       init()

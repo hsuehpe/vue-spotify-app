@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { computed, watch, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
 import Icon from '/~/components/Icon.vue'
 import { useStore } from 'vuex'
 import { ActionTypes as LibraryActionTypes } from '/~/store/library/actions'
@@ -34,6 +34,7 @@ export default defineComponent({
     trackId: {
       type: String,
       required: true,
+      default: '',
     },
     isSaved: {
       type: Boolean,
@@ -44,14 +45,12 @@ export default defineComponent({
   setup(props, { emit }) {
     const store = useStore()
     const getters = store.getters
-    const savedTrack = computed(() => getters['LibraryModule/getSavedTrack'])
-    const removedTrack = computed(() => getters['LibraryModule/getRemovedTrack'])
 
     const saveTrack = async() => {
       try {
         await libraryApi.saveTracks([props.trackId])
         store.dispatch(`LibraryModule/${LibraryActionTypes.SAVE_TRACK}`, props.trackId)
-        emit('update-track-status')
+        emit('update-track-status', props.trackId)
       }
       catch (e) {
         console.log(e)
@@ -63,22 +62,12 @@ export default defineComponent({
         await libraryApi.removeTracks([props.trackId])
         store.dispatch(`LibraryModule/${LibraryActionTypes.REMOVE_TRACK}`, props.trackId)
         emit('saved-track-remove', props.trackId)
-        emit('update-track-status')
+        emit('update-track-status', props.trackId)
       }
       catch (e) {
         console.log(e)
       }
     }
-
-    // watch(savedTrack, (val) => {
-    //   console.log(val)
-    //   if (val === props.trackId) emit('update-track-status', val)
-    // })
-
-    // watch(removedTrack, (val) => {
-    //   console.log(val)
-    //   if (val === props.trackId) emit('update-track-status', val)
-    // })
 
     return {
       saveTrack,

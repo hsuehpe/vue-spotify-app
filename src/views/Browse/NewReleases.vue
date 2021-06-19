@@ -3,7 +3,7 @@
     :more="loadMore"
   >
     <div class="new-releases-view">
-      <entity-header title="New albums & singles" small="true" />
+      <entity-header title="New albums & singles" :small="true" />
       <div class="inner">
         <div v-if="data.albums.items.length > 0" class="flex flex-wrap py-4">
           <media-object

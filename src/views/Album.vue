@@ -11,7 +11,7 @@
         :uri="data.album.uri"
       />
       <tracks-list
-        v-if="data.album && data.tracks"
+        v-if="data.album && data.tracks.length"
         :tracks="data.tracks"
         :show-artists="true"
         :context-uri="data.album.uri"
@@ -47,7 +47,7 @@ export default defineComponent({
         artists: {},
         uri: '',
       },
-      tracks: null,
+      tracks: [],
     })
 
     const getAlbum = async(albumID: string|string[]) => {

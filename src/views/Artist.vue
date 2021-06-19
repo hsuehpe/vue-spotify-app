@@ -13,7 +13,7 @@
           :followers="data.artist.followers.total"
         />
         <entity-header title="Popular" :small="true" />
-        <tracks-list :tracks="data.tracks" />
+        <tracks-list v-if="data.tracks.length" :tracks="data.tracks" />
         <div v-if="data.albums.items.length > 0" class="flex flex-wrap py-4 bg-black">
           <media-object
             v-for="(item, index) in data.albums.items"
@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, watch, onMounted } from 'vue'
+import { defineComponent, reactive, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import EntityInfo from '/~/components/EntityInfo/index.vue'
@@ -90,7 +90,7 @@ export default defineComponent({
           href: null,
         },
       },
-      tracks: null,
+      tracks: [],
       albums: {
         limit: 25,
         offset: 0,
@@ -99,26 +99,6 @@ export default defineComponent({
       },
       isMore: false,
     })
-
-    const initData = () => {
-      data.artist = {
-        images: [],
-        type: '',
-        name: '',
-        uri: '',
-        followers: {
-          total: 0,
-          href: null,
-        },
-      }
-      data.tracks = null
-      data.albums = {
-        limit: 25,
-        offset: 0,
-        total: 1,
-        items: [] as Array<AlbumItem>,
-      }
-    }
 
     const getArtist = async(artistID: string|string[]) => {
       try {
@@ -172,7 +152,6 @@ export default defineComponent({
     const init = () => {
       const { id: artistID } = route.params
       data.artistID = artistID
-      initData()
       getArtist(artistID)
       getArtistTopTracks(artistID)
     }

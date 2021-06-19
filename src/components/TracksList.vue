@@ -5,68 +5,65 @@
       :key="index"
       :class="isActiveTrack(item)"
     >
-      <div class="cell">
-        <div v-if="item.album">
-          <img
-            class="img"
-            :src="item.album.images[2].url"
-            :alt="item.album.name"
-          >
-        </div>
-
-        <div class="cell index">
-          <span class="index-text">{{ index + 1 }}</span>
-          <track-playback
-            :track-uri="item.uri"
-            :tracks-uris="tracksUris"
-            :context-uri="contextUri"
-            :offset="index"
-          />
-        </div>
-
-        <div class="cell">
-          <track-addition
-            :track-id="item.id"
-            :is-saved="data.savedTracks[index]"
-            @update-track-status="onTrackUpdate"
-          />
-        </div>
-
-        <div class="cell name">
-          {{ item.name }}
-          <span v-if="item.artists && showArtists">
-            &nbsp;-&nbsp;
-            <router-link
-              v-for="(artist, index) in item.artists"
-              :key="artist.id"
-              class="link"
-              :to="{ name: 'artist', params: { id: artist.id } }"
-            >
-              {{ artist.name }}
-              <template v-if="index !== item.artists.length - 1">
-                ,&nbsp;
-              </template>
-            </router-link>
-          </span>
-        </div>
-
-        <div
-          v-if="item.explicit"
-          class="cell explicit"
+      <div class="cell index">
+        <span class="index-text">{{ index + 1 }}</span>
+        <track-playback
+          :track-uri="item.uri"
+          :tracks-uris="tracksUris"
+          :context-uri="contextUri"
+          :offset="index"
+        />
+      </div>
+      <div v-if="item.album" class="cell">
+        <img
+          class="img"
+          :src="item.album.images[2].url"
+          :alt="item.album.name"
         >
-          <span class="explicit label">Explicit</span>
-        </div>
+      </div>
 
-        <div class="cell duration">
-          {{ msToMinutes(item.duration_ms) }}
-        </div>
+      <div class="cell">
+        <track-addition
+          :track-id="item.id"
+          :is-saved="data.savedTracks[item.id]"
+          @update-track-status="onTrackUpdate"
+        />
+      </div>
+
+      <div class="cell name">
+        {{ item.name }}
+        <span v-if="item.artists && showArtists">
+          &nbsp;-&nbsp;
+          <router-link
+            v-for="(artist, artistIndex) in item.artists"
+            :key="artist.id"
+            class="link"
+            :to="{ name: 'artist', params: { id: artist.id } }"
+          >
+            {{ artist.name }}
+            <template v-if="artistIndex !== item.artists.length - 1">
+              ,&nbsp;
+            </template>
+          </router-link>
+        </span>
+      </div>
+
+      <div
+        v-if="item.explicit"
+        class="cell explicit"
+      >
+        <span class="explicit label">Explicit</span>
+      </div>
+
+      <div class="cell duration">
+        {{ msToMinutes(item.duration_ms) }}
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, reactive, watch, onMounted } from 'vue'
+import { defineComponent, computed, reactive, watch, ref } from 'vue'
 import { useStore } from 'vuex'
 import TrackAddition from '/~/components/TrackAddition.vue'
 import TrackPlayback from '/~/components/TrackPlayback.vue'
@@ -106,6 +103,7 @@ export default defineComponent({
     tracks: {
       type: Array as () => Array<Track>,
       required: true,
+      default: () => [],
     },
     showArtists: {
       type: Boolean,
@@ -124,34 +122,14 @@ export default defineComponent({
     const tracksUris = computed(() => props.tracks ? props.tracks.map(el => el.uri) : [])
 
     const data = reactive({
-      tracksIds: [] as string[],
-      savedTracks: [],
+      savedTracks: {} as any,
     })
 
-    const fetchTrackIds = () => {
-      if (props.tracks) data.tracksIds = props.tracks.map(el => el.id)
-    }
-
-    const checkSavedTracks = async() => {
+    const checkSavedTracks = async(trackIds: Array<string>) => {
       try {
-        const saved = {
-          offset: 0,
-          limit: 50,
-          total: props.tracks.length || 0,
-          items: [] as any,
-        }
-
-        while (saved.total > saved.offset) {
-          const res = await libraryApi.checkUserSavedTracks(
-            data.tracksIds
-              .slice(saved.offset, saved.offset + saved.limit)
-              .toString(),
-          )
-          saved.offset = saved.offset + saved.limit
-          saved.items.push(...res.data)
-        }
-
-        data.savedTracks = saved.items
+        const res = await libraryApi.checkUserSavedTracks(trackIds.toString())
+        for (let i = 0; i < res.data.length; i++)
+          data.savedTracks[trackIds[i]] = res.data[i]
       }
       catch (e) {
         console.log(e)
@@ -168,19 +146,13 @@ export default defineComponent({
       }
     }
 
-    const onTrackUpdate = () => {
-      checkSavedTracks()
+    const onTrackUpdate = (trackId: string) => {
+      checkSavedTracks([trackId])
     }
 
-    watch(() => props.tracks, () => {
-      fetchTrackIds()
-      checkSavedTracks()
-    })
-
-    onMounted(() => {
-      fetchTrackIds()
-      checkSavedTracks()
-    })
+    watch(ref(props.tracks).value, () => {
+      checkSavedTracks(props.tracks.map(item => item.id))
+    }, { immediate: true })
 
     return {
       data,
@@ -251,10 +223,6 @@ export default defineComponent({
 
       &.name {
         @apply w-full;
-      }
-
-      & > .img {
-        @apply w-10 h-10;
       }
     }
 

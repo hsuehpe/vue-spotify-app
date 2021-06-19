@@ -1,6 +1,6 @@
 <template>
   <div class="genres-view">
-    <entity-header title="Genres & Moods" small="true" />
+    <entity-header title="Genres & Moods" :small="true" />
     <div class="inner">
       <div
         v-for="(item, index) in data.categories"

@@ -123,7 +123,8 @@ export default defineComponent({
     },
     artists: {
       type: Array as () => Array<Artist>,
-      required: true,
+      required: false,
+      default: [],
     },
     followers: {
       type: [Number, String],
