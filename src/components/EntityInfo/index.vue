@@ -7,13 +7,6 @@
         :src="coverImg[0].url"
         alt="cover"
       >
-      <div
-        class="cover-hover"
-        title="Edit image"
-        @click="onCoverClick"
-      >
-        <icon class="cover-icon" icon="fa-solid:edit" />
-      </div>
     </div>
 
     <div class="info">
@@ -144,14 +137,9 @@ export default defineComponent({
 
     const elClass = computed(() => ['entity-info', { editable: props.ownerID === user.id && props.type === 'playlist' }])
 
-    const onCoverClick = () => {
-      // this.$modal.show('playlist-update-modal')
-    }
-
     return {
       user,
       elClass,
-      onCoverClick,
     }
   },
 })
@@ -175,17 +163,8 @@ export default defineComponent({
     }
 
     .cover {
-      @apply relative w-2/5;
-      background: #333;
-      min-width: 150px;
-      max-width: 200px;
-      max-height: 200px;
+      @apply relative w-2/5 bg-[#333] min-w-[150px] max-w-[200px] max-h-[200px];
       box-shadow: 2px 2px 10px 3px rgba(0, 0, 0, .4);
-    }
-
-    .cover-hover {
-      @apply hidden absolute top-0 z-10 w-full h-full cursor-pointer;
-      background: rgba(0, 0, 0, 0.7);
     }
 
     .info {
