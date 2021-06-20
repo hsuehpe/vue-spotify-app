@@ -14,7 +14,7 @@
         />
         <entity-header title="Popular" :small="true" />
         <tracks-list v-if="data.tracks.length" :tracks="data.tracks" />
-        <div v-if="data.albums.items.length > 0" class="flex flex-wrap py-4 bg-gray-400">
+        <div v-if="data.albums.items.length > 0" class="flex flex-wrap py-4">
           <media-object
             v-for="(item, index) in data.albums.items"
             :id="item.id"
