@@ -98,9 +98,6 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .list-item {
-  padding: 10px;
-  cursor: pointer;
-  background: #000;
-  color: #fff;
+  @apply p-3 cursor-pointer bg-black text-white;
 }
 </style>
