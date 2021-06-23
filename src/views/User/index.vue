@@ -37,19 +37,7 @@ import { ActionTypes as AppActionTypes } from '/~/store/app/actions'
 import MediaObject from '/~/components/MediaObject.vue'
 import InfiniteLoader from '/~/components/InfiniteLoader.vue'
 import Icon from '/~/components/Icon.vue'
-
-interface User {
-  images: Array<object>
-  display_name: string
-}
-
-interface PlaylistItem {
-  id: string
-  uri: string
-  images: Array<object>
-  name: string
-  type: string
-}
+import { User, PlaylistItem } from '/~/types'
 
 export default defineComponent({
   components: {
@@ -78,7 +66,7 @@ export default defineComponent({
       return state.playlists.items
     })
 
-    const getUser = async(id: string) => {
+    const getUser = async(id: string|string[]) => {
       try {
         const res = await usersApi.getUserProfile(id)
         state.user = res.data

@@ -42,30 +42,7 @@ import MediaObject from '/~/components/MediaObject.vue'
 import InfiniteLoader from '/~/components/InfiniteLoader.vue'
 import artistsApi from '/~/api/spotify/artists'
 import { ActionTypes as AppActionTypes } from '/~/store/app/actions'
-
-interface Followers {
-  href: object
-  total: number
-}
-
-interface Artist {
-  images: Array<object>
-  type: string
-  name: string
-  uri: string
-  followers: Followers
-}
-
-interface AlbumItem {
-  uri: string
-  name: string
-  type: string
-  album_group: string
-  artists: Array<object>
-  href: string
-  id: string
-  images: Array<object>
-}
+import { Album } from '/~/types'
 
 export default defineComponent({
   components: {
@@ -95,7 +72,7 @@ export default defineComponent({
         limit: 25,
         offset: 0,
         total: 1,
-        items: [] as Array<AlbumItem>,
+        items: [] as Array<Album>,
       },
       isMore: false,
     })

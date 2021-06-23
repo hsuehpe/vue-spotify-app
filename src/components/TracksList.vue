@@ -69,30 +69,7 @@ import TrackAddition from '/~/components/TrackAddition.vue'
 import TrackPlayback from '/~/components/TrackPlayback.vue'
 import libraryApi from '/~/api/spotify/library'
 import { msToMinutes } from '/~/logics/time-format'
-
-interface Image {
-  url: string
-}
-
-interface Album {
-  images: Array<Image>
-  name: string
-}
-
-interface Artist {
-  id: string
-  name: string
-}
-
-interface Track {
-  name: string
-  id: string
-  album: Album
-  artists: Array<Artist>
-  uri: string
-  explicit: string
-  duration_ms: number
-}
+import { Track } from '/~/types'
 
 export default defineComponent({
   components: {

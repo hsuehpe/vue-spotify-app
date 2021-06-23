@@ -64,22 +64,11 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted } from 'vue'
 import { useStore } from 'vuex'
-import PlaylistUpdateModal from '@/components/PlaylistUpdateModal.vue'
 import EntityAction from './EntityAction.vue'
-import Icon from '/~/components/Icon.vue'
-
-interface CoverImg {
-  url: string
-}
-
-interface Artist {
-  id: string
-  name: string
-}
+import { CoverImg, Artist } from '/~/types'
 
 export default defineComponent({
   components: {
-    Icon,
     EntityAction,
   },
   props: {

@@ -44,15 +44,7 @@ import { defineComponent, computed } from 'vue'
 import Icon from '/~/components/Icon.vue'
 import { useStore } from 'vuex'
 import playerApi from '/~/api/spotify/player'
-
-interface CoverImg {
-  url: string
-}
-
-interface Artist {
-  id: string
-  name: string
-}
+import { CoverImg, Artist } from '/~/types'
 
 export default defineComponent({
   components: {

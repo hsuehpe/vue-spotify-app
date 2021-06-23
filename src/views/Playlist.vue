@@ -31,13 +31,7 @@ import { ActionTypes as PlaylistActionTypes } from '/~/store/playlist/actions'
 import EntityInfo from '/~/components/EntityInfo/index.vue'
 import TracksTable from '/~/components/TracksTable.vue'
 import InfiniteLoader from '/~/components/InfiniteLoader.vue'
-
-interface Tracks {
-  total: number
-  offset: number
-  limit: number
-  items: Array<any>
-}
+import { Tracks } from '/~/types'
 
 export default defineComponent({
   components: {

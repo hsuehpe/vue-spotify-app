@@ -26,17 +26,7 @@ import InfiniteLoader from '/~/components/InfiniteLoader.vue'
 import EntityHeader from '/~/components/EntityHeader.vue'
 import MediaObject from '/~/components/MediaObject.vue'
 import libraryApi from '/~/api/spotify/library'
-
-interface AlbumItem {
-  uri: string
-  name: string
-  type: string
-  album_group: string
-  artists: Array<object>
-  href: string
-  id: string
-  images: Array<object>
-}
+import { AlbumCollection } from '/~/types'
 
 export default defineComponent({
   components: {
@@ -50,7 +40,7 @@ export default defineComponent({
         limit: 25,
         offset: 0,
         total: 1,
-        items: [] as Array<AlbumItem>,
+        items: [] as Array<AlbumCollection>,
       },
       isMore: false,
     })

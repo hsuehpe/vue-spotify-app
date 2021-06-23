@@ -13,7 +13,7 @@ export default {
    * Get detailed profile information about the current user (including the current user’s username).
    * @returns {object} - user object (https://developer.spotify.com/documentation/web-api/reference/#object-publicuserobject)
    */
-  getUserProfile(userID?: string) {
+  getUserProfile(userID?: string|string[]) {
     if (userID)
       return request.get(`users/${userID}`)
     else
