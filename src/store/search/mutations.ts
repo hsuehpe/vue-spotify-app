@@ -1,5 +1,6 @@
 import { MutationTree } from 'vuex'
 import { State } from './index'
+import { SearchResult, SearchAlbums, SearchArtists, SearchPlaylists, SearchTracks } from '/~/types'
 
 export enum MutationTypes {
   SET_SEARCH_QUERY = 'SET_SEARCH_QUERY',
@@ -21,9 +22,9 @@ export enum MutationTypes {
 }
 
 export type Mutations<S = State> = {
-  [MutationTypes.SET_SEARCH_QUERY](state: S, data: object): void
+  [MutationTypes.SET_SEARCH_QUERY](state: S, data: string): void
   [MutationTypes.REQUEST_SEARCH](state: S): void
-  [MutationTypes.REQUEST_SEARCH_SUCCESS](state: S, data: object): void
+  [MutationTypes.REQUEST_SEARCH_SUCCESS](state: S, data: SearchResult): void
   [MutationTypes.REQUEST_SEARCH_ERROR](state: S, error: object): void
   [MutationTypes.REQUEST_GET_ALBUMS](state: S): void
   [MutationTypes.REQUEST_GET_ALBUMS_SUCCESS](state: S, data: object): void
@@ -46,7 +47,7 @@ const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.REQUEST_SEARCH](state: State) {
     state.isLoading = true
   },
-  [MutationTypes.REQUEST_SEARCH_SUCCESS](state: State, data) {
+  [MutationTypes.REQUEST_SEARCH_SUCCESS](state: State, data: SearchResult) {
     state.result = data
     state.albums = data.albums
     state.artists = data.artists
@@ -61,12 +62,12 @@ const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.REQUEST_GET_ALBUMS](state: State) {
     state.albumsIsLoading = true
   },
-  [MutationTypes.REQUEST_GET_ALBUMS_SUCCESS](state: State, data) {
+  [MutationTypes.REQUEST_GET_ALBUMS_SUCCESS](state: State, data: { albums: SearchAlbums }) {
     state.albumsIsLoading = false
     state.albums = {
       ...data.albums,
       items: [...state.albums.items, ...data.albums.items],
-    },
+    }
   },
   [MutationTypes.REQUEST_GET_ALBUMS_ERROR](state: State, error) {
     state.albumsIsLoading = false
@@ -75,7 +76,7 @@ const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.REQUEST_GET_ARTISTS](state: State) {
     state.artistsIsLoading = true
   },
-  [MutationTypes.REQUEST_GET_ARTISTS_SUCCESS](state: State, data) {
+  [MutationTypes.REQUEST_GET_ARTISTS_SUCCESS](state: State, data: { artists: SearchArtists }) {
     state.artistsIsLoading = false
     state.artists = {
       ...data.artists,
@@ -89,7 +90,7 @@ const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.REQUEST_GET_PLAYLISTS](state: State) {
     state.playlistsIsLoading = true
   },
-  [MutationTypes.REQUEST_GET_PLAYLISTS_SUCCESS](state: State, data) {
+  [MutationTypes.REQUEST_GET_PLAYLISTS_SUCCESS](state: State, data: { playlists: SearchPlaylists }) {
     state.playlistsIsLoading = false
     state.playlists = {
       ...data.playlists,
@@ -101,19 +102,19 @@ const mutations: MutationTree<State> & Mutations = {
     state.playlistsError = error
   },
   [MutationTypes.REQUEST_GET_TRACKS](state: State) {
-    state.tracksIsLoading = true;
+    state.tracksIsLoading = true
   },
-  [MutationTypes.REQUEST_GET_TRACKS_SUCCESS](state: State, data) {
+  [MutationTypes.REQUEST_GET_TRACKS_SUCCESS](state: State, data: { tracks: SearchTracks }) {
     state.tracksIsLoading = false
     state.tracks = {
       ...data.tracks,
-      items: [...state.tracks.items, ...data.tracks.items]
+      items: [...state.tracks.items, ...data.tracks.items],
     }
   },
   [MutationTypes.REQUEST_GET_TRACKS_ERROR](state: State, error) {
     state.tracksIsLoading = false
     state.tracksError = error
-  }
+  },
 }
 
 export default mutations
