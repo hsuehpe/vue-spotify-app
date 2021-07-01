@@ -1,4 +1,4 @@
-import { ActionContext, Commit, Dispatch, GetterTree } from 'vuex'
+import { ActionContext, Commit, Dispatch } from 'vuex'
 import { State as RootState } from '../index'
 import usersApi from '/~/api/spotify/users'
 import playlistsApi from '/~/api/spotify/playlists'
@@ -13,6 +13,15 @@ describe('user module', () => {
     testContext = {
       dispatch: jest.fn() as Dispatch,
       commit: jest.fn() as Commit,
+      rootGetters: {
+        'UserModule/getPlaylists': () => {
+          return {
+            limit: 100,
+            offset: 0,
+            total: 200,
+          }
+        },
+      },
       getters: {
         getPlaylists: () => {
           return {

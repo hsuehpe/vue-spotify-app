@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import { createStore } from 'vuex'
 import App from './App.vue'
 
@@ -18,7 +18,7 @@ describe('Component App', () => {
 
     store.dispatch = jest.fn()
 
-    const wrapper = mount(App, {
+    const wrapper = shallowMount(App, {
       global: {
         plugins: [store],
       },
