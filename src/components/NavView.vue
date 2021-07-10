@@ -23,7 +23,7 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   props: {
     links: {
-      type: Array,
+      type: Array as any,
       default: () => [],
       required: true,
     },
@@ -40,15 +40,9 @@ export default defineComponent({
     }
 
     .nav-item {
-      @apply relative my-0 mx-4 text-gray-300 text-base uppercase cursor-pointer;
-
-      &:hover {
-        @apply text-white;
-      }
+      @apply relative my-0 mx-4 text-base uppercase cursor-pointer;
 
       &.--active {
-        @apply text-white;
-
         &:after {
           @apply absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 -bottom-2 w-12 h-1 bg-[#1db954] content-[''];
         }
