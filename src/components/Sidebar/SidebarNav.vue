@@ -14,7 +14,7 @@
       >
         {{ link.name }}
         <icon
-          v-if="playbackContext.context && playbackContext.context.uri === link.uri"
+          v-if="playbackContext && playbackContext.context && playbackContext.context.uri === link.uri"
           class="icon-sound-on"
           icon="akar-icons:sound-on"
         />

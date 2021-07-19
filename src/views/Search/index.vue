@@ -31,7 +31,6 @@ export default defineComponent({
     const store = useStore()
     const state = store.state.SearchModule
     const isLoadingData = computed(() => {
-      console.log(state)
       return (
         state.isLoading
         || state.tracksIsLoading
@@ -40,8 +39,6 @@ export default defineComponent({
         || state.playlistsIsLoading
       )
     })
-
-    console.log(isLoadingData)
 
     const isTracksExists = computed(() => {
       return (
@@ -79,6 +76,7 @@ export default defineComponent({
     })
 
     const isNoResultVisible = computed(() => {
+      console.log(isResult.value, state)
       return (
         !isResult.value && state.query && state.isLoading
       )
@@ -124,7 +122,7 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
-.content {
-  height: calc(100vh - 14rem);
+.search-view {
+  @apply overflow-auto;
 }
 </style>

@@ -21,6 +21,7 @@ export default {
     market?: string,
     include_external?: string,
   ) {
+    if (q === '') return
     return request.get('search', {
       params: {
         q,

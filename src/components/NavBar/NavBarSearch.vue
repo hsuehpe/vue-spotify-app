@@ -20,6 +20,7 @@ import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import Icon from '/~/components/Icon.vue'
 import { ActionTypes as SearchActionTypes } from '/~/store/search/actions'
+import throttle from 'lodash-es/throttle'
 
 export default defineComponent({
   components: {
@@ -40,7 +41,7 @@ export default defineComponent({
         router.push('/search')
     }
 
-    const onKeyUp = (e: { target: { value: any } }) => {
+    const keyUp = (e: { target: { value: any } }) => {
       const { value } = e.target
 
       if (value !== '') {
@@ -48,9 +49,14 @@ export default defineComponent({
           name: 'search-result',
           params: { query: value },
         })
-        store.dispatch(`SearchModule/${SearchActionTypes.SEARCH}`, value)
       }
+      else {
+        router.replace('/search')
+      }
+      store.dispatch(`SearchModule/${SearchActionTypes.SEARCH}`, value)
     }
+
+    const onKeyUp = throttle(keyUp, 500)
 
     return {
       onFocus,

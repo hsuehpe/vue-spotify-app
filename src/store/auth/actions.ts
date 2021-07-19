@@ -29,7 +29,6 @@ const actions: ActionTree<State, RootState> & Actions = {
 
     if (!state.accessToken) {
       const res = await backend.getAuthURL({ protocol, host })
-      console.log(res.data.url)
       window.location.href = res.data.url
     }
   },

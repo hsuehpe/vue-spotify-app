@@ -59,8 +59,6 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .genres-view {
-  height: calc(100vh - 14rem);
-
   .inner {
     @apply pt-0 pr-4 pb-0 pl-2;
   }
