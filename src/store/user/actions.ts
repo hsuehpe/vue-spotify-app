@@ -27,10 +27,10 @@ const actions: ActionTree<State, RootState> & Actions = {
     let offset = 0
     const userPlaylists = rootGetters['UserModule/getPlaylists']
 
-    if (Object.keys(userPlaylists).length > 0)
+    if (userPlaylists.items.length > 0)
       offset = userPlaylists.limit + userPlaylists.offset
 
-    if (Object.keys(userPlaylists).length === 0 || userPlaylists.total > offset) {
+    if (userPlaylists.items.length === 0 || userPlaylists.total > offset) {
       try {
         const response = await playlistsApi.getCurrentUserPlaylists(limit, offset)
         commit(MutationTypes.SET_PLAYLISTS, response.data)
