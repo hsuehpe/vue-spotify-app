@@ -35,7 +35,7 @@ export default defineComponent({})
 <style lang="postcss" scoped>
 
 .browse-view {
-  @apply p-2;
+  @apply p-2 overflow-auto;
 
   .nav {
     @apply flex py-4 px-0 justify-center;

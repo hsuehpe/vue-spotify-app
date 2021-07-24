@@ -3,9 +3,8 @@
     :more="loadMore"
   >
     <div class="playlist-view">
-      <div class="content">
+      <div v-if="playlist" class="content">
         <entity-info
-          v-if="playlist"
           :cover-img="playlist.images"
           :type="playlist.type"
           :name="playlist.name"
@@ -22,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive, computed } from 'vue'
+import { defineComponent, onMounted, onUpdated, reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import playlistsApi from '/~/api/spotify/playlists'
@@ -31,13 +30,7 @@ import { ActionTypes as PlaylistActionTypes } from '/~/store/playlist/actions'
 import EntityInfo from '/~/components/EntityInfo/index.vue'
 import TracksTable from '/~/components/TracksTable.vue'
 import InfiniteLoader from '/~/components/InfiniteLoader.vue'
-
-interface Tracks {
-  total: number
-  offset: number
-  limit: number
-  items: Array<any>
-}
+import { Tracks } from '/~/types'
 
 export default defineComponent({
   components: {
@@ -103,7 +96,12 @@ export default defineComponent({
       data.playlistID = playlistID || ''
       initData()
       store.dispatch(`PlaylistModule/${PlaylistActionTypes.FETCH_PLAYLIST}`, playlistID)
+      getPlaylistTracks(data.playlistID)
     }
+
+    onUpdated(() => {
+      init()
+    })
 
     onMounted(() => {
       init()

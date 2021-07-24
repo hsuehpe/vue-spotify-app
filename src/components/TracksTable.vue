@@ -96,37 +96,8 @@ import TrackAddition from './TrackAddition.vue'
 import TrackPlayback from './TrackPlayback.vue'
 import Icon from '/~/components/Icon.vue'
 import libraryApi from '/~/api/spotify/library'
+import { TracksTableItem } from '/~/types'
 
-interface Artist {
-  external_urls: object
-  href: string
-  id: string
-  name: string
-  type: string
-  uri: string
-}
-
-interface Album {
-  album_type: string
-  artists: Array<Artist>
-  name: string
-  id: string
-}
-
-interface TrackItem {
-  name: string
-  uri: string
-  id: string
-  explicit: boolean
-  artists: Array<Artist>
-  album: Album
-  duration_ms: number
-}
-
-interface Tracks {
-  track: TrackItem
-  added_at: number
-}
 
 export default defineComponent({
   components: {
@@ -136,7 +107,7 @@ export default defineComponent({
   },
   props: {
     tracks: {
-      type: Array as () => Array<Tracks>,
+      type: Array as () => Array<TracksTableItem>,
       required: true,
       default: () => [],
     },

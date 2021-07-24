@@ -23,6 +23,38 @@ export default (app: App) => {
         },
       },
       {
+        path: '/search',
+        name: 'search',
+        component: () => import('/~/views/Search/index.vue'),
+        children: [
+          {
+            path: 'result/:query',
+            name: 'search-result',
+            component: () => import('/~/views/Search/SearchResult.vue'),
+          },
+          {
+            path: 'album/:query',
+            name: 'search-album',
+            component: () => import('/~/views/Search/SearchAlbum.vue'),
+          },
+          {
+            path: 'artist/:query',
+            name: 'search-artist',
+            component: () => import('/~/views/Search/SearchArtist.vue'),
+          },
+          {
+            path: 'playlist/:query',
+            name: 'search-playlist',
+            component: () => import('/~/views/Search/SearchPlaylist.vue'),
+          },
+          {
+            path: 'track/:query',
+            name: 'search-track',
+            component: () => import('/~/views/Search/SearchTrack.vue'),
+          },
+        ],
+      },
+      {
         path: '/user/:id',
         name: 'user',
         component: () => import('/~/views/User/index.vue'),
