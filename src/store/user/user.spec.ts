@@ -14,12 +14,11 @@ describe('user module', () => {
       dispatch: jest.fn() as Dispatch,
       commit: jest.fn() as Commit,
       rootGetters: {
-        'UserModule/getPlaylists': () => {
-          return {
-            limit: 100,
-            offset: 0,
-            total: 200,
-          }
+        'UserModule/getPlaylists': {
+          limit: 100,
+          offset: 0,
+          total: 200,
+          items: [],
         },
       },
       getters: {
@@ -28,6 +27,7 @@ describe('user module', () => {
             limit: 100,
             offset: 0,
             total: 200,
+            items: [],
           }
         },
       },

@@ -20,7 +20,7 @@ import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import Icon from '/~/components/Icon.vue'
 import { ActionTypes as SearchActionTypes } from '/~/store/search/actions'
-import throttle from 'lodash-es/throttle'
+import _ from 'lodash'
 
 export default defineComponent({
   components: {
@@ -56,7 +56,7 @@ export default defineComponent({
       store.dispatch(`SearchModule/${SearchActionTypes.SEARCH}`, value)
     }
 
-    const onKeyUp = throttle(keyUp, 500)
+    const onKeyUp = _.throttle(keyUp, 500)
 
     return {
       onFocus,
