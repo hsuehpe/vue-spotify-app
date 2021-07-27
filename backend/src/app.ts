@@ -103,9 +103,7 @@ router.route('/refreshToken').get((req: any, res: any) => {
 
 // register router
 app.use('/vue-spotify-app/v1', router)
-
 app.use(history())
-
 // register static folder
 app.use(express.static(path.join(__dirname, '../../dist')))
 
