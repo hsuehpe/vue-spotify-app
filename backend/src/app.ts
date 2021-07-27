@@ -4,6 +4,7 @@ import http from 'http'
 import httpStatus from 'http-status-codes'
 import randomstring from 'randomstring'
 import SpotifyWebApi from 'spotify-web-api-node'
+import history from 'connect-history-api-fallback'
 
 const router = express.Router()
 const app = express()
@@ -103,9 +104,10 @@ router.route('/refreshToken').get((req: any, res: any) => {
 // register router
 app.use('/vue-spotify-app/v1', router)
 
+app.use(history())
+
 // register static folder
 app.use(express.static(path.join(__dirname, '../../dist')))
-console.log(path.join(__dirname))
 
 const server = http.createServer(app)
 
