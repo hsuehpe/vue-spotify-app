@@ -1,11 +1,13 @@
 import express from 'express'
+import path from 'path'
+import http from 'http'
 import httpStatus from 'http-status-codes'
 import randomstring from 'randomstring'
 import SpotifyWebApi from 'spotify-web-api-node'
 
 const router = express.Router()
 const app = express()
-const port = process.env.PORT || 3001
+app.set('port', process.env.PORT || 8080)
 
 // initialize spotify api instance
 const spotifyApi = new SpotifyWebApi({
@@ -34,7 +36,7 @@ const scopes = [
 ]
 
 // router middleware
-router.use((req, res, next) => {
+router.use((req: any, res: any, next: any) => {
   // website you wish to allow to connect
   res.setHeader('Access-Control-Allow-Origin', '*')
 
@@ -49,8 +51,8 @@ router.use((req, res, next) => {
 })
 
 // getAuthURL endpoint
-router.route('/getAuthURL').get((req, res) => {
-  const redirectURI = (typeof req.query.redirectURI === 'string') ? req.query.redirectURI : ''
+router.route('/getAuthURL').get((req: any, res: any) => {
+  const redirectURI = (typeof req.query.redirectURI === 'string') ? req.query.redirectURI : 'http://localhost:8080/login'
   const state = randomstring.generate()
 
   spotifyApi.setRedirectURI(redirectURI)
@@ -58,7 +60,7 @@ router.route('/getAuthURL').get((req, res) => {
 })
 
 // getToken endpoint
-router.route('/getToken').get((req, res) => {
+router.route('/getToken').get((req: any, res: any) => {
   const code = (typeof req.query.code === 'string') ? req.query.code : ''
 
   try {
@@ -79,7 +81,7 @@ router.route('/getToken').get((req, res) => {
 })
 
 // refreshToken endpoint
-router.route('/refreshToken').get((req, res) => {
+router.route('/refreshToken').get((req: any, res: any) => {
   const refreshToken = (typeof req.query.token === 'string') ? req.query.token : ''
 
   try {
@@ -102,7 +104,11 @@ router.route('/refreshToken').get((req, res) => {
 app.use('/vue-spotify-app/v1', router)
 
 // register static folder
-app.use(express.static('public'))
+app.use(express.static(path.join(__dirname, '../../dist')))
+console.log(path.join(__dirname))
 
-// listen on port (default: 3001)
-app.listen(port)
+const server = http.createServer(app)
+
+server.listen(app.get('port'), async () => {
+  console.log('node server launched')
+})
