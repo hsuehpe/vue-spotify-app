@@ -3,7 +3,7 @@ name: Tests
 on:
   push:
     branches:
-      - master
+      - feature/github-actions-with-gcloud
   pull_request:
     branches:
       - master
