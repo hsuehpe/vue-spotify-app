@@ -22,5 +22,5 @@ jobs:
   test:
     needs: setup
     steps:
-      - Run Unit Test
+    - name: Run Unit Test
       run: npm run unit-test
