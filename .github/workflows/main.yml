@@ -9,7 +9,7 @@ on:
       - master
 
 jobs:
-  setup:
+  setup-build-deploy:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -17,7 +17,18 @@ jobs:
     steps:
     - name: Check out repository code
       uses: actions/checkout@v2
-    - name: Install dependencies
+    - name: Install Front End dependencies
       run: npx pnpm i
+    - name: Install Backend End dependencies
+      run: |
+        cd backend
+        yarn
     - name: Run Unit Test
       run: npm run unit-test
+    - name: Build Front End
+      run: npm run build
+    - name: Build Backend End
+      run: |
+        cd backend
+        yarn run build-ts
+
