@@ -1,4 +1,4 @@
-name: Tests
+name: Build and Deploy to Cloud Run
 
 on:
   push:
@@ -15,10 +15,10 @@ jobs:
       matrix:
         node-version: [12.x, 14.x, 16.x]
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v2
-      - name: Install dependencies
-        run: npx pnpm i
+    - name: Check out repository code
+      uses: actions/checkout@v2
+    - name: Install dependencies
+      run: npx pnpm i
   test:
     needs: setup
     steps:
