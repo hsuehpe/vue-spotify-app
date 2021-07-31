@@ -19,3 +19,8 @@ jobs:
       uses: actions/checkout@v2
     - name: Install dependencies
       run: npx pnpm i
+  test:
+    needs: setup
+    steps:
+      - Run Unit Test
+      run: npm run unit-test
