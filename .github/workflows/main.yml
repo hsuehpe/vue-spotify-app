@@ -31,4 +31,12 @@ jobs:
       run: |
         cd backend
         yarn run build-ts
-
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+        export_default_credentials: true
+    - name: Print gcloud info
+      run: gcloud info
