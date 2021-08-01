@@ -11,7 +11,7 @@ on:
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   SERVICE_NAME: vue-spotify-app
-  RUN_REGION: asia-east1-a
+  RUN_REGION: asia-east1
 
 jobs:
   setup-build-deploy:
