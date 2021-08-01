@@ -31,7 +31,9 @@ jobs:
     - name: Run Unit Test
       run: npm run unit-test
     - name: Build Front End
-      run: npm run build
+      run: |
+        npm run build
+        ls
     - name: Build Backend End
       run: |
         cd backend
