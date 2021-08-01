@@ -16,9 +16,8 @@ env:
 jobs:
   setup-build-deploy:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
+    with:
+      node-version: '14.x'
     steps:
     - name: Check out repository code
       uses: actions/checkout@v2
@@ -48,7 +47,7 @@ jobs:
     - name: Build and push image to Google Container Registry
       run: |
         gcloud builds submit \
-          ---quiet \
+          --quiet \
           --tag "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA"
     - name: Deploy image to Cloud Run
       run: |
