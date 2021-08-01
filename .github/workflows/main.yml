@@ -36,8 +36,6 @@ jobs:
       run: |
         cd backend
         yarn run build-ts
-    - name: Check out repository after built
-      uses: actions/checkout@v2
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@master
       with:
