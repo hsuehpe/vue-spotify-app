@@ -3,14 +3,15 @@
   "scripts": {
     "dev": "vite --port 3333 --open",
     "build": "cross-env NODE_ENV=production vite build && esno scripts/ssg.ts",
-    "test": "yarn jest --watch"
+    "test-dev": "jest --watch",
+    "unit-test": "jest"
   },
   "dependencies": {
     "@iconify/iconify": "^2.0.0-rc.6",
     "@vitejs/plugin-vue": "^1.2.2",
     "@vueuse/core": "^4.9.0",
     "axios": "^0.21.1",
-    "lodash-es": "^4.17.21",
+    "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "nprogress": "^0.2.0",
     "vue": "^3.1.1",
@@ -22,36 +23,36 @@
     "vuex-persistedstate": "4.0.0-beta.3"
   },
   "devDependencies": {
-    "@antfu/eslint-config-vue": "^0.6.4",
-    "@iconify/json": "^1.1.334",
+    "@antfu/eslint-config-vue": "^0.6.6",
+    "@iconify/json": "^1.1.380",
     "@purge-icons/generated": "^0.7.0",
     "@types/jest": "^26.0.23",
-    "@types/lodash-es": "^4.17.4",
+    "@types/lodash": "^4.14.171",
     "@types/nprogress": "^0.2.0",
-    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/eslint-plugin": "^4.28.4",
     "@vue/compiler-sfc": "^3.0.11",
-    "@vue/test-utils": "^2.0.0-rc.6",
-    "@vuedx/typescript-plugin-vue": "^0.6.3",
-    "autoprefixer": "^10.2.6",
+    "@vue/test-utils": "^2.0.0-rc.10",
+    "@vuedx/typescript-plugin-vue": "^0.7.4",
+    "autoprefixer": "^10.3.1",
     "chromium": "^3.0.2",
     "cross-env": "^7.0.3",
-    "eslint": "^7.25.0",
-    "esno": "^0.5.0",
+    "eslint": "^7.31.0",
+    "esno": "^0.8.0",
     "jest": "^26.6.3",
-    "postcss": "^8.3.5",
+    "postcss": "^8.3.6",
     "postcss-nested": "^5.0.5",
     "presite": "^2.1.2",
-    "tailwindcss": "^2.2.2",
+    "tailwindcss": "^2.2.7",
     "ts-jest": "^26.5.5",
-    "typescript": "^4.1.2",
-    "vite": "^2.2.3",
-    "vite-plugin-md": "^0.6.3",
+    "typescript": "^4.3.5",
+    "vite": "^2.4.3",
+    "vite-plugin-md": "^0.8.0",
     "vite-plugin-purge-icons": "^0.7.0",
-    "vite-plugin-pwa": "^0.7.2",
-    "vue-jest": "^5.0.0-alpha.8"
+    "vite-plugin-pwa": "^0.8.2",
+    "vue-jest": "^5.0.0-alpha.10"
   },
   "peerDependencies": {
-    "postcss": "^8.3.5"
+    "postcss": "^8.3.6"
   },
   "eslintConfig": {
     "extends": "@antfu/eslint-config-vue",

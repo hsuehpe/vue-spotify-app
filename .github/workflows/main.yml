@@ -1,0 +1,70 @@
+name: Build and Deploy to Cloud Run
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  SERVICE_NAME: vue-spotify-app
+  RUN_REGION: asia-east1
+
+jobs:
+  setup-build-deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v2
+    - name: Cache pnpm modules
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-pnpm-modules
+      with:
+        path: ~/.pnpm-store
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}
+        restore-keys: |
+          {{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}
+    - name: Install Front End dependencies
+      run: npx pnpm i
+    - name: Install Backend End dependencies
+      run: |
+        cd backend
+        yarn
+    - name: Run Unit Test
+      run: npm run unit-test
+    - name: Build Front End
+      run: npm run build
+    - name: Build Backend End
+      run: |
+        cd backend
+        yarn run build-ts
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+        export_default_credentials: true
+    - name: Print gcloud info
+      run: gcloud info
+    - name: Build and push image to Google Container Registry
+      run: |
+        gcloud builds submit \
+          --quiet \
+          --tag "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA"
+    - name: Deploy image to Cloud Run
+      run: |
+        gcloud run deploy "$SERVICE_NAME" \
+          --quiet \
+          --region "$RUN_REGION" \
+          --image "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
+          --platform "managed" \
+          --port 80 \
+          --allow-unauthenticated

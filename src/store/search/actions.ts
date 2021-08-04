@@ -72,7 +72,8 @@ const actions: ActionTree<State, RootState> & Actions = {
 
     try {
       const res = await searchApi.search(query)
-      dispatch(ActionTypes.REQUEST_SEARCH_SUCCESS, res.data)
+      if (res && res.data)
+        dispatch(ActionTypes.REQUEST_SEARCH_SUCCESS, res.data)
     }
     catch (e) {
       dispatch(ActionTypes.REQUEST_SEARCH_ERROR, e)
@@ -99,7 +100,8 @@ const actions: ActionTree<State, RootState> & Actions = {
           'album',
           offset,
         )
-        dispatch(ActionTypes.REQUEST_GET_ALBUMS_SUCCESS, res.data)
+        if (res && res.data)
+          dispatch(ActionTypes.REQUEST_GET_ALBUMS_SUCCESS, res.data)
       }
     }
     catch (e) {
@@ -127,7 +129,9 @@ const actions: ActionTree<State, RootState> & Actions = {
           'artist',
           offset,
         )
-        dispatch(ActionTypes.REQUEST_GET_ARTISTS_SUCCESS, res.data)
+
+        if (res && res.data)
+          dispatch(ActionTypes.REQUEST_GET_ARTISTS_SUCCESS, res.data)
       }
     }
     catch (e) {
@@ -156,7 +160,8 @@ const actions: ActionTree<State, RootState> & Actions = {
           offset,
         )
 
-        dispatch(ActionTypes.REQUEST_GET_PLAYLISTS_SUCCESS, res.data)
+        if (res && res.data)
+          dispatch(ActionTypes.REQUEST_GET_PLAYLISTS_SUCCESS, res.data)
       }
     }
     catch (e) {
@@ -185,7 +190,8 @@ const actions: ActionTree<State, RootState> & Actions = {
           offset,
         )
 
-        dispatch(ActionTypes.REQUEST_GET_TRACKS_SUCCESS, res.data)
+        if (res && res.data)
+          dispatch(ActionTypes.REQUEST_GET_TRACKS_SUCCESS, res.data)
       }
     }
     catch (e) {
