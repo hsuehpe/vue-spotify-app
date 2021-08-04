@@ -1,6 +1,6 @@
-import express from 'express'
 import path from 'path'
 import http from 'http'
+import express from 'express'
 import httpStatus from 'http-status-codes'
 import randomstring from 'randomstring'
 import SpotifyWebApi from 'spotify-web-api-node'
@@ -109,6 +109,6 @@ app.use(express.static(path.join(__dirname, '../../dist')))
 
 const server = http.createServer(app)
 
-server.listen(app.get('port'), async () => {
-  console.log('node server launched')
+server.listen(app.get('port'), async() => {
+  console.warn('node server launched')
 })

@@ -22,6 +22,15 @@ jobs:
     steps:
     - name: Check out repository code
       uses: actions/checkout@v2
+    - name: Cache pnpm modules
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-pnpm-modules
+      with:
+        path: ~/.pnpm-store
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}
+        restore-keys: |
+          {{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}
     - name: Install Front End dependencies
       run: npx pnpm i
     - name: Install Backend End dependencies
