@@ -3,7 +3,7 @@ name: Build and Deploy to Cloud Run
 on:
   push:
     branches:
-      - feature/github-actions-with-gcloud
+      - master
   pull_request:
     branches:
       - master
