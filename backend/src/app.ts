@@ -5,15 +5,17 @@ import httpStatus from 'http-status-codes'
 import randomstring from 'randomstring'
 import SpotifyWebApi from 'spotify-web-api-node'
 import history from 'connect-history-api-fallback'
+import dotenv from 'dotenv'
 
+dotenv.config()
 const router = express.Router()
 const app = express()
 app.set('port', process.env.PORT || 8080)
 
 // initialize spotify api instance
 const spotifyApi = new SpotifyWebApi({
-  clientId: '', // your client id goes here
-  clientSecret: '', // your client secret goes here
+  clientId: process.env.SPOTIFY_CLIENT_ID, // your client id goes here
+  clientSecret: process.env.SPOTIFY_CLIENT_SECRET, // your client secret goes here
 })
 
 // spotify api scopes
