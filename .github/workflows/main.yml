@@ -3,7 +3,7 @@ name: Build and Deploy to Cloud Run
 on:
   push:
     branches:
-      - feature/environment-variables
+      - master
   pull_request:
     branches:
       - master
