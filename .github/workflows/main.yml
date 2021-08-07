@@ -33,6 +33,13 @@ jobs:
           {{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}
     - name: Install Front End dependencies
       run: npx pnpm i
+    - name: Setup environment variables
+      run: |
+        cd backend
+        sed -i "s#SPOTIFY_CLIENT_ID_VALUE#${{ secrets.SPOTIFY_CLIENT_ID }}#g" .env.production
+        sed -i "s#SPOTIFY_CLIENT_SECRET_VALUE#${{ secrets.SPOTIFY_CLIENT_SECRET }}#g" .env.production
+        cp .env.production .env
+        cat .env
     - name: Install Backend End dependencies
       run: |
         cd backend
