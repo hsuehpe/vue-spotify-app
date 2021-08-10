@@ -10,7 +10,7 @@ const createRequestInterceptor = (store: any) => {
 }
 
 const createResponseInterceptor = (store: any) => {
-  request.interceptors.response.use(null, async(error) => {
+  request.interceptors.response.use(response => response, (error) => {
     const { status, data } = error.response
 
     if (status === 403 && data.error.reason === 'PREMIUM_REQUIRED') {

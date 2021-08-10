@@ -52,7 +52,7 @@ const actions: ActionTree<State, RootState> & Actions = {
     try {
       if (state.refreshToken) {
         const response = await backend.refreshAccessToken(state.refreshToken)
-        const accessToken = response.data.access_token
+        const accessToken = response.data.accessToken
         commit(MutationTypes.SET_ACCESS_TOKEN, accessToken)
       }
     }
