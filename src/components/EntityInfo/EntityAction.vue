@@ -34,7 +34,6 @@
 <script lang="ts">
 import { computed, ref, defineComponent, onUpdated } from 'vue'
 import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
 import { ActionTypes as UserActionTypes } from '/~/store/user/actions'
 import playerApi from '/~/api/spotify/player'
 import followApi from '/~/api/spotify/follow'
