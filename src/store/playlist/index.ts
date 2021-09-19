@@ -7,6 +7,7 @@ import actions, { Actions } from './actions'
 export type Playlist = {
   id: string
   name: string
+  uri: string
 }
 
 export type State = {

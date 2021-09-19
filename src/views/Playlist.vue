@@ -3,7 +3,7 @@
     :more="loadMore"
   >
     <div class="playlist-view">
-      <div v-if="playlist" class="content">
+      <div v-if="Object.keys(playlist).length > 0" class="content">
         <entity-info
           :cover-img="playlist.images"
           :type="playlist.type"
@@ -46,7 +46,7 @@ export default defineComponent({
 
     const data = reactive({
       userID: '',
-      playlistID: '' as string | string[],
+      playlistID: '' as string,
       tracks: {
         limit: 50,
         offset: 0,
