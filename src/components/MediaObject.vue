@@ -142,7 +142,7 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .media-object {
-  @apply sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 p-2;
+  @apply sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 p-2 shadow-md mb-1;
   &:hover .play {
     @apply block;
   }
@@ -201,7 +201,7 @@ export default defineComponent({
   }
 
   & .name {
-    @apply cursor-pointer;
+    @apply cursor-pointer text-base font-bold;
 
     &:hover {
       @apply underline;
@@ -209,7 +209,7 @@ export default defineComponent({
   }
 
   & .artist {
-    @apply no-underline;
+    @apply no-underline text-[#a0a0a0] text-sm;
     &:hover {
       @apply underline;
     }

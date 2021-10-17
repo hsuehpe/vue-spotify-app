@@ -34,7 +34,7 @@
         @click="goTo('search-album')"
       />
 
-      <div class="flex flex-wrap py-4">
+      <div class="flex flex-wrap p-4">
         <media-object
           v-for="(album, index) in state.albums.items.slice(maxResults)"
           :id="album.id"

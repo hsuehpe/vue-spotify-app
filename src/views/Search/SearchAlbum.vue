@@ -2,7 +2,7 @@
   <infinite-loader
     :more="getAlbums"
   >
-    <div class="flex flex-wrap py-4">
+    <div class="flex flex-wrap p-4">
       <media-object
         v-for="album in state.albums.items"
         :id="album.id"

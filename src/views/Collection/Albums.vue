@@ -4,7 +4,7 @@
   >
     <div class="albums-view">
       <entity-header title="Albums" />
-      <div class="flex flex-wrap py-4">
+      <div class="flex flex-wrap p-4">
         <media-object
           v-for="(item, index) in data.albums.items"
           :id="item.album.id"

@@ -3,7 +3,7 @@
     :more="loadMore"
   >
     <entity-header :title="title" />
-    <div v-if="data.playlists.items.length > 0" class="flex flex-wrap py-4">
+    <div v-if="data.playlists.items.length > 0" class="flex flex-wrap p-4">
       <media-object
         v-for="(item, index) in data.playlists.items"
         :id="item.id"

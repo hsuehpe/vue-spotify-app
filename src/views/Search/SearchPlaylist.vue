@@ -2,7 +2,7 @@
   <infinite-loader
     :more="getPlaylists"
   >
-    <div class="flex flex-wrap py-4">
+    <div class="flex flex-wrap p-4">
       <media-object
         v-for="item in state.playlists.items"
         :id="item.id"
