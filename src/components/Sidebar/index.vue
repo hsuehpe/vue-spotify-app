@@ -66,6 +66,6 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .sidebar {
-  @apply w-48 pt-8 bg-black;
+  @apply w-48 pt-8;
 }
 </style>

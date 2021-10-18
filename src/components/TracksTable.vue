@@ -13,10 +13,10 @@
         Album
       </div>
       <div class="cell added-at">
-        <icon icon="bx-bxs-calendar " />
+        Added At
       </div>
       <div class="cell duration">
-        <icon icon="ant-design:clock-circle-filled" />
+        <icon icon="ant-design:clock-circle-filled" class="text-base" />
       </div>
     </div>
     <div
@@ -213,8 +213,7 @@ export default defineComponent({
 
   .row {
     min-height: 40px;
-    border-bottom: 1px solid #333;
-    @apply flex relative p-1 text-black text-xs;
+    @apply flex relative p-2 text-black text-xs font-semibold;
 
     &:hover {
       &:not(:first-of-type) {
@@ -259,10 +258,6 @@ export default defineComponent({
     &.--duration {
       max-width: 60px;
     }
-
-    /* .explicit-label {
-      @apply ml-1 p-1 border
-    } */
   }
 }
 </style>

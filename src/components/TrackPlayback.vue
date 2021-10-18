@@ -1,8 +1,8 @@
 <template>
   <div :class="elClass">
-    <icon class="btn play" icon="el-play-alt" @click.prevent="play" />
+    <icon class="btn play" icon="carbon:play-filled-alt" @click.prevent="play" />
     <icon class="btn sound-on" icon="akar-icons:sound-on" />
-    <icon class="btn pause" icon="el-pause-alt" @click.prevent="pause" />
+    <icon class="btn pause" icon="carbon:pause-filled" @click.prevent="pause" />
   </div>
 </template>
 
@@ -79,6 +79,10 @@ export default defineComponent({
 .track-playback {
   .btn {
     @apply h-6 w-6 text-2xl;
+
+    &:hover {
+      @apply text-[#1db954] cursor-pointer;
+    }
   }
 
   .pause, .sound-on {

@@ -72,7 +72,7 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .sidebar-nav {
-  @apply pr-2 text-gray-300 text-sm;
+  @apply pr-2 text-sm;
 
   .title {
     @apply pl-6 text-xs uppercase ;
@@ -81,7 +81,7 @@ export default defineComponent({
   .item {
     @apply relative block mb-3 pl-6 pr-5 cursor-pointer overflow-ellipsis overflow-hidden whitespace-nowrap;
     &:hover {
-      @apply text-white;
+      @apply text-gray-400;
     }
 
     &.--active {

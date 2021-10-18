@@ -23,7 +23,7 @@
         {{ description }}
       </p>
 
-      <div v-if="artists" class="artists">
+      <div v-if="artists && artists.length > 0" class="artists">
         By
         <router-link
           v-for="(artist, index) in artists"
@@ -157,7 +157,7 @@ export default defineComponent({
     }
 
     .info {
-      @apply flex flex-col justify-end w-3/5 p-4;
+      @apply flex flex-col justify-center w-3/5 p-4;
     }
 
     .type {
@@ -166,10 +166,6 @@ export default defineComponent({
 
     .name {
       @apply my-3 text-3xl;
-    }
-
-    .desc, .artist {
-      @apply text-gray-300;
     }
 
     .followers {
