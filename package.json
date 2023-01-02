@@ -30,7 +30,7 @@
     "@types/lodash": "^4.14.171",
     "@types/nprogress": "^0.2.0",
     "@typescript-eslint/eslint-plugin": "^4.28.4",
-    "@vue/compiler-sfc": "^3.0.11",
+    "@vue/compiler-sfc": "^3.2.45",
     "@vue/test-utils": "^2.0.0-rc.10",
     "@vuedx/typescript-plugin-vue": "^0.7.4",
     "autoprefixer": "^10.3.1",
